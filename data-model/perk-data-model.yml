@@ -1,0 +1,59 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/reference
+name: Perk Data Model
+type: DataModel
+description: >-
+  Entity-relationship sketch derived from the Perk API object reference (Invoice,
+  InvoiceProfile, InvoiceLine, Trip, Booking, User, CostCenter). Perk is the merchant of
+  record; invoices are issued on an invoice profile.
+entities:
+- name: InvoiceProfile
+  ref: https://developers.perk.com/reference/the-invoiceprofile-object
+  description: The legal entity a trip is invoiced to; holds billing preferences.
+- name: Invoice
+  ref: https://developers.perk.com/reference/the-invoice-object
+  description: Legal document issued by Perk (merchant of record) to an invoice profile.
+- name: InvoiceLine
+  ref: https://developers.perk.com/reference/the-invoiceline-object
+  description: A single booked service on an invoice (flight, hotel, car) with quantity, unit price, taxes.
+- name: Trip
+  ref: https://developers.perk.com/reference/retrieve-a-trip-by-id
+  description: A travel trip with travelers and bookings.
+- name: Booking
+  description: A booked service within a trip (flight, hotel, train, car), with legs/segments for transport.
+- name: User
+  ref: https://developers.perk.com/reference/user-schema
+  description: A user within a Perk account (also the SCIM User resource).
+- name: CostCenter
+  ref: https://developers.perk.com/reference/cost-centers
+  description: Groups expenses by department/project; has assigned users, an approver, and a delegate.
+relationships:
+- from: Invoice
+  type: belongs_to
+  to: InvoiceProfile
+  via: profile_id
+- from: Invoice
+  type: has_many
+  to: InvoiceLine
+  via: lines
+- from: InvoiceLine
+  type: belongs_to
+  to: Trip
+  via: metadata.trip_id
+- from: Trip
+  type: has_many
+  to: Booking
+  via: bookings
+- from: Trip
+  type: has_many
+  to: User
+  via: travelers
+- from: CostCenter
+  type: has_many
+  to: User
+  via: users
+- from: CostCenter
+  type: has_one
+  to: User
+  via: approver_id

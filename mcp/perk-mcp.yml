@@ -1,0 +1,138 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/perk-mcp-tools-reference
+name: Perk MCP Server
+type: MCPServer
+status: official
+description: >-
+  Perk's official hosted Model Context Protocol (MCP) server. Connects MCP-compatible
+  AI clients (Claude Code, Cursor, Codex, MCP Inspector) to Perk travel, spend,
+  invoice, event, policy, and card data. Read and reporting tools only in this
+  release; write actions (booking, expense create/send, approvals) are on the roadmap.
+transport: streamable-http
+endpoint: https://mcp.perk.com/api/mcp/mcp
+authorization:
+  type: oauth2
+  flow: authorization_code
+  pkce: true
+  dynamic_client_registration: true   # RFC 7591 DCR
+  authorization_server: https://mcp.perk.com/api/mcp
+  protected_resource_metadata: https://mcp.perk.com/.well-known/oauth-protected-resource/api/mcp/mcp
+  scopes_supported:
+  - user:read
+  - trip:read
+  - expenses:read
+  - report:write
+  - my-travel-policy:read
+  bearer_methods_supported:
+  - header
+  access_control: RBAC scoped to user role and company plan; server fails closed on
+    unresolvable identity
+rate_limiting: per access token and per tool name; soft limit delays, hard limit
+  rejects with 429 ("Rate limit exceeded (10 tool calls per second)")
+docs:
+  overview: https://developers.perk.com/docs/perk-mcp
+  authenticate: https://developers.perk.com/docs/authenticate-with-the-perk-mcp-server
+  connect: https://developers.perk.com/docs/connect-a-client-to-the-perk-mcp-server
+  tools_reference: https://developers.perk.com/docs/perk-mcp-tools-reference
+  rate_limits: https://developers.perk.com/docs/rate-limits-and-errors-in-perk-mcp
+tools:
+- name: trips_get_trip
+  group: trips
+  scope: trip:read
+  access: read
+  description: Returns a full trip breakdown (travelers, bookings, dates, cost).
+- name: trips_list_trips
+  group: trips
+  scope: trip:read
+  access: read
+  description: Lists trips filtered by status, destination, traveler, or date range (up to 30 per call).
+- name: identity_get_current_user
+  group: users
+  scope: user:read
+  access: read
+  description: Returns the signed-in user's profile, including user ID and cost object.
+- name: identity_search_users
+  group: users
+  scope: user:read
+  access: read
+  description: Searches users by name, email, role, cost object, manager, or approval process (up to 1,000).
+- name: expenses_query_expenses
+  group: expenses
+  scope: expenses:read
+  access: read
+  description: Queries the signed-in user's expenses by date, status, merchant, amount, or trip. Live data.
+- name: invoices_list_invoices
+  group: invoices
+  scope: null
+  access: read
+  description: Lists company invoices filtered by profile, status, date range, billing period, or serial.
+- name: invoices_get_invoice
+  group: invoices
+  scope: null
+  access: read
+  description: Returns a single invoice by serial number with billing info, tax summary, and PDF link.
+- name: invoices_list_invoice_lines
+  group: invoices
+  scope: null
+  access: read
+  description: Lists invoice lines (one booked service each) with trip metadata, traveler, cost object, tax.
+- name: invoices_list_invoice_profiles
+  group: invoices
+  scope: null
+  access: read
+  description: Lists invoice/payment profiles with billing preferences.
+- name: reporting_create_travel_report
+  group: reporting
+  scope: report:write
+  access: write
+  description: Starts an async travel report (up to 12 months, ~90 fields). Returns a task ID to poll.
+- name: reporting_get_travel_report
+  group: reporting
+  scope: report:write
+  access: write
+  description: Polls a travel report; returns a CSV or XLSX download link when ready.
+- name: reporting_get_travel_report_data
+  group: reporting
+  scope: report:write
+  access: write
+  description: Polls a travel report; returns structured JSON rows (cursor-paginated).
+- name: reporting_create_spend_report
+  group: reporting
+  scope: report:write
+  access: write
+  description: Starts an async organization-wide spend report. Returns a task ID to poll.
+- name: reporting_get_spend_report
+  group: reporting
+  scope: report:write
+  access: write
+  description: Polls a spend report; returns a signed download link when ready.
+- name: policies_get_travel_policy
+  group: policy
+  scope: my-travel-policy:read
+  access: read
+  description: Returns travel policy rules for a vertical (flights, hotels, cars, trains).
+- name: events_list_events
+  group: events
+  scope: null
+  access: read
+  description: Lists Perk Events the user can see (organizing, invited, attending, account-visible).
+- name: events_list_event_attendance
+  group: events
+  scope: null
+  access: read
+  description: Lists attendees for a Perk Event with RSVP status (caller must be organizer).
+- name: transactions_list_available_cards
+  group: cards
+  scope: null
+  access: read
+  description: Lists company cards and lodge cards you can submit expenses against. Requires a Spend subscription.
+- name: transactions_list_pending
+  group: cards
+  scope: null
+  access: read
+  description: Lists pending, unmatched card transactions needing expense matching. Requires a Spend subscription.
+notes:
+- Reporting data is one day behind; expense queries return live data.
+- Reporting access limited to analysts and account admins.
+- No client-side correlation-ID header; tracing is server-side via OpenTelemetry.

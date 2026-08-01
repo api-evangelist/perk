@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/changelog
+name: Perk API Changelog
+type: ChangeLog
+scheme: dated-entries
+current_version: '1'   # Api-Version header
+description: Recent entries from the Perk developer changelog (recent window).
+entries:
+- title: Expense extension
+  url: https://developers.perk.com/changelog/scim-expense-extension
+  breaking: false
+  type: addition
+  highlights: >-
+    SCIM API adds the urn:ietf:params:scim:schemas:extension:expense:2.0:User extension
+    with five attributes (policyId, creditor, legalEntityId, approvalThreshold,
+    ignoreManagerInRequests), mappable via Okta or Microsoft Entra ID.
+- title: Cost center endpoints
+  url: https://developers.perk.com/changelog/cost-center-endpoints
+  breaking: false
+  type: addition
+  highlights: >-
+    Exposed approver_id, delegate_id, and delegate_expiry on the Cost Centers schema for
+    provisioning; GET now returns company scope plus detailed approver/delegate objects.
+- title: Changes to invoices issued prior to 2019
+  url: https://developers.perk.com/changelog/changes-to-invoices-issued-prior-to-2019
+  breaking: true
+  type: change
+  highlights: The Invoice endpoints only return invoices issued on or after 2019-01-01.
+- title: Update labels to custom fields
+  url: https://developers.perk.com/changelog/update-labels-to-custom-fields
+  breaking: false
+  type: change
+  highlights: Trip "labels" were renamed/reworked as custom fields.
+- title: Add Retrieve Trip by ID & Filter Trip by Traveler ID
+  url: https://developers.perk.com/changelog/add-retrieve-trip-by-id-filter-trip-by-traveler-id
+  breaking: false
+  type: addition
+  highlights: Added Retrieve a Trip by ID endpoint and traveler_id filtering on the trips list.

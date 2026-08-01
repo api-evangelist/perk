@@ -1,0 +1,43 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/authenticate-with-the-perk-mcp-server
+name: Perk Standards Conformance
+type: Conformance
+description: Industry / cross-cutting standards the Perk API is asserted to conform to, with evidence.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OAuth 2.0 Authorization Code grant with refresh-and-rotate for partner integrations and MCP.
+- id: oauth2-pkce
+  conforms: true
+  evidence: MCP server uses OAuth 2.0 Authorization Code flow with PKCE.
+- id: rfc7591-dcr
+  conforms: true
+  evidence: MCP server supports Dynamic Client Registration (RFC 7591).
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: mcp.perk.com/.well-known/oauth-protected-resource/api/mcp/mcp returns OAuth Protected Resource Metadata.
+- id: scim2
+  conforms: true
+  evidence: SCIM 2.0 user provisioning API at /api/v2/scim with standard User schema plus an expense extension namespace.
+- id: mcp
+  conforms: true
+  evidence: Official Model Context Protocol server exposing 19 tools over streamable HTTP.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: perk.com/.well-known/security.txt (RFC 9116) with Contact, Policy, and Acknowledgments.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset/Deprecation header policy documented in the public reference.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are plain JSON messages carried by HTTP status, not application/problem+json.
+- id: pagination
+  conforms: true
+  evidence: Offset/limit pagination with total/offset/limit envelope on list endpoints.
+- id: idempotency
+  conforms: false
+  evidence: No idempotency-key header documented.
+- id: asyncapi
+  conforms: false
+  evidence: Webhooks are documented as an event catalog, but no AsyncAPI document is published.

@@ -1,0 +1,71 @@
+# Perk | Developers Documentation
+
+> Documentation for Perk | Developers
+
+## Guides
+- [Welcome](https://developers.perk.com/docs/api-usage-guidelines.md)
+- [Getting started for customers](https://developers.perk.com/docs/quickstart.md)
+- [Getting started for partners](https://developers.perk.com/docs/quickstart-for-partners.md)
+- [Perk MCP](https://developers.perk.com/docs/perk-mcp.md): Perk MCP is Perk's Model Context Protocol (MCP) server for connecting AI clients to your Perk travel, spend, invoice, and event data. Learn what it does, when to use it instead of the Travel and Spend REST APIs, and the prerequisites to get started.
+- [Authenticate with the Perk MCP server](https://developers.perk.com/docs/authenticate-with-the-perk-mcp-server.md): Authenticate an AI client with the Perk MCP server using the OAuth 2.0 authorization code flow with PKCE and Dynamic Client Registration (DCR). Covers required scopes, browser sign-in and consent, token lifetime, and how to revoke access.
+- [Connect a client to the Perk MCP server](https://developers.perk.com/docs/connect-a-client-to-the-perk-mcp-server.md): Connect an MCP client to the Perk MCP server at https://mcp.perk.com/api/mcp/mcp. Step-by-step setup for Claude Code, Cursor, Codex, the MCP Inspector, and any MCP-compatible client, with OAuth 2.0 sign-in.
+- [Perk MCP tools reference](https://developers.perk.com/docs/perk-mcp-tools-reference.md): Reference for every Perk MCP tool across trips, users, expenses, invoices, reporting, policy, events, and cards — with each tool's description, required OAuth scope, and read or write behavior.
+- [Rate limits and errors in Perk MCP](https://developers.perk.com/docs/rate-limits-and-errors-in-perk-mcp.md): How the Perk MCP server rate limits tool calls per access token and per tool, and how it reports 401, 403, throttling, and backend errors — with causes, fixes, and retry guidance.
+- [Setting up webhooks](https://developers.perk.com/docs/subscribing-to-webhooks.md)
+- [Events and payloads](https://developers.perk.com/docs/topics-and-events.md)
+- [Postman collection](https://developers.perk.com/docs/postman-collection.md)
+- [Setting up the Sandbox](https://developers.perk.com/docs/setting-up-sandbox-accounts.md): How to set up the sandbox environment for the most common cases
+- [Booking inventory in the sandbox](https://developers.perk.com/docs/booking-inventory-in-the-sandbox.md)
+- [Enabling Pro in the sandbox environment](https://developers.perk.com/docs/enabling-pro-in-the-sandbox-environment.md)
+- [Publishing Integrations in the Sandbox (for partners)](https://developers.perk.com/docs/publish-an-integration-in-the-sandbox.md): Perform full authorization and integration test between your sandbox account and your application
+- [Getting started with SCIM user provisioning](https://developers.perk.com/docs/introduction-1.md)
+- [Setting the locale for users](https://developers.perk.com/docs/list-of-available-scim-locale-values.md)
+- [Set up custom attributes in Okta](https://developers.perk.com/docs/setting-up-custom-attributes-in-your-okta-integration.md): Map extra user attributes from Okta to Perk over SCIM, so profile data stays in sync automatically and you avoid duplicating it by hand.
+- [Assign line managers in Okta](https://developers.perk.com/docs/okta-scim-user-provisioning-assign-line-managers.md): Assign line managers to Perk users from Okta using the lineManagerEmail field — Perk's alternative to the standard SCIM manager field Okta doesn't support.
+- [Troubleshoot Okta SCIM permission errors](https://developers.perk.com/docs/okta-scim-troubleshooting.md)
+- [Getting started with Microsoft Entra ID SCIM user provisioning](https://developers.perk.com/docs/microsoft-azure-ad-scim-user-provisioning-getting-started.md): Connect Microsoft Entra ID to Perk with SCIM to automatically create, update, and deactivate users. Step-by-step setup for admins, with verification.
+- [Map custom attributes in Microsoft Entra ID](https://developers.perk.com/docs/microsoft-azure-ad-scim-user-provisioning-advanced-guide.md): Map extra user attributes from Microsoft Entra ID to Perk over SCIM, with the full target-attribute directory and steps to add and customize mappings.
+- [Set up company syncing in Microsoft Entra ID](https://developers.perk.com/docs/microsoft-azure-ad-scim-advanced-configuration.md): Sync company data from Microsoft Entra ID to Perk over SCIM, including a PowerShell script to force full syncs and fix the default-company issue.
+- [Manage travel approval processes through SCIM](https://developers.perk.com/docs/manage-approval-processes-through-scim.md)
+- [Developer and Marketplace Terms](https://developers.perk.com/docs/travelperk-marketplace-and-api-terms-of-use.md)
+
+## API Reference
+- [Tips for implementing OAuth 2.0 with Perk](https://developers.perk.com/reference/oauth-20-implementation-guidance.md)
+- [The InvoiceProfile model](https://developers.perk.com/reference/the-invoiceprofile-object.md): An invoice profile represents the legal entity a trip is invoiced to, all Invoices will be Issued on an InvoiceProfile.
+- [The Invoice model](https://developers.perk.com/reference/the-invoice-object.md): An invoice represents the legal document issued by Perk (merchant of record) to the selected invoice profile, indicating the services, quantities, and prices for fees and services booked within the platform.
+- [The InvoiceLine model](https://developers.perk.com/reference/the-invoiceline-object.md): Invoices contain invoice lines, which make reference to any service added to the invoice, together with any quantities, unit price and taxes that pertain to them.
+- [List all Invoice Profiles](https://developers.perk.com/reference/list-invoice-profiles.md): List all invoice profiles associated to this account
+- [List all Invoices](https://developers.perk.com/reference/list-invoice.md): Get list of invoices, filters may be added as query parameters. Only invoices issued on or after January 1st 2019 will be returned
+- [List all Invoice lines](https://developers.perk.com/reference/list-invoice-lines-1.md): Get list of invoices lines, filters may be added as query parameters. Returns InvoiceLineExtended models. Only invoices issued on or after January 1st 2019 will be returned
+- [Retrieve an Invoice](https://developers.perk.com/reference/get-invoice.md): Get invoice detail
+- [Retrieve Invoice PDF](https://developers.perk.com/reference/download-pdf.md): Download invoice in PDF format
+- [Perk SCIM API](https://developers.perk.com/reference/using-the-scim-api-1.md)
+- [Get the user schema](https://developers.perk.com/reference/get-user-schema.md): Lists all attributes of the user schema.
+- [User object model](https://developers.perk.com/reference/user-schema.md): The User object represents a user within your Perk account.
+- [Create a new user](https://developers.perk.com/reference/create-a-new-user.md): Creates a new user in Perk.
+- [Update a user](https://developers.perk.com/reference/update-a-user.md): Updates attributes for an existing user in Perk, overwriting values for specified attributes. Attributes that are not provided in the request remain unchanged.
+- [Replace a user](https://developers.perk.com/reference/replace-a-user.md): Replaces all of a user's attributes.
+- [Create a webhook endpoint](https://developers.perk.com/reference/subscribe-to-event.md): Subscribes to one or more events, the target url of the webhook must be unique for the account.
+- [Update a webhook endpoint](https://developers.perk.com/reference/update-subscription.md): Updates the webhook endpoint. You may edit the url, the list of events, status, secret or name. The target url of the webhook must be unique for the account, if the target url is not unique a client error HTTP 409 will be returned.
+- [Trips](https://developers.perk.com/reference/introduction-3.md)
+- [List all trips](https://developers.perk.com/reference/list-all-trips.md): Trips listed in descending order of `modified` time.
+- [Custom fields model](https://developers.perk.com/reference/custom-fields-model.md)
+- [Retrieve custom fields](https://developers.perk.com/reference/retrieve-custom-fields.md): Get all custom field values associated with a trip.
+- [Retrieve a Trip by ID](https://developers.perk.com/reference/retrieve-a-trip-by-id.md): Get a single trip with the Trip ID
+- [Cost Centers](https://developers.perk.com/reference/cost-centers.md): Cost centers allow you to organize and track expenses by department, project, or any other category relevant to your business. Each cost center can have assigned users, an approver, and a delegate with optional expiry.
+- [List all cost centers](https://developers.perk.com/reference/list-cost-centers.md): Lists all cost centers in your organization. Returns a paginated list with offset and limit controls.
+- [Create cost center](https://developers.perk.com/reference/create-cost-center.md): Creates a cost center with the specified name. You can optionally set an approver, delegate, and delegate expiry date.
+- [Get cost center](https://developers.perk.com/reference/get-cost-center.md): Retrieves a cost center by its ID, including assigned users, approver, delegate, and company scope
+- [Update cost center](https://developers.perk.com/reference/update-cost-center.md): Updates a cost center. You can update the name, archive status, approver, delegate, and delegate expiry. Passing 'null' for 'approver_id', 'delegate_id', or 'delegate_expiry' does not clear those fields; they remain unchanged
+- [Bulk update cost centers](https://developers.perk.com/reference/bulk-update-cost-centers.md): Archives or unarchives a list of cost centers in a single request. Returns the number of cost centers updated
+- [Set users to a cost center](https://developers.perk.com/reference/set-cost-center-users.md): Replaces all users assigned to the cost center with the provided list. Any users not in the list are removed from the cost center
+
+## Pages
+- [Building a custom SCIM integration to manage Perk users](https://developers.perk.com/creating-a-custom-app-to-manage-your-travelperk-user-base.md)
+
+## Changelog
+- [Expense extension](https://developers.perk.com/changelog/scim-expense-extension.md)
+- [Cost center endpoints](https://developers.perk.com/changelog/cost-center-endpoints.md)
+- [Changes to invoices issued prior to 2019](https://developers.perk.com/changelog/changes-to-invoices-issued-prior-to-2019.md)
+- [Update labels to custom fields](https://developers.perk.com/changelog/update-labels-to-custom-fields.md)
+- [Add Retrieve Trip by ID & Filter Trip by Traveler ID](https://developers.perk.com/changelog/add-retrieve-trip-by-id-filter-trip-by-traveler-id.md)

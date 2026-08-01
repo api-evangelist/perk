@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/quickstart.md
+docs: https://developers.perk.com/reference/oauth-20-implementation-guidance
+name: Perk API Authentication
+type: Authentication
+description: >-
+  Perk supports two authentication styles. Customers accessing their own data use an
+  account-admin API key. Partners building integrations on behalf of customers use
+  OAuth 2.0 Authorization Code. The MCP server uses OAuth 2.0 Authorization Code with
+  PKCE and Dynamic Client Registration.
+schemes:
+- id: api_key
+  type: apiKey
+  in: header
+  name: Authorization
+  format: "apikey <your_api_key>"
+  audience: Perk customers accessing their own data
+  scope_note: An API key has the same access rights as an account admin.
+  managed_in: Settings > Developer > API tools
+  companion_header:
+    name: Api-Version
+    value: '1'
+- id: oauth2
+  type: oauth2
+  flow: authorization_code
+  audience: Partners integrating on behalf of customers
+  access_token_lifetime: 1 hour
+  refresh_token_lifetime: 30 days (rotating; old refresh token revoked 2 minutes after use)
+  refresh_policy: refresh-and-rotate; every token call returns a new access+refresh pair; 2-minute grace period for retries
+- id: oauth2_pkce
+  type: oauth2
+  flow: authorization_code
+  pkce: true
+  dynamic_client_registration: true   # RFC 7591
+  audience: MCP AI clients
+  authorization_server: https://mcp.perk.com/api/mcp
+  scopes:
+  - user:read
+  - trip:read
+  - expenses:read
+  - report:write
+  - my-travel-policy:read
+scim:
+  note: The SCIM provisioning API authenticates with a bearer token issued in Perk's SCIM setup.
+  base: https://app.perk.com/api/v2/scim

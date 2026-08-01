@@ -1,8 +1,12 @@
 aid: perk
 name: Perk
-description: Perk is a company surfaced as a portfolio company of general-catalyst, softbank-vision-fund,
-  speedinvest and added to the API Evangelist network as a stub for enrichment. This profile is a lead
-  awaiting the enrichment pipeline.
+description: >-
+  Perk (formerly TravelPerk) is the intelligent platform for corporate travel and spend
+  management, combining travel booking with expense, invoice, and card controls for finance
+  teams. Founded in Barcelona in 2015, Perk serves thousands of global teams and is backed by
+  General Catalyst, SoftBank Vision Fund, Speedinvest and others. Its developer platform exposes
+  a Travel & Spend REST API, a SCIM 2.0 user-provisioning API, webhooks, a sandbox, a public
+  Postman collection, and an official hosted Model Context Protocol (MCP) server for AI clients.
 url: https://raw.githubusercontent.com/api-evangelist/perk/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,14 +16,128 @@ x-backed-by:
 - speedinvest
 x-tier: stub
 x-tier-reason: portfolio-lead
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://d2balr5nj4353r.cloudfront.net/favicon-192x192.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-apis: []
+- Corporate Travel
+- Expense Management
+- Spend Management
+- Travel
+- Invoices
+- Fintech
+- SaaS
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Perk Travel & Spend API
+  description: >-
+    REST API for Perk travel, expense, invoice, trip, cost-center, event, and card data.
+    Authenticate with an account API key (customers) or OAuth 2.0 (partners); send Api-Version: 1.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Travel
+  - Expenses
+  - Invoices
+  - Trips
+  properties:
+  - type: Documentation
+    url: https://developers.perk.com/docs
+  - type: APIReference
+    url: https://developers.perk.com/reference
+  - type: GettingStarted
+    url: https://developers.perk.com/docs/quickstart
+- name: Perk SCIM API
+  description: >-
+    SCIM 2.0 user-provisioning API for creating, updating, and deactivating Perk users from
+    identity providers (Okta, Microsoft Entra ID), including an expense extension schema.
+  humanURL: https://developers.perk.com/reference/using-the-scim-api-1
+  baseURL: https://app.perk.com/api/v2/scim
+  tags:
+  - SCIM
+  - Identity
+  - Provisioning
+common:
+# --- Identity / link properties ---
+- type: DeveloperPortal
+  url: https://developers.perk.com
+- type: Documentation
+  url: https://developers.perk.com/docs
+- type: APIReference
+  url: https://developers.perk.com/reference
+- type: GettingStarted
+  url: https://developers.perk.com/docs/quickstart
+- type: Support
+  url: https://support.perk.com
+- type: Pricing
+  url: https://www.perk.com/pricing
+- type: SignUp
+  url: https://app.perk.com
+- type: TermsOfService
+  url: https://developers.perk.com/docs/travelperk-marketplace-and-api-terms-of-use
+- type: Postman
+  url: https://app.getpostman.com/run-collection/26205026-08341f0b-356a-460b-b386-54f8c30b9bad
+- type: StatusPage
+  url: https://status.perk.com
+# --- Artifact pointers (canonical scored types) ---
+- type: MCPServer
+  url: mcp/perk-mcp.yml
+- type: LLMsTxt
+  url: llms/perk-llms.txt
+- type: Authentication
+  url: authentication/perk-authentication.yml
+- type: OAuthScopes
+  url: scopes/perk-scopes.yml
+- type: Conventions
+  url: conventions/perk-conventions.yml
+- type: ErrorCatalog
+  url: errors/perk-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/perk-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/perk-lifecycle.yml
+- type: ChangeLog
+  url: changelog/perk-changelog.yml
+- type: Sandbox
+  url: sandbox/perk-sandbox.yml
+- type: Webhooks
+  url: asyncapi/perk-webhooks.yml
+- type: Conformance
+  url: conformance/perk-conformance.yml
+- type: DataModel
+  url: data-model/perk-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/perk-domain-security.yml
+- type: WellKnown
+  url: well-known/perk-well-known.yml
+- type: SecurityTxt
+  url: well-known/perk-security.txt
+- type: VulnerabilityDisclosure
+  url: security/perk-vulnerability-disclosure.yml
+- type: Security
+  url: security/perk-vulnerability-disclosure.yml

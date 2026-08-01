@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/quickstart.md
+name: Perk API Conventions
+type: Conventions
+description: Cross-cutting request/response semantics for the Perk Travel & Spend REST API.
+auth:
+  style: API key (Authorization header) for customers; OAuth 2.0 Authorization Code for partners.
+  see: ../authentication/perk-authentication.yml
+versioning:
+  style: header
+  header: Api-Version
+  current: '1'
+  note: "Send `Api-Version: 1` on every request; this is the current API version."
+  see: ../lifecycle/perk-lifecycle.yml
+pagination:
+  style: offset-limit
+  params:
+  - offset
+  - limit
+  response_fields:
+  - total
+  - offset
+  - limit
+  note: List endpoints (e.g. invoice lines, cost centers) return a paginated envelope with total/offset/limit.
+filtering:
+  style: query parameters
+  examples:
+  - expense_date_gte
+  - expense_date_lte
+  - traveler_id
+webhooks:
+  transport: HTTPS POST with JSON body
+  signature_header: Tk-webhook-hmac-sha256
+  signature_algorithm: HMAC-SHA256
+  other_headers:
+  - Tk-webhook-name
+  - Tk-webhook-event
+  - Tk-webhook-test
+  ack: endpoint must return 2xx; non-2xx (incl. 3xx) treated as failure and retried with exponential backoff
+  see: ../asyncapi/perk-webhooks.yml
+rate_limiting:
+  rest: environment-specific; not publicly documented for the REST API
+  mcp: per access token and per tool; soft limit delays, hard limit rejects with 429
+  see: ../errors/perk-problem-types.yml
+error_envelope:
+  format: plain JSON messages (not RFC 9457 problem+json); HTTP status carries the class
+  see: ../errors/perk-problem-types.yml
+idempotency:
+  supported: false
+  note: No idempotency-key header documented in the public reference.
+request_tracing:
+  rest: not documented
+  mcp: server-side OpenTelemetry spans; no client-side correlation-ID header

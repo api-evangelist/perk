@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/rate-limits-and-errors-in-perk-mcp
+name: Perk Error Reference
+type: ErrorCatalog
+format: http-status   # plain JSON messages, not RFC 9457 problem+json
+description: >-
+  Common HTTP error classes surfaced by the Perk API and MCP server. Errors arrive as
+  human-readable messages carried by the HTTP status; there are no formal error-code strings.
+problems:
+- status: 400
+  title: Validation error
+  meaning: The request payload or parameters failed validation.
+  remediation: Correct the request and retry.
+- status: 401
+  title: Unauthenticated
+  meaning: The access token or API key is missing, expired, or malformed.
+  remediation: Reconnect/reauthorize to obtain a new token; verify the Authorization header.
+- status: 403
+  title: Permission / scope denied
+  meaning: The token lacks a required scope, or your role does not permit the action (RBAC).
+  remediation: Request the required scope and confirm your Perk role permits the data.
+- status: 409
+  title: Conflict
+  meaning: Duplicate webhook target URL — the target URL must be unique per account.
+  remediation: Use a unique target URL for each webhook endpoint.
+- status: 429
+  title: Rate limit exceeded
+  meaning: Request exceeded the hard rate limit and was rejected.
+  remediation: Space out calls and retry after the number of seconds in the message (MCP example, 10 calls/sec).
+- status: 503
+  title: Temporarily unavailable
+  meaning: Backend temporarily unavailable.
+  remediation: Retry with backoff.

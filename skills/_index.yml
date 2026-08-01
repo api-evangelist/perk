@@ -1,0 +1,15 @@
+generated: '2026-07-20'
+method: generated
+source: https://developers.perk.com/reference
+type: AgentSkill
+name: Perk Agent Skills
+description: >-
+  Packaged agent skills grounded in real Perk REST operations and MCP tools, mirroring the
+  marquee integration flows (expense export, trip sync via webhook).
+skills:
+- file: perk-export-expenses.md
+  name: perk-export-expenses
+  description: Export company expenses (invoice lines) for a date range for finance reconciliation.
+- file: perk-sync-trips-webhook.md
+  name: perk-sync-trips-webhook
+  description: Keep an external system in sync with Perk trips via the trip.created/updated webhook.

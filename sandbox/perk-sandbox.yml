@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/setting-up-sandbox-accounts
+docs: https://developers.perk.com/docs/postman-collection
+name: Perk Sandbox
+type: Sandbox
+description: >-
+  Perk provides a dedicated sandbox environment seeded with mock data for test and
+  development. A separate sandbox account and API key are required.
+environments:
+- name: sandbox
+  api_base: https://api.sandbox-perk.com
+  scim_base: https://app.sandbox-perk.com/api/v2/scim
+- name: production
+  api_base: https://api.perk.com
+  scim_base: https://app.perk.com/api/v2/scim
+api_version_header: '1'
+test_data:
+  seeded: The sandbox comes with mock data to get started quickly.
+  test_cards:
+    source: Stripe test card numbers
+    reference: https://docs.stripe.com/testing
+    note: Use any Stripe test card number when creating a sandbox payment profile.
+booking:
+  note: >-
+    To create/complete a test booking, first set up a payment profile with a Stripe test
+    card, assign the user to the company and payment profile, then book test inventory.
+  guides:
+  - https://developers.perk.com/docs/setting-up-sandbox-accounts
+  - https://developers.perk.com/docs/booking-inventory-in-the-sandbox
+  - https://developers.perk.com/docs/enabling-pro-in-the-sandbox-environment
+  - https://developers.perk.com/docs/publish-an-integration-in-the-sandbox
+limitations:
+- Travel and spend reporting is not available in the sandbox environment.

@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/authenticate-with-the-perk-mcp-server
+docs: https://developers.perk.com/docs/perk-mcp-tools-reference
+name: Perk OAuth Scopes
+type: OAuthScopes
+description: >-
+  Colon-separated OAuth 2.0 scope strings verified for the current release, used by
+  the Perk MCP server and OAuth partner integrations. Also confirmed in the MCP
+  protected-resource metadata (scopes_supported).
+style: colon-separated
+scopes:
+- name: user:read
+  grants: Read user profile and search results.
+  required: true
+- name: trip:read
+  grants: Read trips and trip breakdowns.
+  required: true
+- name: expenses:read
+  grants: Read the signed-in user's expenses.
+- name: report:write
+  grants: Generate, poll, and download travel and spend reports (same scope covers download/poll).
+- name: my-travel-policy:read
+  grants: Read the user's travel and spend policy.
+notes:
+- Invoice, event, and card tools require no additional scope; access follows the user's Perk role/permissions (RBAC).
+- Card and transaction tools additionally require a Spend subscription.

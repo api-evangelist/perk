@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/postman-collection
+name: Perk API Lifecycle
+type: Lifecycle
+description: Versioning, environments, domain migration, and token lifetime policy for the Perk API.
+versioning:
+  style: header
+  header: Api-Version
+  current: '1'
+environments:
+- name: production
+  api_base: https://api.perk.com
+  scim_base: https://app.perk.com/api/v2/scim
+  mcp: https://mcp.perk.com/api/mcp/mcp
+- name: sandbox
+  api_base: https://api.sandbox-perk.com
+  scim_base: https://app.sandbox-perk.com/api/v2/scim
+domain_migration:
+  status: rebrand-in-progress
+  note: >-
+    TravelPerk is rebranding to Perk. Developer docs moved from developers.travelperk.com
+    (301 -> developers.perk.com). Legacy hosts api.travelperk.com and
+    app.travelperk.com/api/v2/scim still respond, but Perk recommends the perk.com
+    domains because future compatibility of the travelperk.com hosts is not guaranteed.
+  recommended_hosts:
+  - api.perk.com
+  - app.perk.com
+  deprecating_hosts:
+  - api.travelperk.com
+  - app.travelperk.com
+token_lifetimes:
+  oauth_access_token: 1 hour
+  oauth_refresh_token: 30 days (rotating)
+  mcp_oauth_state: capped at 7 days
+data_retention:
+  invoices: Only invoices issued on or after 2019-01-01 are returned by the API.
+status_page: https://status.perk.com
+support: https://support.perk.com

@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: searched
+source: https://developers.perk.com/docs/topics-and-events
+docs: https://developers.perk.com/docs/subscribing-to-webhooks
+name: Perk Webhooks
+type: Webhooks
+description: >-
+  Perk delivers event notifications as HTTPS POST requests with a JSON payload. Endpoints
+  are managed in Settings > Developer > API tools or via the webhooks REST API. Each event
+  is signed so subscribers can verify Perk as the sender.
+delivery:
+  method: POST
+  content_type: application/json
+  ack: subscriber must return 2xx; non-2xx (incl. 3xx/redirects) treated as failure
+  retry: exponential backoff on failure; marked failed after multiple attempts
+security:
+  signature_header: Tk-webhook-hmac-sha256
+  algorithm: HMAC-SHA256
+  secret: per-endpoint secret set at subscription time; used to sign all payloads
+  ip_allowlist: none published; signature verification is the recommended mechanism
+headers:
+- name: Tk-webhook-hmac-sha256
+  description: HMAC-SHA256 signature authenticating Perk as sender.
+- name: Tk-webhook-name
+  description: The endpoint title specified at subscription time.
+- name: Tk-webhook-event
+  description: The event that triggered the notification.
+- name: Tk-webhook-test
+  description: Only set for test notifications.
+management:
+  ui: Settings > Developer > API tools > Webhooks
+  api:
+  - https://developers.perk.com/reference/subscribe-to-event
+  - https://developers.perk.com/reference/update-subscription
+  constraint: target URL must be unique per account (duplicate returns HTTP 409)
+events:
+- name: invoice.issued
+  model: Invoice / InvoiceLine
+  trigger: When a billing period closes and an invoice is issued.
+  payload_ref: https://developers.perk.com/reference/the-invoiceline-object
+- name: trip.created/updated
+  model: Trip
+  trigger: When a trip is booked, canceled, or its travelers are updated.
+  payload_ref: https://developers.perk.com/reference/retrieve-a-trip-by-id
+test:
+  method: Use the sandbox to trigger real events, or press "Test" on an endpoint to fire {"test":"true"}.

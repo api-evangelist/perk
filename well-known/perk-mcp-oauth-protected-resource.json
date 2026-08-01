@@ -1,0 +1,1 @@
+{"resource":"https://mcp.perk.com/api/mcp/mcp","authorization_servers":["https://mcp.perk.com/api/mcp"],"scopes_supported":["user:read","trip:read","report:write","expenses:read","my-travel-policy:read"],"bearer_methods_supported":["header"]}
