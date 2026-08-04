@@ -3,7 +3,8 @@ method: searched
 source: https://developers.perk.com/docs/perk-mcp-tools-reference
 name: Perk MCP Server
 type: MCPServer
-status: official
+status: published
+status_raw: official
 description: >-
   Perk's official hosted Model Context Protocol (MCP) server. Connects MCP-compatible
   AI clients (Claude Code, Cursor, Codex, MCP Inspector) to Perk travel, spend,
