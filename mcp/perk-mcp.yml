@@ -5,18 +5,17 @@ name: Perk MCP Server
 type: MCPServer
 status: published
 status_raw: official
-description: >-
-  Perk's official hosted Model Context Protocol (MCP) server. Connects MCP-compatible
-  AI clients (Claude Code, Cursor, Codex, MCP Inspector) to Perk travel, spend,
-  invoice, event, policy, and card data. Read and reporting tools only in this
-  release; write actions (booking, expense create/send, approvals) are on the roadmap.
+description: Perk's official hosted Model Context Protocol (MCP) server. Connects MCP-compatible AI clients
+  (Claude Code, Cursor, Codex, MCP Inspector) to Perk travel, spend, invoice, event, policy, and card
+  data. Read and reporting tools only in this release; write actions (booking, expense create/send, approvals)
+  are on the roadmap.
 transport: streamable-http
 endpoint: https://mcp.perk.com/api/mcp/mcp
 authorization:
   type: oauth2
   flow: authorization_code
   pkce: true
-  dynamic_client_registration: true   # RFC 7591 DCR
+  dynamic_client_registration: true
   authorization_server: https://mcp.perk.com/api/mcp
   protected_resource_metadata: https://mcp.perk.com/.well-known/oauth-protected-resource/api/mcp/mcp
   scopes_supported:
@@ -27,10 +26,9 @@ authorization:
   - my-travel-policy:read
   bearer_methods_supported:
   - header
-  access_control: RBAC scoped to user role and company plan; server fails closed on
-    unresolvable identity
-rate_limiting: per access token and per tool name; soft limit delays, hard limit
-  rejects with 429 ("Rate limit exceeded (10 tool calls per second)")
+  access_control: RBAC scoped to user role and company plan; server fails closed on unresolvable identity
+rate_limiting: per access token and per tool name; soft limit delays, hard limit rejects with 429 ("Rate
+  limit exceeded (10 tool calls per second)")
 docs:
   overview: https://developers.perk.com/docs/perk-mcp
   authenticate: https://developers.perk.com/docs/authenticate-with-the-perk-mcp-server
@@ -62,7 +60,8 @@ tools:
   group: expenses
   scope: expenses:read
   access: read
-  description: Queries the signed-in user's expenses by date, status, merchant, amount, or trip. Live data.
+  description: Queries the signed-in user's expenses by date, status, merchant, amount, or trip. Live
+    data.
 - name: invoices_list_invoices
   group: invoices
   scope: null
@@ -77,7 +76,8 @@ tools:
   group: invoices
   scope: null
   access: read
-  description: Lists invoice lines (one booked service each) with trip metadata, traveler, cost object, tax.
+  description: Lists invoice lines (one booked service each) with trip metadata, traveler, cost object,
+    tax.
 - name: invoices_list_invoice_profiles
   group: invoices
   scope: null
@@ -137,3 +137,9 @@ notes:
 - Reporting data is one day behind; expense queries return live data.
 - Reporting access limited to analysts and account admins.
 - No client-side correlation-ID header; tracing is server-side via OpenTelemetry.
+deployment:
+  mode: remote
+  verified: searched
+  tools: 19
+  checked: '2026-08-12'
+  source: catalog MCP census
