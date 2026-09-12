@@ -101,6 +101,8 @@ apis:
   - Identity
   - Provisioning
 common:
+- type: Website
+  url: https://www.perk.com/
 # --- Identity / link properties ---
 - type: DeveloperPortal
   url: https://developers.perk.com
