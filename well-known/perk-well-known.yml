@@ -35,3 +35,22 @@ probes:
 - host: api.perk.com
   path: /.well-known/api-catalog
   status: 404
+hosts:
+- host: ''
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: perk-security.txt
+    type: SecurityTxt
+  - path: /.well-known/oauth-protected-resource/api/mcp/mcp
+    status: 200
+    file: perk-mcp-oauth-protected-resource.json
+    type: WellKnown
+    note: OAuth 2.0 Protected Resource Metadata (RFC 9728) for the Perk MCP server.
+x-shape-fix:
+  converted: '2026-08-20'
+  from: probes
+  note: Rewritten into hosts[] -> documents[], the only shape well_known_docs() in score.rb reads. A served
+    .well-known surface recorded in any other shape scores as absent. Promoted ONLY the 2xx rows out of
+    the probe log; non-2xx probes are real negative results and were left in place, not converted into
+    documents.
