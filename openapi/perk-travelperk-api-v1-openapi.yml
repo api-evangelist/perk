@@ -1,0 +1,1641 @@
+openapi: 3.1.0
+info:
+  title: travelperk-api-v1
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+x-readme-fauxas: true
+paths:
+  /bookings:
+    get:
+      summary: List all bookings
+      description: Bookings listed in descending order of `modified` time.
+      operationId: list-all-bookings
+      parameters:
+      - name: modified_gte
+        in: query
+        description: Find Bookings with modified greater than or equal to this time
+        schema:
+          type: string
+          format: date
+      - name: modified_lt
+        in: query
+        description: Find Bookings with modified less than this time
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Filter for Bookings with this status
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Filter for Bookings of this type
+        schema:
+          type: string
+      - name: trip_id
+        in: query
+        description: Filter for Bookings in the Trip with this id. A comma separated list of multiple ids is accepted.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Pagination offet index, 0 based
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"bookings\":[\n    {\n      \"id\":\"71\",\n      \"start\":\"2021-03-06T00:00:00+00:00\",\n      \"end\":\"2021-03-07T00:00:00+00:00\",\n      \"type\":\"hotel\",\n      \"status\":\"ticketed\",\n      \"modified\":\"2021-01-04T11:11:20.714987+00:00\",\n      \"trip_id\":\"51\",\n      \"references\":[\n        {\n          \"type\":\"confirmation_number\",\n          \"value\":\"4636\"\n        }\n      ],\n      \"location\":{\n        \"latitude\":\"59.5468062\",\n        \"longitude\":\"113.9913155\",\n        \"iata_code\":null,\n        \"name\": \"name\",\n        \"address\": \"address\"\n      },\n      \"drop_off_location\": null,\n      \"legs\":null\n    },\n    {\n      \"id\":\"73\",\n      \"start\":\"2021-03-06T00:00:00+00:00\",\n      \"end\":\"2021-03-09T00:00:00+00:00\",\n      \"type\":\"car\",\n      \"status\":\"ticketed\",\n      \"modified\":\"2021-01-03T11:11:20.714987+00:00\",\n      \"trip_id\":\"51\",\n      \"references\":[\n\
+                    \        {\n          \"type\":\"voucher_code\",\n          \"value\":\"voucher_12\"\n        },\n        {\n          \"type\":\"confirmation_number\",\n          \"value\":\"cn_17\"\n        }\n      ],\n      \"location\":{\n        \"latitude\":-56.0,\n        \"longitude\":-62.0,\n        \"iata_code\":null,\n        \"name\": \"name\",\n        \"address\": \"address\"\n      },\n      \"drop_off_location\":{\n        \"latitude\":-66.0,\n        \"longitude\":-72.0,\n        \"iata_code\":null,\n        \"name\": \"name\",\n        \"address\": \"address\"\n      },\n      \"legs\":null\n    },\n    {\n      \"id\":\"70\",\n      \"start\":\"2021-03-06T00:00:00+00:00\",\n      \"end\":\"2021-03-07T00:00:00+00:00\",\n      \"type\":\"flight\",\n      \"status\":\"ticketed\",\n      \"modified\":\"2021-01-02T11:11:20.714987+00:00\",\n      \"trip_id\":\"51\",\n      \"references\":[\n        {\n          \"type\":\"PNR\",\n          \"value\":\"HNTCEBSMPO\"\n   \
+                    \     }\n      ],\n      \"location\":null,\n      \"drop_off_location\": null,\n      \"legs\":[\n        {\n          \"segments\":[\n            {\n              \"origin\":{\n                \"location\":{\n                  \"latitude\":\"85.5975436\",\n                  \"longitude\":\"18.7959996\",\n                  \"iata_code\":\"UYM\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-06T00:00:00+01:00\"\n              },\n              \"destination\":{\n                \"location\":{\n                  \"latitude\":\"-54.3854772\",\n                  \"longitude\":\"81.6402173\",\n                  \"iata_code\":\"EKD\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-07T12:00:00+01:00\"\n              },\n              \"external_id\":\"XX1234\"\n            },\n            {\n             \
+                    \ \"origin\":{\n                \"location\":{\n                  \"latitude\":\"67.1291014\",\n                  \"longitude\":\"21.1347543\",\n                  \"iata_code\":\"IWP\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-08T00:00:00+01:00\"\n              },\n              \"destination\":{\n                \"location\":{\n                  \"latitude\":\"8.6677113\",\n                  \"longitude\":\"-13.9691879\",\n                  \"iata_code\":\"TMQ\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-09T12:00:00+01:00\"\n              },\n              \"external_id\":\"XX1234\"\n            }\n          ]\n        },\n        {\n          \"segments\":[\n            {\n              \"origin\":{\n                \"location\":{\n                  \"latitude\":\"23.5841460\",\n        \
+                    \          \"longitude\":\"-141.9148137\",\n                  \"iata_code\":\"UJH\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-10T12:00:00+01:00\"\n              },\n              \"destination\":{\n                \"location\":{\n                  \"latitude\":\"-6.0933315\",\n                  \"longitude\":\"-7.6775088\",\n                  \"iata_code\":\"ZVO\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-11T00:00:00+01:00\"\n              },\n              \"external_id\":\"XX1234\"\n            },\n            {\n              \"origin\":{\n                \"location\":{\n                  \"latitude\":\"78.4132615\",\n                  \"longitude\":\"-156.7342795\",\n                  \"iata_code\":\"OJR\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n \
+                    \               },\n                \"time\":\"2021-03-12T12:00:00+01:00\"\n              },\n              \"destination\":{\n                \"location\":{\n                  \"latitude\":\"-44.6617225\",\n                  \"longitude\":\"163.2773819\",\n                  \"iata_code\":\"YNX\",\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": null\n                },\n                \"time\":\"2021-03-13T00:00:00+01:00\"\n              },\n              \"external_id\":\"XX1234\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\":\"72\",\n      \"start\":\"2021-03-06T00:00:00+00:00\",\n      \"end\":\"2021-03-07T00:00:00+00:00\",\n      \"type\":\"train\",\n      \"status\":\"ticketed\",\n      \"modified\":\"2021-01-01T11:11:20.714987+00:00\",\n      \"trip_id\":\"51\",\n      \"references\":[\n        {\n          \"type\":\"ticket_collection_reference\",\n          \"value\":\"PMXFIQ\"\n        }\n      ],\n     \
+                    \ \"location\":null,\n      \"drop_off_location\": null,\n      \"legs\":[\n        {\n          \"segments\":[\n            {\n              \"origin\":{\n                \"location\":{\n                  \"latitude\":\"-73.000000000\",\n                  \"longitude\":\"-26.000000000\",\n                  \"iata_code\":null,\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": \"address\"\n                },\n                \"time\":\"2021-03-06T00:00:00+00:00\"\n              },\n              \"destination\":{\n                \"location\":{\n                  \"latitude\":\"-30.000000000\",\n                  \"longitude\":\"83.000000000\",\n                  \"iata_code\":null,\n                  \"name\": \"name\",\n        \t\t\t\t\t\"address\": \"address\"\n                },\n                \"time\":\"2021-03-09T00:00:00+00:00\"\n              },\n              \"external_id\":\"XX1234\"\n            }\n          ]\n        }\n      ]\n \
+                    \   }\n  ],\n  \"limit\":10,\n  \"offset\":0,\n  \"total\":4\n}"
+              schema:
+                type: object
+                properties:
+                  bookings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '71'
+                        start:
+                          type: string
+                          example: '2021-03-06T00:00:00+00:00'
+                        end:
+                          type: string
+                          example: '2021-03-07T00:00:00+00:00'
+                        type:
+                          type: string
+                          example: hotel
+                        status:
+                          type: string
+                          example: ticketed
+                        modified:
+                          type: string
+                          example: '2021-01-04T11:11:20.714987+00:00'
+                        trip_id:
+                          type: string
+                          example: '51'
+                        references:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                example: confirmation_number
+                              value:
+                                type: string
+                                example: '4636'
+                        location:
+                          type: object
+                          properties:
+                            latitude:
+                              type: string
+                              example: '59.5468062'
+                            longitude:
+                              type: string
+                              example: '113.9913155'
+                            iata_code: {}
+                            name:
+                              type: string
+                              example: name
+                            address:
+                              type: string
+                              example: address
+                        drop_off_location: {}
+                        legs: {}
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  total:
+                    type: integer
+                    example: 4
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"The type filter must be one of: flight, hotel, train, car, other\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: 'The type filter must be one of: flight, hotel, train, car, other'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/bookings"
+          name: cURL
+        samples-languages:
+        - curl
+  /companies:
+    get:
+      summary: List all Companies
+      description: List all companies associated to this account
+      operationId: list-invoice-profiles-1
+      parameters:
+      - name: offset
+        in: query
+        description: '[optional] Pagination offset index, 0 based (page number). Defaults to 0.'
+        schema:
+          type: integer
+          format: int32
+          default: ''
+      - name: limit
+        in: query
+        description: '[optional]  Maximum number of elements to return per page. Allowed values are in the range [1, 50]. See more info in [Pagination](reference#pagination-1). Defaults to 10. '
+        schema:
+          type: integer
+          format: int32
+          default: ''
+      - name: include_disabled
+        in: query
+        description: '[optional] Controls whether to include disabled companies in the results. The account''s default company is always included regardless of this setting. Defaults to false.'
+        schema:
+          type: boolean
+          default: ''
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    offset: 0
+                    limit: 10
+                    total: 2
+                    companies:
+                    - id: 4821
+                      name: Acme US Inc.
+                      address:
+                        address1: 400 E Van Buren St
+                        address2: null
+                        city: Phoenix
+                        postal_code: '85004'
+                        country_code: US
+                        region: AZ
+                      tax_id: 12-3456789
+                      enabled: true
+                      is_default: true
+                    - id: 4822
+                      name: Acme UK Ltd
+                      address:
+                        address1: 10 Downing Street
+                        address2: null
+                        city: London
+                        postal_code: SW1A 2AA
+                        country_code: GB
+                        region: null
+                      tax_id: GB123456789
+                      enabled: true
+                      is_default: false
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+                  companies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                        name:
+                          type: string
+                          example: My Company Ltd
+                        address:
+                          type: object
+                          example: automatic
+                          properties:
+                            address1:
+                              type: string
+                            address2:
+                              type: string
+                            city:
+                              type: string
+                            postal_code:
+                              type: string
+                            country_code:
+                              type: string
+                            region:
+                              type: string
+                        tax_id:
+                          type: string
+                          example: instant
+                        enabled:
+                          type: boolean
+                          example: GBP
+                        is_default:
+                          type: boolean
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/companies"
+        samples-languages:
+        - curl
+      x-internal: false
+  /invoices:
+    get:
+      summary: List all Invoices
+      description: 'Get list of invoices, filters may be added as query parameters. Only invoices issued on or after January 1st 2019 will be returned '
+      operationId: list-invoice
+      parameters:
+      - name: profile_id
+        in: query
+        description: Filter, only fetch invoices that match any of the provided invoice profile ids
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number
+        in: query
+        description: Filter, only fetch invoices that exactly match one of the provided invoice serial numbers
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number_contains
+        in: query
+        description: Filter, only fetch invoices that partially match a serial_number
+        schema:
+          type: string
+      - name: billing_period
+        in: query
+        description: Filter, only fetch invoices that match a billing_period (instant, weekly, biweekly, monthly)
+        schema:
+          type: string
+      - name: travelperk_bank_account_number
+        in: query
+        description: Filter, only fetch invoices that match the number of the tk_bank_account in the invoice
+        schema:
+          type: string
+      - name: customer_country_name
+        in: query
+        description: Filter, only fetch invoices that match the country name of the customer's billing address in the invoice
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Filter, only fetch invoices that match invoice''s status.  Available values : paid, unpaid'
+        schema:
+          type: string
+      - name: issuing_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is greater than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+          default: '2023-11-10'
+      - name: issuing_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is less than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+          default: '2023-11-10'
+      - name: due_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is greater than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+      - name: due_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is less than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+      - name: limit
+        in: query
+        description: Maximum number of elements to return per page. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: 'Sorting criteria on fields in Invoice. Available values : issuing_date, -issuing_date'
+        schema:
+          type: string
+          default: -issuing_date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"serial_number\": \"INV-01-987654\",\n   \"profile_id\": \"edb6322b-8e11-48e9-8d6f-6402e445e50d\",\n   \"company_id\": 1346,\n   \"profile_name\": \"My Company Ltd\",\n   \"billing_information\": {\n      \"legal_name\": \"My Company Ltd\",\n      \"vat_number\": \"GB123456789\",\n      \"address_line_1\": \"199 Bishopsgate\",\n      \"address_line_2\": \"Spitalfields\",\n      \"city\": \"London\",\n      \"postal_code\": \"EC2M 3TY\",\n      \"country_name\": \"United Kingdom\"\n   },\n   \"mode\": \"reseller\",\n   \"status\": \"paid\",\n   \"issuing_date\": \"2020-03-31\",\n   \"billing_period\": \"monthly\",\n   \"from_date\":  \"2020-03-01\",\n   \"to_date\": \"2020-03-31\",\n   \"due_date\": \"2020-04-15\",\n   \"currency\": \"EUR\",\n   \"total\": \"13579.24\",\n   \"taxes_summary\": [\n      {\n         \"tax_regime\": \"STAR\",\n         \"subtotal\": \"6543.21\",\n         \"tax_percentage\": \"0.00\",\n         \"tax_amount\": \"0.00\",\n    \
+                    \     \"total\": \"6543.21\",\n      },\n      {\n         \"tax_regime\": \"G-VAT-R\",\n         \"subtotal\": \"5912.63\",\n         \"tax_percentage\": \"19.00\",\n         \"tax_amount\": \"1123.40\",\n         \"total\": \"7036.03\",\n      }\n   ],\n   \"reference\": \"My Company Ltd - SEPA - Monthly 2020-03\",\n   \"travelperk_bank_account\": {\n      \"bank_name\": \"La Caixa\",\n      \"account_number\": \"ES01 2345 6789 1098 7654 3210\",\n      \"bic\": \"CAIX ES BB XXX\",\n      \"reference\": \"INV-01-987654\"\n   },\n   \"pdf\": \"https://api.travelperk.com/invoices/INV-01-987654/pdf\"\n}"
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices"
+        samples-languages:
+        - curl
+  /invoices/lines:
+    get:
+      summary: List all Invoice lines
+      description: Get list of invoices lines, filters may be added as query parameters. Returns InvoiceLineExtended models.
+      operationId: list-invoice-lines-1
+      parameters:
+      - name: profile_id
+        in: query
+        description: Filter, only fetch invoices that match any of the provided profile ids
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number
+        in: query
+        description: Filter, only fetch invoices that exactly match one of the provided serial numbers
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number_contains
+        in: query
+        description: Filter, only fetch lines on invoices that partially match invoice.serial_number
+        schema:
+          type: string
+      - name: billing_period
+        in: query
+        description: Filter, only fetch invoices that match a billing_period (instant, weekly, biweekly, monthly)
+        schema:
+          type: string
+      - name: travelperk_bank_account_number
+        in: query
+        description: Filters the invoices that need to be paid against a specific TravelPerk’s bank account, using its account number. See the tk_bank_account attribute of the Invoice model for more detail
+        schema:
+          type: string
+      - name: customer_country_name
+        in: query
+        description: Filter, only fetch invoices that match the country name of the customer's billing address in the invoice
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Filter, only fetch invoices that match invoice''s status.  Available values : paid, unpaid'
+        schema:
+          type: string
+      - name: issuing_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is greater than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: issuing_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is less than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: due_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is greater than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: due_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is less than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+      - name: network_transaction_id
+        in: query
+        description: Filter, only fetch InvoiceLines that match the specified network transaction ID of the card transaction used to cover them. This ID is provided by card vendors such as expense card providers to help match card transactions with invoice lines in TravelPerk. This filter cannot be combined with other filters and is only available for invoices with dates after March 31, 2025.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"total\": 1,\n    \"offset\": 0,\n    \"limit\": 10,\n    \"invoice_lines\": [\n        {\n            \"id\": \"6dc6d45e-55f5-48cc-9e23-cad798b364ef\",\n            \"expense_date\": \"2020-02-13\",\n            \"description\": \"FLIGHT for Trip ID 1687664\",\n            \"quantity\": 1,\n            \"unit_price\": \"20.00000000\",\n            \"non_taxable_unit_price\": \"0E-8\",\n            \"tax_percentage\": \"0E-8\",\n            \"tax_amount\": \"0E-8\",\n            \"tax_regime\": \"STAR\",\n            \"total_amount\": \"20.00000000\",\n            \"metadata\": {\n              \"trip_id\": 1687664,\n              \"trip_name\": \"Meeting with German company GmbH\",\n              \"service\": \"flight\",\n              \"travelers\": [\n                { \"name\": \"John Doe\", \"email\": \"john.doe@mycompany.com\", \"external_id\": \"ASD123\" \n                }\n              ],\n            \t\"start_date\": \"2020-03-27\",\n       \
+                    \       \"end_date\": \"2020-04-05\",\n              \"cost_center\": \"DACH Accounts\",\n              \"labels\": [ \"Sales trips\", \"Special\",],\n              \"vendor\": {\"code\": \"LH\", \"name\": \"Lufthansa\"},\n              \"out_of_policy\": false,\n              \"approvers\": [\n                { \"name\": \"Jake Bolt\", \"email\": \"jake.bolt@mycompany.com\", \"external_id\": \"ASD124\" \n                }\n              ],\n              \"booker\": { \"name\": \"Marien Lint\", \"email\": \"marien.lint@mycompany.com\", \"external_id\": \"ASD124\" \n        }\n            },\n          \"invoice_serial_number\": \"INV-01-190111\",\n          \"profile_id\": \"09d649d1-35fa-4d9f-b688-046d5790afd2\",\n          \"profile_name\": \"My Company Ltd\",\n          \"invoice_mode\": \"reseller\",\n          \"invoice_status\": \"paid\",\n          \"issuing_date\": \"2020-02-13\",\n          \"due_date\": \"2020-02-13\",\n          \"currency\": \"EUR\"\n   \
+                    \     }\n    ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/lines"
+        samples-languages:
+        - curl
+  /invoices/{serial_number}:
+    get:
+      summary: Retrieve an Invoice
+      description: Get invoice detail
+      operationId: get-invoice
+      parameters:
+      - name: serial_number
+        in: path
+        description: invoice serial number
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"serial_number\": \"INV-01-987654\",\n   \"profile_id\": \"edb6322b-8e11-48e9-8d6f-6402e445e50d\",\n   \"profile_name\": \"My Company Ltd\",\n   \"billing_information\": {\n      \"legal_name\": \"My Company Ltd\",\n      \"vat_number\": \"GB123456789\",\n      \"address_line_1\": \"199 Bishopsgate\",\n      \"address_line_2\": \"Spitalfields\",\n      \"city\": \"London\",\n      \"postal_code\": \"EC2M 3TY\",\n      \"country_name\": \"United Kingdom\"\n   },\n   \"mode\": \"reseller\",\n   \"status\": \"paid\",\n   \"issuing_date\": \"2020-03-31\",\n   \"billing_period\": \"monthly\",\n   \"from_date\":  \"2020-03-01\",\n   \"to_date\": \"2020-03-31\",\n   \"due_date\": \"2020-04-15\",\n   \"currency\": \"EUR\",\n   \"total\": \"13579.24\",\n   \"lines\": {\n     \"total\": 15,\n     \"data\": [\n      (objects of type InvoiceLine)\n     ],\n     \"next\": \"/invoices/lines?serial_number=INV-01-987654&offset=10\"\n   },\n   \"taxes_summary\": [\n     \
+                    \ {\n         \"tax_regime\": \"STAR\",\n         \"subtotal\": \"6543.21\",\n         \"tax_percentage\": \"0.00\",\n         \"tax_amount\": \"0.00\",\n         \"total\": \"6543.21\",\n      },\n      {\n         \"tax_regime\": \"G-VAT-R\",\n         \"subtotal\": \"5912.63\",\n         \"tax_percentage\": \"19.00\",\n         \"tax_amount\": \"1123.40\",\n         \"total\": \"7036.03\",\n      }\n   ],\n   \"reference\": \"My Company Ltd - SEPA - Monthly 2020-03\",\n   \"travelperk_bank_account\": {\n      \"bank_name\": \"La Caixa\",\n      \"account_number\": \"ES01 2345 6789 1098 7654 3210\",\n      \"bic\": \"CAIX ES BB XXX\",\n      \"reference\": \"INV-01-987654\"\n   },\n   \"pdf\": \"https://api.travelperk.com/invoices/INV-01-987654/pdf\"\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/INV-01-987654"
+        samples-languages:
+        - curl
+  /invoices/{serial_number}/pdf:
+    get:
+      summary: Retrieve Invoice PDF
+      description: Download invoice in PDF format
+      operationId: download-pdf
+      parameters:
+      - name: serial_number
+        in: path
+        description: invoice serial number
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: '***binary***'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/INV-01-987654/pdf"
+        samples-languages:
+        - curl
+  /profiles:
+    get:
+      summary: List all Invoice Profiles
+      description: List all invoice profiles associated to this account
+      operationId: list-invoice-profiles
+      parameters:
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based (page number)
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: Maximum number of elements to return per page. Defaults to 10. Allowed values are in the range [1, 50]. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: exclude_personal
+        in: query
+        description: '[optional] Exclude personal invoice profiles from response'
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    offset: 0
+                    limit: 10
+                    total: 2
+                    profiles:
+                    - id: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                      company_id: 1346
+                      name: My Company Ltd
+                      payment_method_type: automatic
+                      billing_period: instant
+                      currency: GBP
+                      billing_information:
+                        legal_name: My Company Ltd
+                        vat_number: GB123456789
+                        address_line_1: 199 Bishopsgate
+                        address_line_2: Spitalfields
+                        city: London
+                        postal_code: EC2M 3TY
+                        country_name: United Kingdom
+                    - id: 8fa66535-5a9a-4a6f-90d8-2986621a706a
+                      company_id: 2421
+                      name: My Spanish Company SL
+                      payment_method_type: manual
+                      billing_period: monthly
+                      currency: EUR
+                      billing_information:
+                        legal_name: My Spanish Company SL
+                        vat_number: ES123456789
+                        address_line_1: Passeig de Gracia 345
+                        address_line_2: Planta 14
+                        city: Barcelona
+                        postal_code: 080123
+                        country_name: Spain
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+                  profiles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                        company_id:
+                          type: integer
+                        name:
+                          type: string
+                          example: My Company Ltd
+                        payment_method_type:
+                          type: string
+                          example: automatic
+                        billing_period:
+                          type: string
+                          example: instant
+                        currency:
+                          type: string
+                          example: GBP
+                        billing_information:
+                          type: object
+                          properties:
+                            legal_name:
+                              type: string
+                              example: My Company Ltd
+                            vat_number:
+                              type: string
+                              example: GB123456789
+                            address_line_1:
+                              type: string
+                              example: 199 Bishopsgate
+                            address_line_2:
+                              type: string
+                              example: Spitalfields
+                            city:
+                              type: string
+                              example: London
+                            postal_code:
+                              type: string
+                              example: EC2M 3TY
+                            country_name:
+                              type: string
+                              example: United Kingdom
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/profiles"
+        samples-languages:
+        - curl
+  /suppliers:
+    get:
+      summary: List all suppliers
+      description: Suppliers listed in ascending order by id
+      operationId: list-all-suppliers
+      parameters:
+      - name: booking_id
+        in: query
+        description: Find Suppliers related to the given booking_id's
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"suppliers\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Supplier A\",\n      \"bookings\": [\n        \"123\", \"456\"\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Supplier B\",\n      \"bookings\": [\n        \"789\", \"101\"\n      ]\n    }\n  ],\n  \"limit\": 10,\n  \"offset\": 0,\n  \"total\": 2\n}"
+              schema:
+                type: object
+                properties:
+                  suppliers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '1'
+                        name:
+                          type: string
+                          example: Supplier A
+                        bookings:
+                          type: array
+                          items:
+                            type: string
+                            example: '123'
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"booking_id needs to be a single id or a comma (',') separated list of ids\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: booking_id needs to be a single id or a comma (',') separated list of ids
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/suppliers"
+          name: cURL
+        samples-languages:
+        - curl
+  /trips:
+    get:
+      summary: List all trips
+      description: Trips listed in descending order of `modified` time.
+      operationId: list-all-trips
+      parameters:
+      - name: modified_gte
+        in: query
+        description: Find Trips with modified greater than or equal to this time
+        schema:
+          type: string
+          format: date
+      - name: modified_lt
+        in: query
+        description: Find Trips with modified less than this time
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Filter for trips with this status
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: traveler_id
+        in: query
+        description: Filter Trips by the users that they have on the trip
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"trips\": [\n        {\n            \"id\": \"172\",\n            \"trip_name\": \"The Great Voyage\",\n            \"start\": \"2020-11-20T00:00:00\",\n            \"end\": \"2020-11-25T00:00:00\",\n            \"status\": \"booked\",\n            \"modified\": \"2020-09-16T07:08:06.290253+00:00\",\n            \"booker_id\": \"123\",\n            \"start_location\": \n                {\n                    \"name\": \"Location Name\",\n                    \"address\": \"Address Info\",\n                    \"latitude\": \"59.5468062\",\n                    \"longitude\": \"113.9913155\",\n                    \"iata_code\": null,\n                },\n            \"end_location\": \n          \t\t\t{\n                    \"name\": \"Location Name\",\n                    \"address\": \"Address Info\",\n                    \"latitude\": \"59.5468062\",\n                    \"longitude\": \"113.9913155\",\n                    \"iata_code\": null,\n        \
+                    \      \t}\n        },\n        {\n            \"id\": \"205\",\n            \"trip_name\": \"Road trip Barcelona\",\n            \"start\": \"2020-09-25T10:00:00+00:00\",\n            \"end\": \"2020-09-26T10:00:00+00:00\",\n            \"status\": \"booked\",\n            \"modified\": \"2020-09-14T12:55:06.720754+00:00\",\n\t\t\t\t\t\t\"booker_id\": \"123\",\n\t\t\t\t\t\t\"start_location\": \n                {\n                    \"name\": \"Location Name\",\n                    \"address\": \"Address Info\",\n                    \"latitude\": \"59.5468062\",\n                    \"longitude\": \"113.9913155\",\n                    \"iata_code\": null,\n                },\n            \"end_location\": \n          \t\t\t{\n                    \"name\": \"Location Name\",\n                    \"address\": \"Address Info\",\n                    \"latitude\": \"59.5468062\",\n                    \"longitude\": \"113.9913155\",\n                    \"iata_code\": null,\n\
+                    \              \t}\n        }\n    ],\n    \"limit\": 10,\n    \"offset\": 0,\n    \"total\": 2\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"The status filter must be one of: booked, cancelled\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: 'The status filter must be one of: booked, cancelled'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/trips"
+          name: cURL
+        samples-languages:
+        - curl
+  /trips/{id}:
+    get:
+      summary: Retrieve a Trip by ID
+      description: Get a single trip with the Trip ID
+      operationId: retrieve-a-trip-by-id
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"75\",\n    \"trip_name\": \"E2E cancel Openrail train ticket\",\n    \"start\": \"2025-04-18T10:57:38.762779+00:00\",\n    \"start_datetime_utc\": \"2025-04-18T08:57:38.762779+00:00\",\n    \"start_datetime_local\": \"2025-04-18T10:57:38.762779+02:00\",\n    \"end\": \"2025-04-18T10:57:38.762779+00:00\",\n    \"end_datetime_utc\": \"2025-04-18T08:57:38.762779+00:00\",\n    \"end_datetime_local\": \"2025-04-18T10:57:38.762779+02:00\",\n    \"status\": \"booked\",\n    \"modified\": \"2025-04-15T10:57:38.777869+00:00\",\n    \"start_location\": {\n        \"name\": \"Barcelona\",\n        \"address\": \"Barcelona - Barcelona, ES\",\n        \"latitude\": \"41.382270729\",\n        \"longitude\": \"2.177385092\",\n        \"iata_code\": null\n    },\n    \"end_location\": {\n        \"name\": \"Madrid\",\n        \"address\": \"Madrid - Madrid, ES\",\n        \"latitude\": \"40.416824000\",\n        \"longitude\": \"-3.703733000\",\n        \"iata_code\"\
+                    : null\n    },\n    \"booker_id\": \"18\"\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '75'
+                  trip_name:
+                    type: string
+                    example: E2E cancel Openrail train ticket
+                  start:
+                    type: string
+                    example: '2025-04-18T10:57:38.762779+00:00'
+                  start_datetime_utc:
+                    type: string
+                    example: '2025-04-18T08:57:38.762779+00:00'
+                  start_datetime_local:
+                    type: string
+                    example: '2025-04-18T10:57:38.762779+02:00'
+                  end:
+                    type: string
+                    example: '2025-04-18T10:57:38.762779+00:00'
+                  end_datetime_utc:
+                    type: string
+                    example: '2025-04-18T08:57:38.762779+00:00'
+                  end_datetime_local:
+                    type: string
+                    example: '2025-04-18T10:57:38.762779+02:00'
+                  status:
+                    type: string
+                    example: booked
+                  modified:
+                    type: string
+                    example: '2025-04-15T10:57:38.777869+00:00'
+                  start_location:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Barcelona
+                      address:
+                        type: string
+                        example: Barcelona - Barcelona, ES
+                      latitude:
+                        type: string
+                        example: '41.382270729'
+                      longitude:
+                        type: string
+                        example: '2.177385092'
+                      iata_code: {}
+                  end_location:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Madrid
+                      address:
+                        type: string
+                        example: Madrid - Madrid, ES
+                      latitude:
+                        type: string
+                        example: '40.416824000'
+                      longitude:
+                        type: string
+                        example: '-3.703733000'
+                      iata_code: {}
+                  booker_id:
+                    type: string
+                    example: '18'
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": {\n        \"type\": \"not_found\",\n        \"errors\": [\n            {\n                \"reason\": \"Trip not found\"\n            }\n        ]\n    }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: not_found
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: Trip not found
+      deprecated: false
+  /trips/{trip_id}/custom-fields:
+    get:
+      summary: Retrieve custom fields
+      description: Get all custom field values associated with a trip.
+      operationId: retrieve-custom-fields
+      parameters:
+      - name: trip_id
+        in: path
+        description: Unique identifier for the trip
+        schema:
+          type: string
+        required: true
+      - name: Authorization
+        in: header
+        description: API Key or OAuth access token. See Authentication documentation for details
+        schema:
+          type: string
+          default: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456
+      - name: Api-Version
+        in: header
+        description: The version of the API to call
+        required: true
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"trip_id\": 1234,\n  \"created_date\": \"2024-07-21\",\n  \"custom_fields\": [\n    {\n      \"name\": \"Event\",\n      \"value\": \"Christmas Party\"\n    }\n}"
+      deprecated: false
+  /users:
+    get:
+      summary: List all users
+      description: Users listed in descending order of `id`.
+      operationId: list-all-users-1
+      parameters:
+      - name: trip_id
+        in: query
+        description: Find Users travelling on a Trip with this id. A comma separated list of multiple ids is accepted.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: user_id
+        in: query
+        description: Find a single user with this id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"users\":[\n    {\n      \"id\":\"8\",\n      \"user_name\":\"boss@test.com\",\n      \"name\":{\n        \"last_name\":\"Morrison\",\n        \"first_name\":\"Boss\",\n        \"middle_name\":\"\",\n        \"title\":\"MR\"\n      },\n      \"preferred_language\":\"en\",\n      \"locale\":\"en-gb\",\n      \"active\":true,\n      \"job_title\":\"Boss\",\n      \"phone_numbers\":[\n        \"+34 123456789\"\n      ],\n      \"emergency_contact\":{\n        \"name\":\"Mrs. Morrison\",\n        \"phone\":\"+34 987654321\"\n      },\n      \"email\":\"boss@test.com\"\n    },\n    {\n      \"id\":\"7\",\n      \"user_name\":\"manager@test.com\",\n      \"name\":{\n        \"last_name\":\"Roberts\",\n        \"first_name\":\"Manager\",\n        \"middle_name\":\"\",\n        \"title\":\"MRS\"\n      },\n      \"preferred_language\":\"en\",\n      \"locale\":\"en-gb\",\n      \"active\":true,\n      \"job_title\":\"Office Manager\",\n      \"phone_numbers\":[\n\
+                    \        \n      ],\n      \"emergency_contact\":null,\n      \"email\":\"manager@test.com\"\n    }\n  ],\n  \"limit\":10,\n  \"offset\":0,\n  \"total\":2\n}"
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '8'
+                        user_name:
+                          type: string
+                          example: boss@test.com
+                        name:
+                          type: object
+                          properties:
+                            last_name:
+                              type: string
+                              example: Morrison
+                            first_name:
+                              type: string
+                              example: Boss
+                            middle_name:
+                              type: string
+                              example: ''
+                            title:
+                              type: string
+                              example: MR
+                        preferred_language:
+                          type: string
+                          example: en
+                        locale:
+                          type: string
+                          example: en-gb
+                        active:
+                          type: boolean
+                          example: true
+                          default: true
+                        job_title:
+                          type: string
+                          example: Boss
+                        phone_numbers:
+                          type: array
+                          items:
+                            type: string
+                            example: +34 123456789
+                        emergency_contact:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: Mrs. Morrison
+                            phone:
+                              type: string
+                              example: +34 987654321
+                        email:
+                          type: string
+                          example: boss@test.com
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"trip_id needs to be a single id or a comma (',') separated list of ids\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: trip_id needs to be a single id or a comma (',') separated list of ids
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/users"
+          name: cURL
+        samples-languages:
+        - curl
+  /webhooks:
+    post:
+      summary: Create a webhook endpoint
+      description: Subscribes to one or more events, the target url of the webhook must be unique for the account.
+      operationId: subscribe-to-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: A name that identifies this subscription. This name will be sent on the notification JSON payload.
+                url:
+                  type: string
+                  description: Target URL where notification JSON payloads will be POSTed.
+                secret:
+                  type: string
+                  description: A secret only know by the user and TravelPerk. This secret will be used to sign the payload and send it in the `Tk-Signature` header.
+                events:
+                  type: array
+                  description: A list of event names to which the user is subscribing to.
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tkwebhooks\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\"\n    ],\n    \"successfully_sent\": 0,\n    \"failed_sent\": 0,\n    \"error_rate\": 0.0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tkwebhooks
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+                  successfully_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  failed_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  error_rate:
+                    type: integer
+                    example: 0
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"url\": [\n        \"Enter a valid URL.\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: array
+                    items:
+                      type: string
+                      example: Enter a valid URL.
+        '409':
+          description: '409'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"This subscription already exists. Use patch to amend it\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: This subscription already exists. Use patch to amend it
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -d '{\"name\": \"invoice webhook\", \"url\": \"https://mycompany.com/tkwebhooks\", \"secret\":\"some secret\",\"events\": [\"invoice.issued\"]}' \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Api-Version: 1' \\\n  -X POST https://api.sandbox-travelperk.com/webhooks\n\n\n"
+        samples-languages:
+        - curl
+    get:
+      summary: List all webhook endpoints
+      description: List all webhook subscriptions
+      operationId: list-webhooks
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"webhooks\": [\n        {\n            \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n            \"name\": \"invoice webhook\",\n            \"url\": \"https://mycompany/tkwebhook\",\n            \"secret\": \"some secret\",\n            \"status\": \"enabled\",\n            \"events\": [\n                \"invoice.issued\",\n                \"invoiceline.created\"\n            ],\n            \"successfully_sent\": 2,\n            \"failed_sent\": 0,\n            \"error_rate\": 0.0\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: b42820bb-24c9-48da-bded-487681e9c851
+                        name:
+                          type: string
+                          example: invoice webhook
+                        url:
+                          type: string
+                          example: https://mycompany/tkwebhook
+                        secret:
+                          type: string
+                          example: some secret
+                        status:
+                          type: string
+                          example: enabled
+                        events:
+                          type: array
+                          items:
+                            type: string
+                            example: invoice.issued
+                        successfully_sent:
+                          type: integer
+                          example: 2
+                          default: 0
+                        failed_sent:
+                          type: integer
+                          example: 0
+                          default: 0
+                        error_rate:
+                          type: integer
+                          example: 0
+                          default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks"
+        samples-languages:
+        - curl
+  /webhooks/events:
+    get:
+      summary: List all events
+      description: List all events you can subscribe to
+      operationId: list-events
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n        \"name\": \"invoice.issued\",\n        \"topic\": \"invoices\"\n    },\n    {\n        \"name\": \"invoiceline.created\",\n        \"topic\": \"invoices\"\n    }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: invoice.issued
+                    topic:
+                      type: string
+                      example: invoices
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks/events"
+        samples-languages:
+        - curl
+  /webhooks/{id}:
+    patch:
+      summary: Update a webhook endpoint
+      description: Updates the webhook endpoint. You may edit the url, the list of events, status, secret or name. The target url of the webhook must be unique for the account, if the target url is not unique a client error HTTP 409 will be returned.
+      operationId: update-subscription
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tk_webhook\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\",\n        \"invoiceline.created\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tk_webhook
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"url\": [\n        \"Enter a valid URL.\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: array
+                    items:
+                      type: string
+                      example: Enter a valid URL.
+        '409':
+          description: '409'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -d '{\"enabled\":\"false\"}' \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -H 'Content-Type: application/json' \\\n  -X PATCH https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - curl
+    get:
+      summary: Retrieve a webhook endpoint
+      description: Get details for a specific webhook endpoint
+      operationId: get-subscription-details
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tk_webhook\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\",\n        \"invoiceline.created\"\n    ],\n    \"successfully_sent\": 2,\n    \"failed_sent\": 0,\n    \"error_rate\": 0.0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tk_webhook
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+                  successfully_sent:
+                    type: integer
+                    example: 2
+                    default: 0
+                  failed_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  error_rate:
+                    type: integer
+                    example: 0
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"wrong uuid: b97f08e1-735-4f68-a937-542566780c52\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'wrong uuid: b97f08e1-735-4f68-a937-542566780c52'
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"Not found\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Not found
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - curl
+    delete:
+      summary: Delete a webhook endpoint
+      description: Deletes a webhook endpoint
+      operationId: delete-webhook-subscription
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"Not found\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Not found
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: text
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X DELETE https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - text
+  /webhooks/{id}/test:
+    post:
+      summary: Test a webhook endpoint
+      description: Sends a sample payload to the webhook target URL.
+      operationId: test-webhook
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: text
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X POST https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851/test"
+        samples-languages:
+        - text
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

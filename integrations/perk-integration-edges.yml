@@ -1,0 +1,16 @@
+generated: '2026-10-14'
+method: none
+source:
+- https://zapier.com/apps/perk/integrations
+- https://n8n.io/integrations/perk/
+- https://composio.dev/toolkits/perk
+- https://monid.ai/tools/perk
+checked:
+- https://composio.dev/toolkits/perk
+- https://monid.ai/tools/perk
+- https://n8n.io/integrations/perk/
+- https://zapier.com/apps/perk/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Custom Fields API
+  version: '1.0'
+  description: Use this API to retrieve select options for a custom field in your Perk account.
+servers:
+- url: https://api.perk.com
+paths:
+  /custom-fields/{custom_field_id}/select-options:
+    get:
+      summary: List all select options
+      description: ''
+      operationId: list-custom-field-select-options
+      tags:
+      - Custom fields
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: The unique ID of the custom field
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        description: Your Perk API key, using the format 'ApiKey <your_api_key>'
+        schema:
+          type: string
+      - name: Api-Version
+        in: header
+        required: true
+        description: The API version for this request. Must be '1'.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: The number of options to return, from 1 to 100. Defaults to 20.
+        schema:
+          type: integer
+      - name: offset
+        in: query
+        required: false
+        description: The number of options to skip before returning results. Defaults to 0.
+        schema:
+          type: integer
+      - name: query
+        in: query
+        required: false
+        description: Filters options to those whose value contains this substring.
+        schema:
+          type: string
+      - name: status
+        in: query
+        required: false
+        description: Comma-separated list of statuses to include. Accepts 'active' and 'archived'. Defaults to 'active'.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns 200 OK and a list of select options for the custom field, along with total_count, limit and offset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  select_options:
+                    type: array
+                    description: The list of options matching the request
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique ID of the select option
+                        value:
+                          type: string
+                          description: The option's display value
+                        is_archived:
+                          type: boolean
+                          description: Indicates whether the option is archived
+                  total_count:
+                    type: integer
+                    description: Total number of options matching the filter, across all pages
+                  limit:
+                    type: integer
+                    description: Effective page size used (echoes the request's limit, default 20)
+                  offset:
+                    type: integer
+                    description: Effective offset used (echoes the request's offset, default 0)
+              example:
+                select_options:
+                - id: 3568837f-6072-4773-afd6-6aa8e61e844f
+                  value: Test
+                  is_archived: false
+                total_count: 153
+                limit: 20
+                offset: 0
+        '400':
+          description: Returns '400 Bad Request' when custom_field_id is missing or not a valid ID, or when limit or offset is out of range.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 400
+                errors:
+                - 'limit: Input should be less than or equal to 100'
+        '401':
+          description: Returns '401 Unauthorized' when the Authorization header is missing or the API key is invalid. This response has no body.
+        '404':
+          description: Returns '404 Not Found' when custom_field_id doesn't exist, or doesn't belong to the account associated with your API key.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 404
+                errors:
+                - Custom field does not exist.
+        '405':
+          description: Returns '405 Method Not Allowed' when the request uses any HTTP method other than GET.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 405
+                errors:
+                - 'Unsupported HTTP method: POST'
+tags:
+- name: Custom fields
+  description: Retrieve select options for custom fields in your Perk account.
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/list-custom-field-select-options.md
+  merge:
+    pages: 1
+    deduped: 0
+    conflicts_kept_first: 0

@@ -41,3 +41,12 @@ standards:
 - id: asyncapi
   conforms: false
   evidence: Webhooks are documented as an event catalog, but no AsyncAPI document is published.
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.3
+- id: openapi-3.1
+  conforms: true
+  evidence: the document declares 3.1.0
+- id: rfc9457
+  conforms: false
+  evidence: no response declares application/problem+json

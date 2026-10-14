@@ -1,0 +1,96 @@
+generated: '2026-10-14'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: postman
+  name: Postman
+  area: api-collections
+  host: app.getpostman.com
+  evidence: https://app.getpostman.com/run-collection/26205026-08341f0b-356a-460b-b386-54f8c30b9bad
+  signal: url:postman.com
+  confidence: high
+  kin_score:
+  - postman_collection
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: developers.perk.com
+  evidence: header:cf-ray
+  signal: header
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: www.perk.com
+  evidence: header:x-amz-cf-id
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: vercel
+  name: Vercel
+  area: hosting
+  host: status.perk.com
+  evidence: cname:vercel-dns.com
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: incident-io
+  name: incident.io
+  area: status-page
+  host: status.perk.com
+  evidence: cname:incident.io
+  signal: cname
+  confidence: high
+  kin_score:
+  - status_page
+- vendor: zendesk
+  name: Zendesk
+  area: support
+  host: support.perk.com
+  evidence: cname:zendesk.com
+  signal: cname
+  confidence: high
+  kin_score:
+  - support_channel
+reliance:
+  areas_vendor_served:
+  - api-collections
+  - cdn
+  - hosting
+  - status-page
+  - support
+  vendor_count: 6
+  areas_observed: 12
+  share_of_observable_areas: 0.417
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: not probed'
+- www.perk.com (Website)
+- developers.perk.com (DeveloperPortal)
+- developers.perk.com (Documentation)
+- developers.perk.com (APIReference)
+- developers.perk.com (GettingStarted)
+- support.perk.com (Support)
+- app.perk.com (SignUp)
+- app.getpostman.com (Postman)
+- status.perk.com (StatusPage)
+- api.perk.com (baseURL)
+- app.perk.com (baseURL)

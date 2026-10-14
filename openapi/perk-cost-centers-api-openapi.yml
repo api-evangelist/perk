@@ -1,0 +1,1384 @@
+openapi: 3.0.3
+info:
+  title: Cost Centers API
+  version: '1.8'
+  description: Use this API to manage cost objects (cost centers) in your Perk organization.
+servers:
+- url: https://api.perk.com
+paths:
+  /cost_centers:
+    get:
+      summary: List all cost centers
+      description: Lists all cost centers in your organization. Returns a paginated list with offset and limit controls. When cost object types are enabled for your organization, each item includes an optional `type` field (string name or null).
+      operationId: list-cost-centers
+      tags:
+      - Cost centers
+      parameters:
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns '200 OK' and a paginated list of cost centers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                    description: The number of items skipped before the current page
+                    example: 0
+                  limit:
+                    type: integer
+                    description: The maximum number of items returned per page
+                    example: 10
+                  cost_centers:
+                    type: array
+                    description: The list of cost centers
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique ID of the cost center
+                          example: '2'
+                        name:
+                          type: string
+                          description: The name of the cost center
+                          example: Marketing
+                        type:
+                          type: string
+                          nullable: true
+                          description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                          example: Department
+                        count_users:
+                          type: integer
+                          description: The number of users assigned to this cost center
+                          example: 0
+              example:
+                offset: 0
+                limit: 10
+                cost_centers:
+                - id: '2'
+                  name: Marketing
+                  type: Department
+                  count_users: 0
+    post:
+      summary: Create cost center
+      description: Creates a cost center with the specified name. You can optionally set an approver, delegate, delegate expiry date, additional approvers (owner_ids), and cost object type (`type`) when that feature is enabled for your organization.
+      operationId: create-cost-center
+      tags:
+      - Cost centers
+      parameters:
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: The name of the cost center
+                  example: Marketing
+                type:
+                  type: string
+                  nullable: true
+                  maxLength: 256
+                  description: Available only when cost object types are enabled for your organization on request, is ignored when the feature is not enabled. Cost object type name to assign on create. Non-empty string (max 256 characters). Omit or null leaves the type unset. If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Cannot be set on Yokoy-sourced cost centers.
+                  example: Department
+                approver_id:
+                  type: integer
+                  description: The ID of the user to set as approver. The user must belong to one of the account's companies
+                  example: 123
+                delegate_id:
+                  type: integer
+                  description: The ID of the user to set as delegate. The delegate must belong to one of the account's companies
+                  example: 456
+                delegate_expiry:
+                  type: string
+                  description: The expiry date for the delegate in YYYY-MM-DD format
+                  example: '2025-12-31'
+                erp_code:
+                  type: string
+                  description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                  example: CC-4210
+                company_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of companies this cost center is scoped to. Must be provided together with 'all_companies'. When 'all_companies' is true, company scope is set to all companies in the account.
+                  example:
+                  - 11454
+                  - 22187
+                all_companies:
+                  type: boolean
+                  description: Whether the cost center applies to all companies in the account. Must be provided together with 'company_ids'. When true, 'company_ids' is ignored and the cost center is scoped to all companies in the account. Defaults to true when neither field is provided.
+                  example: false
+                owner_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of additional travel approvers to set on create. Users must belong to an allowed company for the cost center and must not duplicate approver_id
+                  example:
+                  - 789
+                  - 790
+            example:
+              name: Marketing
+              type: Department
+              approver_id: 123
+              delegate_id: 456
+              delegate_expiry: '2025-12-31'
+              owner_ids:
+              - 789
+              - 790
+      responses:
+        '200':
+          description: Returns '200 OK' and the newly created cost center resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the cost center
+                    example: '4'
+                  name:
+                    type: string
+                    description: The name of the cost center
+                    example: Marketing
+                  type:
+                    type: string
+                    nullable: true
+                    description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                    example: Department
+                  archived:
+                    type: boolean
+                    description: Indicates whether the cost center is archived
+                    example: false
+                  approver_id:
+                    type: integer
+                    example: 123
+                    description: The ID of the approver user, or 'null' if not set
+                  approver:
+                    type: object
+                    description: Approver user details, or 'null' if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the approver
+                        example: 123
+                      first_name:
+                        type: string
+                        description: The approver's first name
+                        example: Alex
+                      last_name:
+                        type: string
+                        description: The approver's last name
+                        example: Chen
+                      email:
+                        type: string
+                        description: The approver's email address
+                        example: alex.chen@company.com
+                  delegate_id:
+                    type: integer
+                    example: 456
+                    description: The ID of the delegate user, or 'null' if not set
+                  delegate:
+                    type: object
+                    description: Delegate user details, or 'null' if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the delegate
+                        example: 456
+                      first_name:
+                        type: string
+                        description: The delegate's first name
+                        example: Jordan
+                      last_name:
+                        type: string
+                        description: The delegate's last name
+                        example: Smith
+                      email:
+                        type: string
+                        description: The delegate's email address
+                        example: jordan.smith@company.com
+                  delegate_expiry:
+                    type: string
+                    example: '2025-12-31'
+                    description: The expiry date for the delegate in YYYY-MM-DD format, or 'null' if not set
+                  users:
+                    type: array
+                    description: The users assigned to this cost center
+                    items:
+                      type: object
+                  count_users:
+                    type: integer
+                    description: The number of users assigned to this cost center
+                    example: 0
+                  erp_code:
+                    type: string
+                    description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                    example: CC-4210
+                  all_companies:
+                    type: boolean
+                    description: If 'true', the cost center applies to all companies in the account
+                    example: false
+                  companies:
+                    type: array
+                    description: The IDs of companies assigned to this cost center
+                    items:
+                      type: integer
+                    example:
+                    - 1
+                    - 2
+                  owner_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: IDs of additional travel approvers
+                    example:
+                    - 789
+                    - 790
+                  owners:
+                    type: array
+                    description: Additional travel approver user details (id, first_name, last_name, email)
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the additional approver
+                          example: 789
+                        first_name:
+                          type: string
+                          description: The additional approver's first name
+                          example: Sam
+                        last_name:
+                          type: string
+                          description: The additional approver's last name
+                          example: Patel
+                        email:
+                          type: string
+                          description: The additional approver's email address
+                          example: sam.patel@company.com
+              example:
+                id: '4'
+                name: Marketing
+                type: Department
+                archived: false
+                approver_id: 123
+                approver:
+                  id: 123
+                  first_name: Alex
+                  last_name: Chen
+                  email: alex.chen@company.com
+                delegate_id: 456
+                delegate:
+                  id: 456
+                  first_name: Jordan
+                  last_name: Smith
+                  email: jordan.smith@company.com
+                delegate_expiry: '2025-12-31'
+                all_companies: false
+                companies:
+                - 11454
+                - 22187
+                users: []
+                count_users: 0
+                owner_ids:
+                - 789
+                - 790
+                owners:
+                - id: 789
+                  first_name: Sam
+                  last_name: Patel
+                  email: sam.patel@company.com
+                - id: 790
+                  first_name: Taylor
+                  last_name: Brooks
+                  email: taylor.brooks@company.com
+        '400':
+          description: Returns '400 Bad Request' when the request body is invalid (for example missing name, invalid owner_ids, blank/overlong `type`, or setting `type` on a Yokoy-sourced cost center).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: The error type identifier
+                        example: bad_request
+                      errors:
+                        type: array
+                        description: The list of validation errors
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              description: A description of the validation failure
+                              example: Field 'name' must be present and of type string
+              example:
+                error:
+                  type: bad_request
+                  errors:
+                  - reason: Field 'name' must be present and of type string
+  /cost_centers/bulk_update:
+    patch:
+      summary: Bulk update cost centers
+      description: Updates a list of cost centers in a single request. You can archive or unarchive them and/or set their cost object type (`type`) when that feature is enabled for your organization. Returns the number of cost centers updated. When cost object types are enabled, provide at least one of `archive` or a non-null `type`. When the feature is not enabled, `archive` remains required.
+      operationId: bulk-update-cost-centers
+      tags:
+      - Cost centers
+      parameters:
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id_list
+              properties:
+                archive:
+                  type: boolean
+                  description: Set to 'true' to archive the cost centers, or 'false' to unarchive them. Omit to leave archive state unchanged. Required when cost object types are not enabled for your organization.
+                  example: true
+                id_list:
+                  type: array
+                  description: The IDs of the cost centers to update
+                  items:
+                    type: integer
+                  example:
+                  - 1
+                  - 2
+                  - 3
+                type:
+                  type: string
+                  nullable: true
+                  maxLength: 256
+                  description: Cost object type name to set on all cost centers in `id_list`. Available only when cost object types are enabled for your organization on request. Non-empty string (max 256 characters). If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Omit or null leaves types unchanged. When the feature is enabled, provide at least one of `archive` or a non-null `type`. If any listed cost center is Yokoy-sourced and `type` is set, the request fails with 400 (all-or-nothing).
+                  example: Department
+            example:
+              archive: true
+              id_list:
+              - 1
+              - 2
+              - 3
+              type: Department
+      responses:
+        '200':
+          description: Returns '200 OK' and the number of cost centers updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated_count:
+                    type: integer
+                    description: The number of cost centers successfully updated
+                    example: 3
+              example:
+                updated_count: 3
+        '400':
+          description: Returns '400 Bad Request' when the request body is invalid (for example missing id_list, neither archive nor type when types are enabled, blank/overlong type, or setting type when any listed cost center is Yokoy-sourced).
+          content:
+            application/json:
+              example:
+                error:
+                  type: bad_request
+                  errors:
+                  - reason: 'Invalid parameters. Please provide at least one of: ''archive'', ''type'''
+  /cost_centers/{id}:
+    get:
+      summary: Get cost center
+      description: Retrieves a cost center by its ID, including assigned users, approver, delegate, company scope, additional approvers (owner_ids/owners), and cost object type (`type`) when that feature is enabled for your organization.
+      operationId: get-cost-center
+      tags:
+      - Cost centers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The unique ID of the cost center
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns '200 OK' and the cost center resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the cost center
+                    example: '1'
+                  name:
+                    type: string
+                    description: The name of the cost center
+                    example: Marketing
+                  type:
+                    type: string
+                    nullable: true
+                    description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                    example: Department
+                  archived:
+                    type: boolean
+                    description: Indicates whether the cost center is archived
+                    example: false
+                  approver_id:
+                    type: integer
+                    example: 123
+                    description: The ID of the approver user, or 'null' if not set
+                  approver:
+                    type: object
+                    description: Approver user details, or 'null' if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the approver
+                        example: 123
+                      first_name:
+                        type: string
+                        description: The approver's first name
+                        example: Alex
+                      last_name:
+                        type: string
+                        description: The approver's last name
+                        example: Chen
+                      email:
+                        type: string
+                        description: The approver's email address
+                        example: alex.chen@company.com
+                  delegate_id:
+                    type: integer
+                    example: 456
+                    description: The ID of the delegate user, or 'null' if not set
+                  delegate:
+                    type: object
+                    description: Delegate user details, or null if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the delegate
+                        example: 456
+                      first_name:
+                        type: string
+                        description: The delegate's first name
+                        example: Jordan
+                      last_name:
+                        type: string
+                        description: The delegate's last name
+                        example: Smith
+                      email:
+                        type: string
+                        description: The delegate's email address
+                        example: jordan.smith@company.com
+                  delegate_expiry:
+                    type: string
+                    example: '2025-12-31'
+                    description: The expiry date for the delegate in YYYY-MM-DD format, or 'null' if not set
+                  all_companies:
+                    type: boolean
+                    example: true
+                    description: If 'true', the cost center applies to all companies in the account
+                  companies:
+                    type: array
+                    description: The list of companies assigned to this cost center
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the company
+                          example: 1
+                        name:
+                          type: string
+                          description: The name of the company
+                          example: Company A
+                  users:
+                    type: array
+                    description: The users assigned to this cost center
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the user
+                          example: 42
+                        first_name:
+                          type: string
+                          description: The user's first name
+                          example: Alex
+                        last_name:
+                          type: string
+                          description: The user's last name
+                          example: Chen
+                        email:
+                          type: string
+                          description: The user's email address
+                          example: alex.chen@company.com
+                        phone:
+                          type: string
+                          description: The user's phone number, or 'null' if not set
+                        profile_picture:
+                          type: string
+                          description: The URL of the user's profile picture, or 'null' if not set
+                  count_users:
+                    type: integer
+                    description: The number of users assigned to this cost center
+                    example: 1
+                  erp_code:
+                    type: string
+                    description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                    example: CC-4210
+                  owner_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: IDs of additional travel approvers
+                    example:
+                    - 789
+                    - 790
+                  owners:
+                    type: array
+                    description: Additional travel approver user details (id, first_name, last_name, email)
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the additional approver
+                          example: 789
+                        first_name:
+                          type: string
+                          description: The additional approver's first name
+                          example: Sam
+                        last_name:
+                          type: string
+                          description: The additional approver's last name
+                          example: Patel
+                        email:
+                          type: string
+                          description: The additional approver's email address
+                          example: sam.patel@company.com
+              example:
+                id: '1'
+                name: Marketing
+                type: Department
+                archived: false
+                approver_id: 123
+                approver:
+                  id: 123
+                  first_name: Alex
+                  last_name: Chen
+                  email: alex.chen@company.com
+                delegate_id: 456
+                delegate:
+                  id: 456
+                  first_name: Jordan
+                  last_name: Smith
+                  email: jordan.smith@company.com
+                delegate_expiry: '2025-12-31'
+                all_companies: false
+                companies:
+                - id: 11454
+                  name: Company A
+                - id: 22187
+                  name: Company B
+                users:
+                - id: 42
+                  first_name: Alex
+                  last_name: Chen
+                  email: alex.chen@company.com
+                  phone: null
+                  profile_picture: null
+                count_users: 1
+                owner_ids:
+                - 789
+                - 790
+                owners:
+                - id: 789
+                  first_name: Sam
+                  last_name: Patel
+                  email: sam.patel@company.com
+                - id: 790
+                  first_name: Taylor
+                  last_name: Brooks
+                  email: taylor.brooks@company.com
+    patch:
+      summary: Update cost center
+      description: Updates a cost center. You can update the name, archive status, approver, delegate, delegate expiry, additional approvers (owner_ids), and cost object type (`type`) when that feature is enabled for your organization. Passing null for 'approver_id', 'delegate_id', 'delegate_expiry', 'owner_ids', or 'type' does not clear those fields; they remain unchanged. For `owner_ids`, pass an empty array to clear.
+      operationId: update-cost-center
+      tags:
+      - Cost centers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The unique ID of the cost center
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The new name for the cost center
+                  example: Finance
+                type:
+                  type: string
+                  nullable: true
+                  maxLength: 256
+                  description: Cost object type name to assign. Available only when cost object types are enabled for your organization on request. Non-empty string (max 256 characters). If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Omit or null leaves the type unchanged (does not clear). If cost object types are not enabled, `type` is not a recognized field (a type-only body returns 400). Cannot be set on Yokoy-sourced cost centers (returns 400).
+                  example: Department
+                archive:
+                  type: boolean
+                  description: Set to 'true' to archive the cost center, or 'false' to unarchive it
+                  example: false
+                approver_id:
+                  type: integer
+                  description: The ID of the user to set as approver. The user must belong to one of the cost center's companies. Passing 'null' does not clear the field
+                  example: 123
+                delegate_id:
+                  type: integer
+                  description: The ID of the user to set as delegate. The delegate must belong to one of the cost center's companies. Passing 'null' does not clear the field
+                  example: 456
+                delegate_expiry:
+                  type: string
+                  description: The expiry date for the delegate in YYYY-MM-DD format. Passing 'null' does not clear the field
+                  example: '2025-12-31'
+                erp_code:
+                  type: string
+                  description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                  example: CC-4210
+                company_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of companies this cost center is scoped to. Must be provided together with 'all_companies'. At least one company required when 'all_companies' is false. Ignored when 'all_companies' is true (company scope is set to all companies in the account). Omit both fields to leave unchanged.
+                  example:
+                  - 11454
+                  - 22187
+                all_companies:
+                  type: boolean
+                  description: Whether the cost center applies to all companies in the account. Must be provided together with 'company_ids'. When true, 'company_ids' is ignored and the cost center is scoped to all companies in the account. Omit both fields to leave unchanged.
+                  example: false
+                owner_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of additional travel approvers. Omit or pass null to leave unchanged; pass an empty array to clear; pass a non-empty list to replace. Users must belong to an allowed company for the cost center and must not duplicate approver_id
+                  example:
+                  - 789
+                  - 790
+            example:
+              name: Finance
+              type: Department
+              approver_id: 123
+              delegate_id: 456
+              delegate_expiry: '2025-12-31'
+              owner_ids:
+              - 789
+              - 790
+      responses:
+        '200':
+          description: Returns '200 OK' and the updated cost center resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the cost center
+                    example: '1'
+                  name:
+                    type: string
+                    description: The name of the cost center
+                    example: Finance
+                  type:
+                    type: string
+                    nullable: true
+                    description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                    example: Department
+                  archived:
+                    type: boolean
+                    description: Indicates whether the cost center is archived
+                    example: false
+                  approver_id:
+                    type: integer
+                    description: The ID of the approver user, or 'null' if not set
+                    example: 123
+                  approver:
+                    type: object
+                    description: Approver user details, or 'null' if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the approver
+                        example: 123
+                      first_name:
+                        type: string
+                        description: The approver's first name
+                        example: Alex
+                      last_name:
+                        type: string
+                        description: The approver's last name
+                        example: Chen
+                      email:
+                        type: string
+                        description: The approver's email address
+                        example: alex.chen@company.com
+                  delegate_id:
+                    type: integer
+                    description: The ID of the delegate user, or 'null' if not set
+                    example: 456
+                  delegate:
+                    type: object
+                    description: Delegate user details, or 'null' if not set
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the delegate
+                        example: 456
+                      first_name:
+                        type: string
+                        description: The delegate's first name
+                        example: Jordan
+                      last_name:
+                        type: string
+                        description: The delegate's last name
+                        example: Smith
+                      email:
+                        type: string
+                        description: The delegate's email address
+                        example: jordan.smith@company.com
+                  delegate_expiry:
+                    type: string
+                    description: The expiry date for the delegate in YYYY-MM-DD format, or 'null' if not set
+                    example: '2025-12-31'
+                  users:
+                    type: array
+                    description: The users assigned to this cost center
+                    items:
+                      type: object
+                  count_users:
+                    type: integer
+                    description: The number of users assigned to this cost center
+                    example: 1
+                  erp_code:
+                    type: string
+                    description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                    example: CC-4210
+                  all_companies:
+                    type: boolean
+                    description: If 'true', the cost center applies to all companies in the account.
+                    example: false
+                  companies:
+                    type: array
+                    description: The IDs of companies assigned to this cost center
+                    items:
+                      type: integer
+                    example:
+                    - 1
+                    - 2
+                  owner_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: IDs of additional travel approvers
+                    example:
+                    - 789
+                    - 790
+                  owners:
+                    type: array
+                    description: Additional travel approver user details (id, first_name, last_name, email)
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the additional approver
+                          example: 789
+                        first_name:
+                          type: string
+                          description: The additional approver's first name
+                          example: Sam
+                        last_name:
+                          type: string
+                          description: The additional approver's last name
+                          example: Patel
+                        email:
+                          type: string
+                          description: The additional approver's email address
+                          example: sam.patel@company.com
+              example:
+                id: '1'
+                name: Finance
+                type: Department
+                archived: false
+                approver_id: 123
+                approver:
+                  id: 123
+                  first_name: Alex
+                  last_name: Chen
+                  email: alex.chen@company.com
+                delegate_id: 456
+                delegate:
+                  id: 456
+                  first_name: Jordan
+                  last_name: Smith
+                  email: jordan.smith@company.com
+                delegate_expiry: '2025-12-31'
+                all_companies: false
+                companies:
+                - 11454
+                - 22187
+                users: []
+                count_users: 1
+                owner_ids:
+                - 789
+                - 790
+                owners:
+                - id: 789
+                  first_name: Sam
+                  last_name: Patel
+                  email: sam.patel@company.com
+                - id: 790
+                  first_name: Taylor
+                  last_name: Brooks
+                  email: taylor.brooks@company.com
+        '400':
+          description: Returns '400 Bad Request' when the request body is invalid (for example blank/overlong `type`, setting `type` on a Yokoy-sourced cost center, or a type-only body when cost object types are not enabled).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: The error type identifier
+                        example: bad_request
+                      errors:
+                        type: array
+                        description: The list of validation errors
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              description: A description of the validation failure
+                              example: User with id '999' not found in this account
+              example:
+                error:
+                  type: bad_request
+                  errors:
+                  - reason: User with id '999' not found in this account
+  /cost_centers/{id}/access:
+    put:
+      description: Updates the access configuration (access_type, user_ids, group_ids) for the cost center.
+      operationId: set-cost-center-access
+      parameters:
+      - description: The unique ID of the cost center
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Your Perk API key
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            example:
+              access_type: specificUsersOrUserGroups
+              group_ids:
+              - 11111111-1111-4111-8111-111111111111
+              user_ids:
+              - 123
+              - 456
+            schema:
+              properties:
+                access_type:
+                  description: The access type for the cost center. 'all' grants access to all users; 'specificUsers' restricts access to the listed 'user_ids'; 'specificUsersOrUserGroups' restricts access to the listed 'user_ids' and/or 'group_ids'.
+                  enum:
+                  - all
+                  - specificUsers
+                  - specificUsersOrUserGroups
+                  example: specificUsersOrUserGroups
+                  type: string
+                group_ids:
+                  description: The IDs of the user groups granted access to the cost center. Each group must exist within the account and be active. Must be empty when 'all' or 'specificUsers' 'access_type' is used. At least one of 'user_ids' or 'group_ids' is required when 'specificUsersOrUserGroups' is used.
+                  example:
+                  - 11111111-1111-1111-1111-111111111111
+                  items:
+                    type: string
+                  type: array
+                user_ids:
+                  description: The IDs of the users granted access to the cost center. Must be positive integers. Must be empty when 'access_type' is 'all'. Required when 'access_type' is 'specificUsers' is used. At least one of 'user_ids' or 'group_ids' is required when 'specificUsersOrUserGroups' is used.
+                  example:
+                  - 123
+                  - 456
+                  items:
+                    type: integer
+                  type: array
+              required:
+              - access_type
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                access_type: specificUsersOrUserGroups
+                approver: null
+                approver_id: null
+                archived: false
+                count_groups: 1
+                count_users: 1
+                delegate: null
+                delegate_expiry: null
+                delegate_id: null
+                groups:
+                - id: 11111111-1111-1111-1111-111111111111
+                  name: Sales Team
+                id: '1'
+                name: Marketing
+                type: Department
+                users:
+                - email: alex.chen@company.com
+                  first_name: Alex
+                  id: 123
+                  last_name: Chen
+                  phone: null
+                  profile_picture: null
+                owner_ids:
+                - 789
+                - 790
+                owners:
+                - id: 789
+                  first_name: Sam
+                  last_name: Patel
+                  email: sam.patel@company.com
+                - id: 790
+                  first_name: Taylor
+                  last_name: Brooks
+                  email: taylor.brooks@company.com
+              schema:
+                properties:
+                  access_type:
+                    description: The current access type for the cost center
+                    enum:
+                    - all
+                    - specificUsers
+                    - specificUsersOrUserGroups
+                    example: specificUsersOrUserGroups
+                    type: string
+                  approver:
+                    description: Approver user details, or 'null' if not set
+                    type: object
+                  approver_id:
+                    description: The ID of the approver user, or 'null' if not set
+                    example: null
+                    type: integer
+                  archived:
+                    description: Indicates whether the cost center is archived
+                    example: false
+                    type: boolean
+                  count_groups:
+                    description: The number of user groups granted access to this cost center
+                    example: 1
+                    type: integer
+                  count_users:
+                    description: The number of users assigned to this cost center
+                    example: 1
+                    type: integer
+                  delegate:
+                    description: Delegate user details, or 'null' if not set
+                    type: object
+                  delegate_expiry:
+                    description: The expiry date for the delegate in YYYY-MM-DD format, or 'null' if not set
+                    example: null
+                    type: string
+                  delegate_id:
+                    description: The ID of the delegate user, or 'null' if not set
+                    example: null
+                    type: integer
+                  erp_code:
+                    description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                    example: CC-4210
+                    type: string
+                  groups:
+                    description: The user groups granted access to this cost center
+                    items:
+                      properties:
+                        id:
+                          description: The unique ID of the user group
+                          example: 11111111-1111-1111-1111-111111111111
+                          type: string
+                        name:
+                          description: The name of the user group
+                          example: Sales Team
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: The unique ID of the cost center
+                    example: '1'
+                    type: string
+                  name:
+                    description: The name of the cost center
+                    example: Marketing
+                    type: string
+                  type:
+                    type: string
+                    nullable: true
+                    description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                    example: Department
+                  users:
+                    description: The users assigned to this cost center
+                    items:
+                      properties:
+                        email:
+                          description: The user's email address
+                          example: alex.chen@company.com
+                          type: string
+                        first_name:
+                          description: The user's first name
+                          example: Alex
+                          type: string
+                        id:
+                          description: The unique ID of the user
+                          example: 123
+                          type: integer
+                        last_name:
+                          description: The user's last name
+                          example: Chen
+                          type: string
+                        phone:
+                          description: The user's phone number, or 'null' if not set
+                          type: string
+                        profile_picture:
+                          description: The URL of the user's profile picture, or 'null' if not set
+                          type: string
+                      type: object
+                    type: array
+                  owner_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: IDs of additional travel approvers
+                    example:
+                    - 789
+                    - 790
+                  owners:
+                    type: array
+                    description: Additional travel approver user details (id, first_name, last_name, email)
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the additional approver
+                          example: 789
+                        first_name:
+                          type: string
+                          description: The additional approver's first name
+                          example: Sam
+                        last_name:
+                          type: string
+                          description: The additional approver's last name
+                          example: Patel
+                        email:
+                          type: string
+                          description: The additional approver's email address
+                          example: sam.patel@company.com
+                type: object
+          description: Returns '200 OK' and the updated cost center resource with the new access configuration.
+        '400':
+          content:
+            application/json:
+              example:
+                error:
+                  errors:
+                  - reason: Field 'group_ids' must be empty when access_type is 'specificUsers'
+                  type: bad_request
+          description: Returns '400 Bad Request' when the request body is invalid.
+      summary: Set access configuration for a cost center
+      tags:
+      - Cost centers
+  /cost_centers/{id}/users:
+    put:
+      summary: Set users to a cost center
+      description: Replaces all users assigned to the cost center with the provided list. Any users not in the list are removed from the cost center
+      operationId: set-cost-center-users
+      tags:
+      - Cost centers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The unique ID of the cost center
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: Your Perk API key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_ids:
+                  type: array
+                  description: The IDs of the users to assign to the cost center
+                  items:
+                    type: integer
+                  example:
+                  - 42
+                  - 43
+                  - 44
+            example:
+              user_ids:
+              - 42
+              - 43
+              - 44
+      responses:
+        '200':
+          description: Returns '200 OK' and the updated cost center resource with the new user list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the cost center
+                    example: '1'
+                  name:
+                    type: string
+                    description: The name of the cost center
+                    example: Marketing
+                  type:
+                    type: string
+                    nullable: true
+                    description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
+                    example: Department
+                  archived:
+                    type: boolean
+                    description: Indicates whether the cost center is archived
+                    example: false
+                  approver_id:
+                    type: integer
+                    description: The ID of the approver user, or 'null' if not set
+                    example: null
+                  approver:
+                    type: object
+                    description: Approver user details, or 'null' if not set
+                  delegate_id:
+                    type: integer
+                    description: The ID of the delegate user, or 'null' if not set
+                    example: null
+                  delegate:
+                    type: object
+                    description: Delegate user details, or 'null' if not set
+                  delegate_expiry:
+                    type: string
+                    description: The expiry date for the delegate in YYYY-MM-DD format, or 'null' if not set
+                    example: null
+                  all_companies:
+                    type: boolean
+                    description: If 'true', the cost center applies to all companies in the account
+                    example: true
+                  companies:
+                    type: array
+                    description: The IDs of companies assigned to this cost center
+                    items:
+                      type: integer
+                    example:
+                    - 1
+                    - 2
+                  users:
+                    type: array
+                    description: The users assigned to this cost center
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the user
+                          example: 42
+                        first_name:
+                          type: string
+                          description: The user's first name
+                          example: Alex
+                        last_name:
+                          type: string
+                          description: The user's last name
+                          example: Chen
+                        email:
+                          type: string
+                          description: The user's email address
+                          example: alex.chen@company.com
+                        phone:
+                          type: string
+                          description: The user's phone number, or 'null' if not set
+                        profile_picture:
+                          type: string
+                          description: The URL of the user's profile picture, or 'null' if not set
+                  count_users:
+                    type: integer
+                    description: The number of users assigned to this cost center
+                    example: 3
+                  erp_code:
+                    type: string
+                    description: Identifier used to associate this cost center with a corresponding record in an external ERP system
+                    example: CC-4210
+                  owner_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: IDs of additional travel approvers
+                    example:
+                    - 789
+                    - 790
+                  owners:
+                    type: array
+                    description: Additional travel approver user details (id, first_name, last_name, email)
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique ID of the additional approver
+                          example: 789
+                        first_name:
+                          type: string
+                          description: The additional approver's first name
+                          example: Sam
+                        last_name:
+                          type: string
+                          description: The additional approver's last name
+                          example: Patel
+                        email:
+                          type: string
+                          description: The additional approver's email address
+                          example: sam.patel@company.com
+              example:
+                id: '1'
+                name: Marketing
+                type: Department
+                archived: false
+                approver_id: null
+                approver: null
+                delegate_id: null
+                delegate: null
+                delegate_expiry: null
+                all_companies: true
+                companies: []
+                users:
+                - id: 42
+                  first_name: Alex
+                  last_name: Chen
+                  email: alex.chen@company.com
+                  phone: null
+                  profile_picture: null
+                count_users: 1
+                owner_ids:
+                - 789
+                - 790
+                owners:
+                - id: 789
+                  first_name: Sam
+                  last_name: Patel
+                  email: sam.patel@company.com
+                - id: 790
+                  first_name: Taylor
+                  last_name: Brooks
+                  email: taylor.brooks@company.com
+        '400':
+          description: Returns '400 Bad Request' when one or more user IDs are invalid.
+          content:
+            application/json:
+              example:
+                error:
+                  type: bad_request
+                  errors:
+                  - reason: Users not found
+tags:
+- name: Cost centers
+  description: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see [Cost objects in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/bulk-update-cost-centers.md
+  - https://developers.perk.com/reference/create-cost-center.md
+  - https://developers.perk.com/reference/get-cost-center.md
+  - https://developers.perk.com/reference/list-cost-centers.md
+  - https://developers.perk.com/reference/set-cost-center-access.md
+  - https://developers.perk.com/reference/set-cost-center-users.md
+  - https://developers.perk.com/reference/update-cost-center.md
+  merge:
+    pages: 7
+    deduped: 0
+    conflicts_kept_first: 0

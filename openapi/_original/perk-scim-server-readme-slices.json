@@ -1,0 +1,3461 @@
+[
+ {
+  "page": "https://developers.perk.com/reference/get-user-schema.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Schemas/urn:ietf:params:scim:schemas:core:2.0:User": {
+     "get": {
+      "summary": "Get the user schema",
+      "description": "Lists all attributes of the user schema.",
+      "operationId": "get-user-schema",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the user schema definition.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": {
+             "id": "urn:ietf:params:scim:schemas:core:2.0:User",
+             "name": "User",
+             "description": "User Account Schema",
+             "attributes": [
+              {
+               "name": "name",
+               "type": "complex",
+               "multiValued": false,
+               "description": "The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.",
+               "required": true,
+               "subAttributes": [
+                {
+                 "name": "familyName",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').",
+                 "required": true,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "givenName",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The given name of the User, or first name in most Western languages (e.g., 'Barbara' given the full name 'Ms. Barbara J Jensen, III').",
+                 "required": true,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "middleName",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The middle name(s) of the User (e.g., 'Jane' given the full name 'Ms. Barbara J Jensen, III').",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "honorificPrefix",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The honorific prefix(es) of the User, or title in most Western languages (e.g., 'Ms.' given the full name 'Ms. Barbara J Jensen, III').",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "externalId",
+               "type": "string",
+               "multiValued": false,
+               "description": "Unique identifier of the user in the client system.",
+               "required": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "server"
+              },
+              {
+               "name": "title",
+               "type": "string",
+               "multiValued": false,
+               "description": "The user's title, such as \"Vice President.\"",
+               "required": false,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "preferredLanguage",
+               "type": "string",
+               "multiValued": false,
+               "description": "Indicates the User's preferred written or spoken language. Generally used for selecting a localized user interface; e.g., 'en_US' specifies the language English and country US.",
+               "required": false,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none",
+               "canonicalValues": [
+                "en",
+                "es",
+                "fr",
+                "de"
+               ]
+              },
+              {
+               "name": "locale",
+               "type": "string",
+               "multiValued": false,
+               "description": "A valid language tag as defined in RFC 5646. Used to deduce the currency, date time format, and language on user creation in case that those values are not otherwise specified (e.g. language by preferredLanguage).",
+               "required": false,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "active",
+               "type": "boolean",
+               "multiValued": false,
+               "description": "A Boolean value indicating the User's administrative status.",
+               "required": true,
+               "mutability": "readWrite",
+               "returned": "default"
+              },
+              {
+               "name": "phoneNumbers",
+               "type": "complex",
+               "multiValued": true,
+               "description": "Phone numbers for the User. The value SHOULD be canonicalized by the service provider according to the format specified in RFC 3966, e.g., 'tel:+1-201-555-0123'. Canonical type values of 'work', 'home', 'mobile', 'fax', 'pager', and 'other'.",
+               "required": false,
+               "subAttributes": [
+                {
+                 "name": "value",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Phone number of the User.",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "type",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "A label indicating the attribute's function, e.g., 'work', 'home', 'mobile'.",
+                 "required": false,
+                 "caseExact": false,
+                 "canonicalValues": [
+                  "work",
+                  "home",
+                  "mobile",
+                  "fax",
+                  "pager",
+                  "other"
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "mutability": "readWrite",
+               "returned": "default"
+              },
+              {
+               "name": "emails",
+               "type": "complex",
+               "multiValued": true,
+               "description": "Email addresses for the User.",
+               "required": false,
+               "subAttributes": [
+                {
+                 "name": "value",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Email address of the User.",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "type",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "A label indicating the attribute's function, e.g., 'work', 'home', 'other'.",
+                 "required": false,
+                 "caseExact": false,
+                 "canonicalValues": [
+                  "work",
+                  "home",
+                  "other"
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "primary",
+                 "type": "boolean",
+                 "multiValued": false,
+                 "description": "A Boolean value indicating, when true, that this email address is the primary address.",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                }
+               ],
+               "mutability": "readWrite",
+               "returned": "default"
+              },
+              {
+               "name": "id",
+               "type": "string",
+               "multiValued": false,
+               "description": "Identification number in Perk",
+               "required": false,
+               "mutability": "readOnly",
+               "returned": "default"
+              },
+              {
+               "name": "groups",
+               "type": "list",
+               "multiValued": true,
+               "description": "Groups - Currently not supported by Perk",
+               "required": false,
+               "mutability": "readOnly",
+               "returned": "default"
+              },
+              {
+               "name": "meta",
+               "type": "complex",
+               "multiValued": false,
+               "description": "Server-generated metadata",
+               "required": false,
+               "mutability": "readOnly",
+               "subAttributes": [
+                {
+                 "name": "resourceType",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The name of the resource type of the resource",
+                 "required": false,
+                 "mutability": "readOnly",
+                 "returned": "default",
+                 "caseExact": true
+                },
+                {
+                 "name": "created",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The DateTime that the resource was added to the service provider.",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                },
+                {
+                 "name": "lastModified",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The most recent DateTime that the details of this resource were updated at the service provider",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                },
+                {
+                 "name": "location",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The URI of the resource being returned.",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                },
+                {
+                 "name": "version",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": " The version of the resource being returned.",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                }
+               ],
+               "returned": "default"
+              },
+              {
+               "name": "userName",
+               "type": "string",
+               "multiValued": false,
+               "description": "Unique identifier for the User, typically used by the user to directly authenticate to the service provider. The userName value MUST be a non-empty and valid email address of the user, and MUST be unique across the service provider's entire set of Users.",
+               "required": true,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "server"
+              }
+             ],
+             "meta": {
+              "resourceType": "Schema",
+              "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User"
+             },
+             "schemaExtensions": [
+              {
+               "schema": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+               "required": false
+              },
+              {
+               "schema": "urn:ietf:params:scim:schemas:extension:travelperk:2.0:User",
+               "required": false
+              },
+              {
+               "schema": "urn:ietf:params:scim:schemas:extension:expense:2.0:User",
+               "required": false
+              }
+             ]
+            }
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:schemas:core:2.0:User"
+            },
+            "name": {
+             "type": "string",
+             "example": "User"
+            },
+            "description": {
+             "type": "string",
+             "example": "User Account Schema"
+            },
+            "attributes": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "name": {
+                "type": "string",
+                "example": "name"
+               },
+               "type": {
+                "type": "string",
+                "example": "complex"
+               },
+               "multiValued": {
+                "type": "boolean",
+                "example": false,
+                "default": true
+               },
+               "description": {
+                "type": "string",
+                "example": "The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined."
+               },
+               "required": {
+                "type": "boolean",
+                "example": true,
+                "default": true
+               },
+               "subAttributes": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "name": {
+                   "type": "string",
+                   "example": "familyName"
+                  },
+                  "type": {
+                   "type": "string",
+                   "example": "string"
+                  },
+                  "multiValued": {
+                   "type": "boolean",
+                   "example": false,
+                   "default": true
+                  },
+                  "description": {
+                   "type": "string",
+                   "example": "The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III')."
+                  },
+                  "required": {
+                   "type": "boolean",
+                   "example": true,
+                   "default": true
+                  },
+                  "caseExact": {
+                   "type": "boolean",
+                   "example": false,
+                   "default": true
+                  },
+                  "mutability": {
+                   "type": "string",
+                   "example": "readWrite"
+                  },
+                  "returned": {
+                   "type": "string",
+                   "example": "default"
+                  },
+                  "uniqueness": {
+                   "type": "string",
+                   "example": "none"
+                  }
+                 }
+                }
+               },
+               "mutability": {
+                "type": "string",
+                "example": "readWrite"
+               },
+               "returned": {
+                "type": "string",
+                "example": "default"
+               },
+               "uniqueness": {
+                "type": "string",
+                "example": "none"
+               }
+              }
+             }
+            },
+            "meta": {
+             "type": "object",
+             "properties": {
+              "resourceType": {
+               "type": "string",
+               "example": "Schema"
+              },
+              "location": {
+               "type": "string",
+               "example": "https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User"
+              }
+             }
+            },
+            "schemaExtensions": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "schema": {
+                "type": "string",
+                "example": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+               },
+               "required": {
+                "type": "boolean",
+                "example": false,
+                "default": true
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/get-the-perkcustomfields-user-schema.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User": {
+     "get": {
+      "responses": {
+       "200": {
+        "description": "",
+        "content": {
+         "application/json": {
+          "examples": {
+           "OK": {
+            "summary": "OK",
+            "value": {
+             "id": "urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User",
+             "name": "Perk Custom Fields",
+             "description": "Custom fields provisionable via SCIM",
+             "attributes": [
+              {
+               "name": "cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7",
+               "type": "string",
+               "multiValued": false,
+               "description": "Brand (TEAM_MEMBER · text)",
+               "required": false,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "cf_market_fc93b012-a592-4580-b551-39d78294d35f",
+               "type": "string",
+               "multiValued": false,
+               "description": "Market (TEAM_MEMBER · text)",
+               "required": false,
+               "caseExact": false,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              }
+             ],
+             "meta": {
+              "resourceType": "Schema",
+              "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User"
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "object",
+           "properties": {}
+          },
+          "examples": {
+           "Bad Request": {
+            "summary": "Bad Request",
+            "value": "{}"
+           }
+          }
+         }
+        },
+        "description": "Bad Request"
+       }
+      },
+      "parameters": [],
+      "summary": "Get the perkCustomFields user schema",
+      "operationId": "get_schemas-urn-ietf-params-scim-schemas-extension-perkcustomfields-2-0-user",
+      "description": "Lists all attributes of the perkCustomFields user schema.",
+      "x-readme": {
+       "code-samples": [
+        {
+         "code": "curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User \\\n  --header 'Authorization: apikey <YOUR API KEY>'",
+         "language": "shell",
+         "name": "cURL"
+        }
+       ],
+       "samples-languages": [
+        "shell"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/create-a-new-user.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users": {
+     "post": {
+      "summary": "Create a new user",
+      "description": "Creates a new user in Perk.",
+      "operationId": "create-a-new-user",
+      "responses": {
+       "201": {
+        "description": "Returns `201 Created` and the newly created user resource.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n            \"value\": \"1234\",\n            \"$ref\": \"http://app.perk.com/api/v2/scim/Users/1234\",\n            \"displayName\": \"John Johnson\"\n        },\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"gender\": \"M\",\n  \t\"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }\n}"
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --request POST \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>'\\\n  -d '\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n\t\t\"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlaen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 6412345\",\n      \"type\": \"work\"\n    }\n  ],\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n        \"value\":{\n            \"value\": \"1234\"\n        }\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"lineManagerEmail\": \"john.manager@mycompany.com\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n\t\t\"uniqueId\": \"A unique ID,\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  },\n\t\"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}\n'",
+         "name": "cURL"
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/update-a-user.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users/{id}": {
+     "patch": {
+      "summary": "Update a user",
+      "description": "Updates attributes for an existing user in Perk, overwriting values for specified attributes. Attributes that are not provided in the request remain unchanged.",
+      "operationId": "update-a-user",
+      "parameters": [
+       {
+        "name": "id",
+        "in": "path",
+        "description": "Unique user identifier. The value is generated by Perk and returned during user creation.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        },
+        "required": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the updated user resource.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Engineer\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlaen.col@mycompany.com\",\n  \"phoneNumbers\": [],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Cost Center\",\n    \"manager\": {\n            \"value\": \"456\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/456\",\n            \"displayName\": \"John Manager\"\n        },\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Travel Policy\",\n    \"invoiceProfiles\": [\n        {\n          \"value\": \"Invoice Profile\"\n        }\n      ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"uniqueId\": \"A unique ID\",\n    \"company\": \"MyCompany US, LTD.\",\n    \"approvers\": [],\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }\n}"
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "Returns `400 Bad request` and a SCIM error describing the invalid attribute.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "ReadOnly Field": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"SCIM data 'id' cannot be updated\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+           },
+           "Result": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n\t\"detail\": \"Attribute 'name' is mandatory, can not be None.\",\n\t\"status\": 400,\n  \"scimType\": \"invalidValue\"\n}            \n"
+           }
+          },
+          "schema": {
+           "oneOf": [
+            {
+             "title": "ReadOnly field",
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "SCIM data 'id' cannot be updated"
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            },
+            {
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "Value {value} is not valid for attribute 'gender'"
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            },
+            {
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "Attribute 'name' is mandatory, cannot be None."
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            }
+           ]
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "Returns `404 Not found` and a SCIM error when no user matches the ID.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+            },
+            "detail": {
+             "type": "string",
+             "example": "User '1234' not found",
+             "description": "Human-readable description of the error."
+            },
+            "status": {
+             "type": "integer",
+             "example": 404,
+             "default": 0,
+             "description": "HTTP error status code (4xx range)."
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager\",\n  \"value\": {\n  \t\"value\": \"456\"\n    }\n}\n]}\n'",
+         "name": "Add a manager"
+        },
+        {
+         "language": "curl",
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"replace\",\n  \"path\": \"active\",\n  \"value\": false\n}]}\n'",
+         "name": "Deactivate a user"
+        },
+        {
+         "language": "curl",
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"remove\",\n  \"path\": \"phoneNumbers\",\n}]}\n'",
+         "name": "Delete a phoneNumber"
+        },
+        {
+         "language": "curl",
+         "code": "  curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:emergencyContact\",\n  \"value\": {\n    \"name\": \"Jane Goodie\",\n    \"phone\": \"+34 9874637\"\n  }\n}]}",
+         "name": "Update a complex attribute"
+        },
+        {
+         "language": "curl",
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"add\",\n  \"path\": \"title\",\n  \"value\": \"Engineer\"\n}\n]}\n'",
+         "name": "Add a title"
+        },
+        {
+         "language": "curl",
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:lineManagerEmail\",\n  \"value\": \"new_manager@mycompany.com\"\n}\n]}\n'",
+         "name": "Add manager using lineManagerEmail"
+        },
+        {
+         "code": "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json' \\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n  \"Operations\": [{\n    \"op\": \"replace\",\n    \"path\": \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User:cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\",\n    \"value\": \"100\"\n  }]\n}'",
+         "language": "shell",
+         "name": "Update custom field"
+        }
+       ],
+       "samples-languages": [
+        "curl",
+        "shell"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/replace-a-user.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users/{id}": {
+     "put": {
+      "summary": "Replace a user",
+      "description": "Replaces all of a user's attributes.",
+      "operationId": "replace-a-user",
+      "parameters": [
+       {
+        "name": "id",
+        "in": "path",
+        "description": "Unique user identifier. The value is generated by Perk and returned during user creation.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        },
+        "required": true
+       }
+      ],
+      "responses": {
+       "201": {
+        "description": "Returns `201 Created` and the user resource.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "\": [\n        {\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n      \"value\": \"1234\",\n      \"$ref\": \"https://app.perk.com/api/v2/scim/Users/1234\",\n      \"displayName\": \"John Johnson\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"type\": \"work\"\n      }\n    ],\n    \"meta\": {\n      \"resourceType\": \"User\",\n      \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n      \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n      \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n    },\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n      \"costCenter\": \"Marketing\",\n      \"manager\": {\n        \"value\": \"1234\",\n        \"$ref\": \"https://app.perk.com/api/v2/scim/Users/1234\",\n        \"displayName\": \"John Johnson\"\n      }\n    }\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\neManagerEmail\": \"john.johnson@mycompany.com\"\n    }\n  }\n\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"issuingCountry\": \"ES\",\n        \"issuingDate\": \"1999-12-05\",\n        \"expirationDate\": \"2042-09-08\",\n        \"citizenship\": \"ES\"\n      }\n    ],\n    \"lineManagerEmail\": \"john.johnson@mycompany.com\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}"
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "Returns `400 Bad request` and a SCIM error describing the invalid attribute.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Invalid Value": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"Value {value} is not valid for attribute 'gender'\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+           },
+           "Mandatory field": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n\t\"detail\": \"Attribute 'name' is mandatory, can not be None.\",\n\t\"status\": 400,\n  \"scimType\": \"invalidValue\"\n}            \n"
+           },
+           "ReadOnly Field": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"SCIM data 'id' cannot be updated\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+           }
+          },
+          "schema": {
+           "oneOf": [
+            {
+             "title": "Invalid value",
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "Value {value} is not valid for attribute 'gender'"
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            },
+            {
+             "title": "Mandatory field",
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "Attribute 'name' is mandatory, cannot be None."
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            },
+            {
+             "title": "Read-only field",
+             "type": "object",
+             "properties": {
+              "schemas": {
+               "type": "string",
+               "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+              },
+              "detail": {
+               "type": "string",
+               "example": "SCIM data 'id' cannot be updated"
+              },
+              "status": {
+               "type": "integer",
+               "example": 400,
+               "default": 0
+              },
+              "scimType": {
+               "type": "string",
+               "example": "invalidValue"
+              }
+             }
+            }
+           ]
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "Returns `404 Not found` and a SCIM error when no user matches the ID.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+            },
+            "detail": {
+             "type": "string",
+             "example": "User '1234' not found",
+             "description": "Human-readable description of the error."
+            },
+            "status": {
+             "type": "integer",
+             "example": 404,
+             "default": 0,
+             "description": "HTTP error status code (4xx range)."
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --request PUT \\\n  --url \"https://app.perk.com/api/v2/scim/Users/1234\" \\\n  --header 'content-type: application/json' \\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n      \"value\": \"1234\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"lineManagerEmail\": \"john.johnson@mycompany.com\",\n    \"uniqueId\": \"A Unique ID\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"issuingCountry\": \"ES\",\n        \"issuingDate\": \"1999-12-05\",\n        \"expirationDate\": \"2042-09-08\",\n        \"citizenship\": \"ES\"\n      }\n    ]\n  },\n  \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}'",
+         "name": "cURL"
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/retrieve-an-enterprise-user.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
+     "get": {
+      "summary": "Get the enterprise user schema",
+      "description": "Lists all attributes of the enterprise user schema.",
+      "operationId": "retrieve-an-enterprise-user",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the enterprise user schema definition.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": {
+             "id": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+             "name": "Enterprise User",
+             "description": "Enterprise User Schema",
+             "attributes": [
+              {
+               "name": "costCenter",
+               "type": "string",
+               "multiValued": false,
+               "description": "Identifies the name of a cost center. The cost center should exist in Perk.",
+               "required": false,
+               "caseExact": true,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "employeeNumber",
+               "type": "string",
+               "multiValued": false,
+               "description": "The HR-assigned employee number for the user.",
+               "required": false,
+               "caseExact": true,
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              },
+              {
+               "name": "manager",
+               "type": "complex",
+               "multiValued": false,
+               "description": "An object that represents the user's manager. Used to create approval processes in Perk, setting the manager as approver for the user.",
+               "required": false,
+               "subAttributes": [
+                {
+                 "name": "value",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The manager's Perk ID.",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "displayName",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Human readable name of the manager.",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readOnly",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "$ref",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The URI that refers to the manager within Perk.",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "mutability": "readWrite",
+               "returned": "default",
+               "uniqueness": "none"
+              }
+             ],
+             "meta": {
+              "resourceType": "Schema",
+              "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+             }
+            }
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+            },
+            "name": {
+             "type": "string",
+             "example": "Enterprise User"
+            },
+            "description": {
+             "type": "string",
+             "example": "Enterprise User Schema"
+            },
+            "attributes": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "name": {
+                "type": "string",
+                "example": "costCenter"
+               },
+               "type": {
+                "type": "string",
+                "example": "string"
+               },
+               "multiValued": {
+                "type": "boolean",
+                "example": false,
+                "default": true
+               },
+               "description": {
+                "type": "string",
+                "example": "Identifies the name of a cost center. The cost center should exist in Perk."
+               },
+               "required": {
+                "type": "boolean",
+                "example": false,
+                "default": true
+               },
+               "caseExact": {
+                "type": "boolean",
+                "example": true,
+                "default": true
+               },
+               "mutability": {
+                "type": "string",
+                "example": "readWrite"
+               },
+               "returned": {
+                "type": "string",
+                "example": "default"
+               },
+               "uniqueness": {
+                "type": "string",
+                "example": "none"
+               }
+              }
+             }
+            },
+            "meta": {
+             "type": "object",
+             "properties": {
+              "resourceType": {
+               "type": "string",
+               "example": "Schema"
+              },
+              "location": {
+               "type": "string",
+               "example": "https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/custom-user-schema-details.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User": {
+     "get": {
+      "summary": "Get the custom user schema",
+      "description": "Lists all attributes of the custom user schema.",
+      "operationId": "custom-user-schema-details",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the custom user schema definition.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n    \"id\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"name\": \"Custom User\",\n    \"description\": \"Custom User Schema\",\n    \"attributes\": [\n        {\n            \"name\": \"company\",\n            \"type\": \"string\",\n            \"multiValued\": False,\n            \"description\": \"This is the company who belongs the user. We understand company as a legal entity. If company is not provided user is assigned to the default company.\",\n            \"required\": False,\n          \t\"caseExact\": True,\n         \t  \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\",\n        },\n        {\n            \"name\": \"gender\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"canonicalValues\": [\n                \"M\",\n                \"F\"\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"dateOfBirth\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Date of birth of the user. Should be a string with the format 'YYYY-MM-DD', otherwise the value will be rejected\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"travelPolicy\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Identifies the name of a travel policy. The travel policy should exist in Perk\",\n            \"required\": false,\n            \"caseExact\": true,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"invoiceProfiles\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Invoice profiles for a user. Typically one value only. It should exist in Perk.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"value\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"Invoice profiles for a user.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"emergencyContact\",\n            \"type\": \"complex\",\n            \"multiValued\": false,\n            \"description\": \"The user's emergency contact. Contains their name and phone number.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"name\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\",\n                    \"description\": \"The full name of the user's emergency contact\"\n                },\n                {\n                    \"name\": \"phone\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\",\n                    \"description\": \"The phone number of the user's emergency contact\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"approvers\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Approvers for the User. They need to exist in Perk.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"value\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The approver's Perk ID.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"displayName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"Human readable name of the approver.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readOnly\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"$ref\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The URI that refers to the approver within Perk.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readOnly\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"countryOfResidence\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Identifies the country of residence of the user.\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"travelDocuments\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Travel documents of the user.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"documentType\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The type of the document. It can be either passport or id.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"givenName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The first name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"familyName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The last name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"middleName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The middle name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"gender\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The gender of the the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"issuingCountry\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The country where the document was issued.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"issuingDate\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The date when the document was issued.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"expirationDate\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The expiration date of the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"citizenship\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The citizenship of the user as steated in the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"documentNumber\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The number of the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        }\n    ],\n    \"meta\": {\n        \"resourceType\": \"Schema\",\n        \"location\": \"https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n    }\n}"
+           }
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "Returns `400 Bad Request` and a SCIM error.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {}
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\\\n  --header 'Authorization: apikey <your_api_key>' "
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/list-all-schemas.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Schemas": {
+     "get": {
+      "summary": "List all schemas",
+      "description": "Lists all schemas and their attributes.",
+      "operationId": "list-all-schemas",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and a list of all schema definitions.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": {
+             "schemas": [
+              "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+             ],
+             "totalResults": 4,
+             "itemsPerPage": 10,
+             "startIndex": 1,
+             "Resources": [
+              {
+               "id": "urn:ietf:params:scim:schemas:core:2.0:User",
+               "name": "User",
+               "description": "User Account Schema",
+               "attributes": [
+                {
+                 "name": "name",
+                 "type": "complex",
+                 "multiValued": false,
+                 "description": "The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.",
+                 "required": true,
+                 "subAttributes": [
+                  {
+                   "name": "familyName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').",
+                   "required": true,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "givenName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The given name of the User, or first name in most Western languages (e.g., 'Barbara' given the full name 'Ms. Barbara J Jensen, III').",
+                   "required": true,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "middleName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The middle name(s) of the User (e.g., 'Jane' given the full name 'Ms. Barbara J Jensen, III').",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "honorificPrefix",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The honorific prefix(es) of the User, or title in most Western languages (e.g., 'Ms.' given the full name 'Ms. Barbara J Jensen, III').",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "externalId",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "",
+                 "required": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "server"
+                },
+                {
+                 "name": "title",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "The user's title, such as \"Vice President.\"",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "preferredLanguage",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Indicates the User's preferred written or spoken language. Generally used for selecting a localized user interface; e.g., 'en_US' specifies the language English and country US.",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none",
+                 "canonicalValues": [
+                  "en",
+                  "es",
+                  "fr",
+                  "de"
+                 ]
+                },
+                {
+                 "name": "locale",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Used to indicate the User's default location for purposes of localizing items such as currency, date time format, or numerical representations.",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "active",
+                 "type": "boolean",
+                 "multiValued": false,
+                 "description": "A Boolean value indicating the User's administrative status.",
+                 "required": true,
+                 "mutability": "readWrite",
+                 "returned": "default"
+                },
+                {
+                 "name": "phoneNumbers",
+                 "type": "complex",
+                 "multiValued": true,
+                 "description": "Phone numbers for the User. The value SHOULD be canonicalized by the service provider according to the format specified in RFC 3966, e.g., 'tel:+1-201-555-0123'. Canonical type values of 'work', 'home', 'mobile', 'fax', 'pager', and 'other'.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "value",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "Phone number of the User.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "type",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "A label indicating the attribute's function, e.g., 'work', 'home', 'mobile'.",
+                   "required": false,
+                   "caseExact": false,
+                   "canonicalValues": [
+                    "work",
+                    "home",
+                    "mobile",
+                    "fax",
+                    "pager",
+                    "other"
+                   ],
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default"
+                },
+                {
+                 "name": "id",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Identification number in Perk",
+                 "required": false,
+                 "mutability": "readOnly",
+                 "returned": "default"
+                },
+                {
+                 "name": "groups",
+                 "type": "list",
+                 "multiValued": true,
+                 "description": "Groups - Currently not supported by Perk",
+                 "required": false,
+                 "mutability": "readOnly",
+                 "returned": "default"
+                },
+                {
+                 "name": "meta",
+                 "type": "complex",
+                 "multiValued": false,
+                 "description": "Server-generated metadata",
+                 "required": false,
+                 "mutability": "readOnly",
+                 "subAttributes": [
+                  {
+                   "name": "resourceType",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The name of the resource type of the resource",
+                   "required": false,
+                   "mutability": "readOnly",
+                   "returned": "default",
+                   "caseExact": "true"
+                  },
+                  {
+                   "name": "created",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The DateTime that the resource was added to the service provider.",
+                   "required": false,
+                   "mutability": "readWrite",
+                   "returned": "default"
+                  },
+                  {
+                   "name": "lastModified",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The most recent DateTime that the details of this resource were updated at the service provider",
+                   "required": false,
+                   "mutability": "readWrite",
+                   "returned": "default"
+                  },
+                  {
+                   "name": "location",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The URI of the resource being returned.",
+                   "required": false,
+                   "mutability": "readWrite",
+                   "returned": "default"
+                  },
+                  {
+                   "name": "version",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": " The version of the resource being returned.",
+                   "required": false,
+                   "mutability": "readWrite",
+                   "returned": "default"
+                  }
+                 ],
+                 "returned": "default"
+                },
+                {
+                 "name": "userName",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Unique identifier for the User, typically used by the user to directly authenticate to the service provider. The userName value and it MUST be a non-empty and valid email address of the user, as well as be unique across the service provider's entire set of Users.",
+                 "required": true,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "server"
+                }
+               ],
+               "meta": {
+                "resourceType": "Schema",
+                "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User"
+               },
+               "schemaExtensions": [
+                {
+                 "schema": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+                 "required": false
+                },
+                {
+                 "schema": "urn:ietf:params:scim:schemas:extension:travelperk:2.0:User",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "id": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+               "name": "Enterprise User",
+               "description": "Enterprise User Schema",
+               "attributes": [
+                {
+                 "name": "costCenter",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Identifies the name of a cost center. The cost center should exist in Perk",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "manager",
+                 "type": "complex",
+                 "multiValued": false,
+                 "description": "An object that represents the user's manager. Used to create approval processes in Perk, setting the manager as approver for the user.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "value",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The manager's Perk ID.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "displayName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "Human readable name of the manager.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readOnly",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "$ref",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The URI that refers to the manager within Perk.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "meta": {
+                "resourceType": "Schema",
+                "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+               }
+              },
+              {
+               "id": "urn:ietf:params:scim:schemas:extension:travelperk:2.0:User",
+               "name": "Custom User",
+               "description": "Custom User Schema",
+               "attributes": [
+                {
+                 "name": "gender",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "",
+                 "required": false,
+                 "caseExact": false,
+                 "canonicalValues": [
+                  "M",
+                  "F"
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "dateOfBirth",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Date of birth of the user. Should be a string with the format 'YYYY-MM-DD', otherwise the value will be rejected",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "travelPolicy",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Identifies the name of a travel policy. The travel policy should exist in Perk",
+                 "required": false,
+                 "caseExact": true,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "invoiceProfiles",
+                 "type": "complex",
+                 "multiValued": true,
+                 "description": "Invoice profiles for a user. Typically one value only. It should exist in Perk.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "value",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "Invoice profiles for a user.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "emergencyContact",
+                 "type": "complex",
+                 "multiValued": false,
+                 "description": "The user's emergency contact. Contains their name and phone number.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "name",
+                   "type": "string",
+                   "multiValued": false,
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none",
+                   "description": "The full name of the user's emergency contact"
+                  },
+                  {
+                   "name": "phone",
+                   "type": "string",
+                   "multiValued": false,
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none",
+                   "description": "The phone number of the user's emergency contact"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "approvers",
+                 "type": "complex",
+                 "multiValued": true,
+                 "description": "Approvers for the User. They need to exist in Perk.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "value",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The approver's Perk ID.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "displayName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "Human readable name of the approver.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readOnly",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "$ref",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The URI that refers to the approver within Perk.",
+                   "required": false,
+                   "caseExact": true,
+                   "mutability": "readOnly",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "countryOfResidence",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Identifies the country of residence of the user.",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "travelDocuments",
+                 "type": "complex",
+                 "multiValued": true,
+                 "description": "Travel documents of the user.",
+                 "required": false,
+                 "subAttributes": [
+                  {
+                   "name": "documentType",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The type of the document. It can be either passport or id.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "givenName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The first name of the user as it appears on the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "familyName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The last name of the user as it appears on the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "middleName",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The middle name of the user as it appears on the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "gender",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The gender of the the user as it appears on the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "issuingCountry",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The country where the document was issued.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "issuingDate",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The date when the document was issued.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "expirationDate",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The expiration date of the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "citizenship",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The citizenship of the user as steated in the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  },
+                  {
+                   "name": "documentNumber",
+                   "type": "string",
+                   "multiValued": false,
+                   "description": "The number of the document.",
+                   "required": false,
+                   "caseExact": false,
+                   "mutability": "readWrite",
+                   "returned": "default",
+                   "uniqueness": "none"
+                  }
+                 ],
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "meta": {
+                "resourceType": "Schema",
+                "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User"
+               }
+              },
+              {
+               "id": "urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User",
+               "name": "Perk Custom Fields",
+               "description": "Custom fields provisionable via SCIM",
+               "attributes": [
+                {
+                 "name": "cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Custom field: Brand",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                },
+                {
+                 "name": "cf_market_fc93b012-a592-4580-b551-39d78294d35f",
+                 "type": "string",
+                 "multiValued": false,
+                 "description": "Custom field: Market",
+                 "required": false,
+                 "caseExact": false,
+                 "mutability": "readWrite",
+                 "returned": "default",
+                 "uniqueness": "none"
+                }
+               ],
+               "meta": {
+                "resourceType": "Schema",
+                "location": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User"
+               }
+              }
+             ]
+            }
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "example": "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+             }
+            },
+            "totalResults": {
+             "type": "integer",
+             "example": 3,
+             "default": 0
+            },
+            "itemsPerPage": {
+             "type": "integer",
+             "example": 10,
+             "default": 0
+            },
+            "startIndex": {
+             "type": "integer",
+             "example": 1,
+             "default": 0
+            },
+            "Resources": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "id": {
+                "type": "string",
+                "example": "urn:ietf:params:scim:schemas:core:2.0:User"
+               },
+               "name": {
+                "type": "string",
+                "example": "User"
+               },
+               "description": {
+                "type": "string",
+                "example": "User Account Schema"
+               },
+               "attributes": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "name": {
+                   "type": "string",
+                   "example": "name"
+                  },
+                  "type": {
+                   "type": "string",
+                   "example": "complex"
+                  },
+                  "multiValued": {
+                   "type": "boolean",
+                   "example": false,
+                   "default": true
+                  },
+                  "description": {
+                   "type": "string",
+                   "example": "The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined."
+                  },
+                  "required": {
+                   "type": "boolean",
+                   "example": true,
+                   "default": true
+                  },
+                  "subAttributes": {
+                   "type": "array",
+                   "items": {
+                    "type": "object",
+                    "properties": {
+                     "name": {
+                      "type": "string",
+                      "example": "familyName"
+                     },
+                     "type": {
+                      "type": "string",
+                      "example": "string"
+                     },
+                     "multiValued": {
+                      "type": "boolean",
+                      "example": false,
+                      "default": true
+                     },
+                     "description": {
+                      "type": "string",
+                      "example": "The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III')."
+                     },
+                     "required": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                     },
+                     "caseExact": {
+                      "type": "boolean",
+                      "example": false,
+                      "default": true
+                     },
+                     "mutability": {
+                      "type": "string",
+                      "example": "readWrite"
+                     },
+                     "returned": {
+                      "type": "string",
+                      "example": "default"
+                     },
+                     "uniqueness": {
+                      "type": "string",
+                      "example": "none"
+                     }
+                    }
+                   }
+                  },
+                  "mutability": {
+                   "type": "string",
+                   "example": "readWrite"
+                  },
+                  "returned": {
+                   "type": "string",
+                   "example": "default"
+                  },
+                  "uniqueness": {
+                   "type": "string",
+                   "example": "none"
+                  }
+                 }
+                }
+               },
+               "meta": {
+                "type": "object",
+                "properties": {
+                 "resourceType": {
+                  "type": "string",
+                  "example": "Schema"
+                 },
+                 "location": {
+                  "type": "string",
+                  "example": "https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User"
+                 }
+                }
+               },
+               "schemaExtensions": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "schema": {
+                   "type": "string",
+                   "example": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+                  },
+                  "required": {
+                   "type": "boolean",
+                   "example": false,
+                   "default": true
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": " curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas \\\n  --header 'Authorization: apikey <your_api_key>' "
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/list-resource-types.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/ResourceTypes": {
+     "get": {
+      "summary": "List all resource types",
+      "description": "Lists all available resource types for the Perk System for Cross-domain Identity Management (SCIM) API.",
+      "operationId": "list-resource-types",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and a list of supported resource types.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": {
+             "totalResults": 1,
+             "itemsPerPage": 50,
+             "startIndex": 1,
+             "schemas": [
+              "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+             ],
+             "Resources": [
+              {
+               "schemas": [
+                "urn:ietf:params:scim:schemas:core:2.0:ResourceType"
+               ],
+               "id": "User",
+               "name": "User",
+               "endpoint": "/Users",
+               "description": "User Account",
+               "schema": "urn:ietf:params:scim:schemas:core:2.0:User",
+               "schemaExtensions": [
+                {
+                 "schema": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+                 "required": false
+                },
+                {
+                 "schema": "urn:ietf:params:scim:schemas:extension:travelperk:2.0:User",
+                 "required": false
+                },
+                {
+                 "schema": "urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User",
+                 "required": false
+                }
+               ],
+               "meta": {
+                "location": "https://app.perk.com/api/v2/scim/Users",
+                "resourceType": "ResourceType"
+               }
+              }
+             ]
+            }
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "totalResults": {
+             "type": "integer",
+             "example": 1,
+             "default": 0
+            },
+            "itemsPerPage": {
+             "type": "integer",
+             "example": 50,
+             "default": 0
+            },
+            "startIndex": {
+             "type": "integer",
+             "example": 1,
+             "default": 0
+            },
+            "schemas": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "example": "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+             }
+            },
+            "Resources": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "schemas": {
+                "type": "array",
+                "items": {
+                 "type": "string",
+                 "example": "urn:ietf:params:scim:schemas:core:2.0:ResourceType"
+                }
+               },
+               "id": {
+                "type": "string",
+                "example": "User"
+               },
+               "name": {
+                "type": "string",
+                "example": "User"
+               },
+               "endpoint": {
+                "type": "string",
+                "example": "/Users"
+               },
+               "description": {
+                "type": "string",
+                "example": "User Account"
+               },
+               "schema": {
+                "type": "string",
+                "example": "urn:ietf:params:scim:schemas:core:2.0:User"
+               },
+               "schemaExtensions": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "schema": {
+                   "type": "string",
+                   "example": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+                  },
+                  "required": {
+                   "type": "boolean",
+                   "example": false,
+                   "default": true
+                  }
+                 }
+                }
+               },
+               "meta": {
+                "type": "object",
+                "properties": {
+                 "location": {
+                  "type": "string",
+                  "example": "https://app.travelperk.com/api/v2/scim/Users"
+                 },
+                 "resourceType": {
+                  "type": "string",
+                  "example": "ResourceType"
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/ResourceTypes\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/service-provider-configuration.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/ServiceProviderConfig": {
+     "get": {
+      "summary": "Get service provider configuration",
+      "description": "Returns Perk's configuration details for the System for Cross-domain Identity Management (SCIM) API, including which operations are supported.",
+      "operationId": "service-provider-configuration",
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the service provider configuration.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": {
+             "schemas": [
+              "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"
+             ],
+             "patch": {
+              "supported": true
+             },
+             "bulk": {
+              "supported": false,
+              "maxOperations": 0,
+              "maxPayloadSize": 0
+             },
+             "filter": {
+              "supported": true,
+              "maxResults": 50
+             },
+             "changePassword": {
+              "supported": false
+             },
+             "sort": {
+              "supported": false
+             },
+             "etag": {
+              "supported": false
+             },
+             "authenticationSchemes": [
+              {
+               "type": "oauthbearertoken",
+               "name": "OAuth 2",
+               "description": "Oauth 2 implemented with bearer token"
+              }
+             ],
+             "Schemas": [
+              {
+               "id": "User",
+               "name": "User",
+               "description": "User Account"
+              }
+             ],
+             "meta": {
+              "location": "https://app.perk.com/api/v2/scim/ServiceProviderConfig",
+              "resourceType": "ServiceProviderConfig"
+             }
+            }
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "example": "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"
+             }
+            },
+            "patch": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": true,
+               "default": true
+              }
+             }
+            },
+            "bulk": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": false,
+               "default": true
+              },
+              "maxOperations": {
+               "type": "integer",
+               "example": 0,
+               "default": 0
+              },
+              "maxPayloadSize": {
+               "type": "integer",
+               "example": 0,
+               "default": 0
+              }
+             }
+            },
+            "filter": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": true,
+               "default": true
+              },
+              "maxResults": {
+               "type": "integer",
+               "example": 50,
+               "default": 0
+              }
+             }
+            },
+            "changePassword": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": false,
+               "default": true
+              }
+             }
+            },
+            "sort": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": false,
+               "default": true
+              }
+             }
+            },
+            "etag": {
+             "type": "object",
+             "properties": {
+              "supported": {
+               "type": "boolean",
+               "example": false,
+               "default": true
+              }
+             }
+            },
+            "authenticationSchemes": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "type": {
+                "type": "string",
+                "example": "oauthbearertoken"
+               },
+               "name": {
+                "type": "string",
+                "example": "OAuth 2"
+               },
+               "description": {
+                "type": "string",
+                "example": "Oauth 2 implemented with bearer token"
+               }
+              }
+             }
+            },
+            "Schemas": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "id": {
+                "type": "string",
+                "example": "User"
+               },
+               "name": {
+                "type": "string",
+                "example": "User"
+               },
+               "description": {
+                "type": "string",
+                "example": "User Account"
+               }
+              }
+             }
+            },
+            "meta": {
+             "type": "object",
+             "properties": {
+              "location": {
+               "type": "string",
+               "example": "https://app.travelperk.com/api/v2/scim/ServiceProviderConfig"
+              },
+              "resourceType": {
+               "type": "string",
+               "example": "ServiceProviderConfig"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/ServiceProviderConfig\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/list-all-users.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users": {
+     "get": {
+      "summary": "List users (with filtering)",
+      "description": "Lists all users associated with this account.",
+      "operationId": "list-all-users",
+      "parameters": [
+       {
+        "name": "count",
+        "in": "query",
+        "description": "Specifies the desired maximum number of query results per page. 100 is the maximum number of resources per page. The default value is 10.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        }
+       },
+       {
+        "name": "startIndex",
+        "in": "query",
+        "description": "The 1-based index of the first query result. A value less than 1 is interpreted as 1.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        }
+       },
+       {
+        "name": "filter",
+        "in": "query",
+        "description": "Filter expression to get a subset of users. When specified, only the users matching the filter expression are returned.",
+        "schema": {
+         "type": "string"
+        }
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and a paginated list of users.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:ListResponse\"\n  ],\n  \"totalResults\": 2,\n  \"itemsPerPage\": 2,\n  \"startIndex\": 1,\n  \"Resources\": [\n    {\n      \"schemas\": [\n        \"urn:ietf:params:scim:schemas:core:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n      ],\n      \"name\": {\n        \"givenName\": \"Dan\",\n        \"familyName\": \"Morrison\",\n        \"middleName\": \"\",\n        \"honorificPrefix\": \"MR\"\n      },\n      \"locale\": \"en-gb\",\n      \"preferredLanguage\": \"en\",\n      \"title\": \"Boss\",\n      \"externalId\": \"12\",\n      \"id\": \"7\",\n      \"groups\": [],\n      \"active\": true,\n      \"userName\": \"dan.morrison@mycompany.com\",\n      \"phoneNumbers\": [\n        {\n          \"value\": \"+34 234567654\",\n          \"type\": \"work\"\n        }\n      ],\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"costCenter\": \"Marketing\"\n      },\n      \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n        \"gender\": \"M\",\n        \"dateOfBirth\": \"1991-04-23\",\n        \"travelPolicy\": \"Marketing policy #1\",\n        \"invoiceProfiles\": [\n          {\n            \"value\": \"MyCompany Ltd\"\n          }\n        ],\n        \"company\": \"MyCompany USA, Ltd\",\n        \"emergencyContact\": {\n          \"name\": \"Jess Michigan\",\n          \"phone\": \"+34 9874637\"\n        },\n        \"approvers\": [\n          {\n      \t\t  \"value\": \"123\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/123\",\n            \"displayName\": \"Jack Jackson\",\n            \"condition\": \"in_policy\"\n    \t\t  }\n        ]\n      }\n    },\n    {\n      \"schemas\": [\n        \"urn:ietf:params:scim:schemas:core:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n      ],\n      \"name\": {\n        \"givenName\": \"Mathew\",\n        \"familyName\": \"Roberts\",\n        \"middleName\": \"\",\n        \"honorificPrefix\": \"MRS\"\n      },\n      \"locale\": \"en-gb\",\n      \"preferredLanguage\": \"en\",\n      \"title\": \"Office Manager\",\n      \"externalId\": \"11\",\n      \"id\": \"8\",\n      \"groups\": [],\n      \"active\": true,\n      \"userName\": \"mathew.robersr@mycompany.com\",\n      \"phoneNumbers\": {\n        \"value\": \"+34 8453234\",\n         \"type\": \"work\"\n      },\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"costCenter\": null\n      },\n      \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n        \"gender\": \"M\",\n        \"dateOfBirth\": \"1991-04-23\",\n        \"travelPolicy\": \"Office Management Policy #2\",\n        \"invoiceProfiles\": [\n          {\n            \"value\": \"MyCompany Ltd\"\n          }\n        ],\n        \"company\": \"MyCompany USA, Ltd\",\n        \"emergencyContact\": {\n          \"name\": \"Jim Parker\",\n          \"phone\": \"+34 5434567\"\n        },\n        \"approvers\": [\n          {\n      \t\t  \"value\": \"456\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/456\",\n            \"displayName\": \"John Johnson\",\n            \"condition\": \"always\"\n    \t\t  }\n        ],\n        \"countryOfResidence\": \"ES\",\n        \"travelDocuments\": [\n          {\n            \"documentType\": \"passport,\n            \"documentNumber\": \"abcedf12345\",\n            \"givenName\": \"Josh\",\n            \"middleName\": \"\",\n            \"familyName\": \"Smith\",\n            \"gender\": \"M\",\n            \"issuingCountry\": \"ES\",\n            \"issuingDate\": \"1999-12-05\",\n            \"expirationDate\": \"2042-09-08\",\n            \"citizenship\": \"ES\",\n          }\n        ]\n      }\n    }\n  ]\n}"
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --get \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --data-urlencode \"filter=userName eq \\\"some-user@testcompany.com\\\"\" \\\n  --header \"Authorization: ApiKey <YOUR API KEY>\"",
+         "name": "Filter by userName"
+        },
+        {
+         "language": "curl",
+         "code": "curl --get \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --data-urlencode \"filter=externalId eq \\\"6fa62893-1797-4b45-9297-63f562d49b9a\\\"\" \\\n  --header \"Authorization: ApiKey <YOUR API KEY>\"",
+         "name": "Filter by externalId"
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/retrieve-a-user-1.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users/{id}": {
+     "get": {
+      "summary": "Get a user",
+      "description": "Retrieves a user from Perk.",
+      "operationId": "retrieve-a-user-1",
+      "parameters": [
+       {
+        "name": "id",
+        "in": "path",
+        "description": "Unique user identifier. The value is generated by Perk and returned during user creation.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        },
+        "required": true
+       }
+      ],
+      "responses": {
+       "200": {
+        "description": "Returns `200 OK` and the user resource.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"approvers\": [\n      {\n        \"value\": \"123\",\n        \"$ref\": \"https://app.perk.com/api/v2/scim/Users/123/\",\n        \"displayName\": \"Jack Jackson\",\n        \"condition\": \"always\"\n      }\n    ],\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }    \n}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "example": "urn:ietf:params:scim:schemas:core:2.0:User"
+             }
+            },
+            "name": {
+             "type": "object",
+             "properties": {
+              "givenName": {
+               "type": "string",
+               "example": "Marlen",
+               "description": "Given name (first name)"
+              },
+              "familyName": {
+               "type": "string",
+               "example": "Col",
+               "description": "Family name (last name)"
+              },
+              "middleName": {
+               "type": "string",
+               "example": "",
+               "description": "Middle name(s)"
+              },
+              "honorificPrefix": {
+               "type": "string",
+               "example": "",
+               "description": "Honorific prefix (e.g. Mr, Mrs, Ms)"
+              }
+             },
+             "description": "The components of the user's real name"
+            },
+            "locale": {
+             "type": "string",
+             "example": "en",
+             "description": "User's locale for currency, date/time, and numerical formats. Defaults to `en` for British English. Use `en-us` for American English"
+            },
+            "preferredLanguage": {
+             "type": "string",
+             "example": "en",
+             "description": "User's preferred written or spoken language"
+            },
+            "title": {
+             "type": "string",
+             "example": "Manager",
+             "description": "The user's job title"
+            },
+            "externalId": {
+             "type": "string",
+             "example": "123455667",
+             "description": "Unique identifier for the user in the client system"
+            },
+            "id": {
+             "type": "string",
+             "example": "29",
+             "description": "Perk-generated identification number. Read-only"
+            },
+            "groups": {
+             "type": "array",
+             "description": "Groups — currently not supported by Perk. Always returns an empty array"
+            },
+            "active": {
+             "type": "boolean",
+             "example": true,
+             "default": true,
+             "description": "Whether the user is administratively active"
+            },
+            "userName": {
+             "type": "string",
+             "example": "marlen.col@mycompany.com",
+             "description": "User's email address. Must be a valid, non-empty email address and unique across all users in Perk"
+            },
+            "phoneNumbers": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "value": {
+                "type": "string",
+                "example": "+34 1234567",
+                "description": "Phone number of the user"
+               },
+               "type": {
+                "type": "string",
+                "example": "work",
+                "description": "Label indicating the type of phone number. Accepted values: `work`, `home`, `mobile`, `fax`, `pager`, `other`"
+               }
+              }
+             }
+            },
+            "meta": {
+             "type": "object",
+             "properties": {
+              "resourceType": {
+               "type": "string",
+               "example": "User",
+               "description": "The name of the resource type"
+              },
+              "created": {
+               "type": "string",
+               "example": "2020-04-01T22:24:44.137082+00:00",
+               "description": "Date-time the resource was added to the service provider"
+              },
+              "lastModified": {
+               "type": "string",
+               "example": "2020-04-01T22:24:44.137082+00:00",
+               "description": "Date-time when the resource was last updated"
+              },
+              "location": {
+               "type": "string",
+               "example": "http://app.perk.com/api/v2/scim/Users/29",
+               "description": "URI of the resource."
+              }
+             },
+             "description": "Server-generated metadata. Read-only"
+            },
+            "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
+             "type": "object",
+             "properties": {
+              "costCenter": {
+               "type": "string",
+               "example": "Marketing",
+               "description": "Name of the cost object. It must already exist in Perk"
+              }
+             },
+             "description": "Enterprise User schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:enterprise:2.0:User`"
+            },
+            "urn:ietf:params:scim:schemas:extension:travelperk:2.0:User": {
+             "type": "object",
+             "properties": {
+              "gender": {
+               "type": "string",
+               "example": "M",
+               "description": "User's gender as used in travel documents. Accepted values: `M` (male), `F` (female)"
+              },
+              "dateOfBirth": {
+               "type": "string",
+               "example": "1980-02-02",
+               "description": "Date of birth in `YYYY-MM-DD` format. Any other format is rejected"
+              },
+              "travelPolicy": {
+               "type": "string",
+               "example": "Marketing travel policy",
+               "description": "Name of the travel policy. It must already exist in Perk"
+              },
+              "invoiceProfiles": {
+               "type": "array",
+               "items": {
+                "type": "object",
+                "properties": {
+                 "value": {
+                  "type": "string",
+                  "example": "My Company Ltd",
+                  "description": "Payment profile name. It must already exist in Perk"
+                 }
+                }
+               },
+               "description": "Invoice profiles to assign to the user (typically one). Each must already exist in Perk. For `add` PATCH operations, new values are appended to the existing list"
+              },
+              "company": {
+               "type": "string",
+               "example": "MyCompany USA, Ltd",
+               "description": "Company that the user belongs to (legal entity). If not provided, Perk assigns the user to the default company"
+              },
+              "emergencyContact": {
+               "type": "object",
+               "properties": {
+                "name": {
+                 "type": "string",
+                 "example": "Jane Goodie",
+                 "description": "Full name of the emergency contact"
+                },
+                "phone": {
+                 "type": "string",
+                 "example": "+34 9874637",
+                 "description": "Phone number of the emergency contact"
+                }
+               },
+               "description": "The user's emergency contact"
+              },
+              "approvers": {
+               "type": "array",
+               "items": {
+                "type": "object",
+                "properties": {
+                 "value": {
+                  "type": "string",
+                  "example": "123",
+                  "description": "The approver's Perk user ID"
+                 },
+                 "$ref": {
+                  "type": "string",
+                  "example": "https://app.perk.com/api/v2/scim/Users/123/",
+                  "description": "URI that refers to the approver within Perk. Maps to the SCIM `$ref` attribute in API responses"
+                 },
+                 "displayName": {
+                  "type": "string",
+                  "example": "Jack Jackson",
+                  "description": "Human-readable name of the approver"
+                 },
+                 "condition": {
+                  "type": "string",
+                  "example": "always",
+                  "description": "Approval process condition. Accepted values: `always`, `out_of_policy`, `out_of_policy_and_notify_in_policy`, `in_policy`"
+                 }
+                }
+               },
+               "description": "Deprecated. Use `manager` or `lineManagerEmail` instead. For `add` PATCH operations, new values are appended to the existing list"
+              },
+              "countryOfResidence": {
+               "type": "string",
+               "example": "ES",
+               "description": "Country of residence (ISO 3166-1 alpha-2 code)"
+              },
+              "travelDocuments": {
+               "type": "array",
+               "items": {
+                "type": "object",
+                "properties": {
+                 "documentType": {
+                  "type": "string",
+                  "example": "passport",
+                  "description": "Type of document: `passport` or `id`"
+                 },
+                 "documentNumber": {
+                  "type": "string",
+                  "example": "abcedf12345",
+                  "description": "The number of the document"
+                 },
+                 "givenName": {
+                  "type": "string",
+                  "example": "Josh",
+                  "description": "First name as it appears on the document"
+                 },
+                 "middleName": {
+                  "type": "string",
+                  "example": "",
+                  "description": "Middle name as it appears on the document"
+                 },
+                 "familyName": {
+                  "type": "string",
+                  "example": "Smith",
+                  "description": "Last name as it appears on the document"
+                 },
+                 "gender": {
+                  "type": "string",
+                  "example": "M",
+                  "description": "Gender as it appears on the document"
+                 },
+                 "issuingCountry": {
+                  "type": "string",
+                  "example": "ES",
+                  "description": "Country where the document was issued (ISO 3166-1 alpha-2 code)"
+                 },
+                 "issuingDate": {
+                  "type": "string",
+                  "example": "1999-12-05",
+                  "description": "Date the document was issued (YYYY-MM-DD)"
+                 },
+                 "expirationDate": {
+                  "type": "string",
+                  "example": "2042-09-08",
+                  "description": "Expiration date of the document (YYYY-MM-DD)"
+                 },
+                 "citizenship": {
+                  "type": "string",
+                  "example": "ES",
+                  "description": "Citizenship as stated in the document (ISO 3166-1 alpha-2 code)"
+                 }
+                }
+               },
+               "description": "Travel documents for the user"
+              }
+             },
+             "description": "Perk custom user schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:travelperk:2.0:User`"
+            },
+            "urn:ietf:params:scim:schemas:extension:expense:2.0:User": {
+             "type": "object",
+             "description": "Expense User schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:expense:2.0:User`",
+             "properties": {
+              "policyId": {
+               "type": "string",
+               "description": "ID of the expense policy assigned to the user",
+               "example": "pol_123"
+              },
+              "creditor": {
+               "type": "string",
+               "description": "Name of the creditor (company) used for expense reimbursements",
+               "example": "ACME Corp"
+              },
+              "legalEntityId": {
+               "type": "string",
+               "description": "ID of the company the user belongs to for expense purposes",
+               "example": "le_456"
+              },
+              "approvalThreshold": {
+               "type": "number",
+               "format": "double",
+               "description": "Maximum expense amount (in the account currency) the user can approve without a secondary approver",
+               "example": 1000
+              },
+              "ignoreManagerInRequests": {
+               "type": "boolean",
+               "description": "If `true`, the user's manager is excluded from expense approval requests",
+               "example": false
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "Returns `404 Not found` and a SCIM error when no user matches the ID.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+            },
+            "detail": {
+             "type": "string",
+             "example": "User '1234' not found",
+             "description": "Human-readable description of the error."
+            },
+            "status": {
+             "type": "integer",
+             "example": 404,
+             "default": 0,
+             "description": "HTTP error status code (4xx range)."
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --request GET \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'Authorization: apikey <YOUR API KEY>' "
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ },
+ {
+  "page": "https://developers.perk.com/reference/deactivate-a-user.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "scim-server",
+    "version": "1.5",
+    "description": "Use this API to provision and manage users in Perk via System for Cross-domain Identity Management ([SCIM 2.0](https://datatracker.ietf.org/doc/html/rfc7644))."
+   },
+   "servers": [
+    {
+     "url": "https://app.perk.com/api/v2/scim"
+    }
+   ],
+   "components": {
+    "securitySchemes": {
+     "sec0": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+     }
+    }
+   },
+   "security": [
+    {
+     "sec0": []
+    }
+   ],
+   "paths": {
+    "/Users/{id}": {
+     "delete": {
+      "summary": "Delete a user",
+      "description": "Deletes a user from Perk.",
+      "operationId": "deactivate-a-user",
+      "parameters": [
+       {
+        "name": "id",
+        "in": "path",
+        "description": "Unique user identifier. The value is generated by Perk and returned during user creation.",
+        "schema": {
+         "type": "integer",
+         "format": "int32"
+        },
+        "required": true
+       }
+      ],
+      "responses": {
+       "204": {
+        "description": "Returns `204 No content`.",
+        "content": {
+         "text/plain": {
+          "examples": {
+           "Result": {
+            "value": ""
+           }
+          }
+         }
+        }
+       },
+       "404": {
+        "description": "Returns `404 Not found` and a SCIM error when no user matches the ID.",
+        "content": {
+         "application/json": {
+          "examples": {
+           "Result": {
+            "value": "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+           }
+          },
+          "schema": {
+           "type": "object",
+           "properties": {
+            "schemas": {
+             "type": "string",
+             "example": "urn:ietf:params:scim:api:messages:2.0:Error"
+            },
+            "detail": {
+             "type": "string",
+             "example": "User '1234' not found",
+             "description": "Human-readable description of the error."
+            },
+            "status": {
+             "type": "integer",
+             "example": 404,
+             "default": 0,
+             "description": "HTTP error status code (4xx range)."
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "deprecated": false,
+      "x-readme": {
+       "code-samples": [
+        {
+         "language": "curl",
+         "code": "curl --request DELETE \\\n  --url \"https://app.perk.com/api/v2/scim/Users/1234\" \\\n  --header 'Authorization: apikey <YOUR API KEY>' "
+        }
+       ],
+       "samples-languages": [
+        "curl"
+       ]
+      }
+     }
+    }
+   },
+   "x-readme": {
+    "headers": [],
+    "explorer-enabled": false,
+    "proxy-enabled": true
+   },
+   "x-readme-fauxas": true
+  }
+ }
+]

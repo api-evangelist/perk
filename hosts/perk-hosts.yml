@@ -1,0 +1,91 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 7
+  own: 6
+  other_domain: 1
+  platform: 0
+  roles:
+  - api
+  - collections
+  - identity
+  - portal
+  - status
+  - support
+  - website
+hosts:
+- host: api.perk.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: perk.com
+  role: api
+  relation: own
+- host: app.getpostman.com
+  found_by:
+  - pointer
+  types:
+  - Postman
+  serves: []
+  registrable_domain: getpostman.com
+  role: collections
+  relation: other-domain
+- host: app.perk.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - SignUp
+  serves:
+  - api
+  registrable_domain: perk.com
+  role: identity
+  relation: own
+- host: developers.perk.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - TermsOfService
+  serves:
+  - docs
+  registrable_domain: perk.com
+  role: portal
+  relation: own
+- host: status.perk.com
+  found_by:
+  - pointer
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: perk.com
+  role: status
+  relation: own
+- host: support.perk.com
+  found_by:
+  - pointer
+  types:
+  - Support
+  serves: []
+  registrable_domain: perk.com
+  role: support
+  relation: own
+- host: www.perk.com
+  found_by:
+  - pointer
+  types:
+  - Blog
+  - Website
+  - Pricing
+  serves: []
+  registrable_domain: perk.com
+  role: website
+  relation: own

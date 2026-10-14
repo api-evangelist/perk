@@ -1,0 +1,26 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/perk-cost-centers-api-openapi.yml
+- openapi/perk-custom-fields-api-openapi.yml
+- openapi/perk-custom-fields-openapi.yml
+- openapi/perk-scim-server-openapi.yml
+- openapi/perk-travelperk-api-v1-openapi.yml
+vocabulary:
+  name: Perk Domain Vocabulary
+  description: 'Terms declared by Perk''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions. Derived,
+    not authored.'
+  version: '2026-10-14'
+  terms:
+  - term: Cost centers
+    definition: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see [Cost objects
+      in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
+    tags:
+    - Resource Group
+    source: openapi/perk-cost-centers-api-openapi.yml
+  - term: Custom fields
+    definition: Retrieve select options for custom fields in your Perk account.
+    tags:
+    - Resource Group
+    source: openapi/perk-custom-fields-api-openapi.yml

@@ -1,26 +1,33 @@
 aid: perk
+
 name: Perk
-description: >-
-  Perk (formerly TravelPerk) is the intelligent platform for corporate travel and spend
-  management, combining travel booking with expense, invoice, and card controls for finance
-  teams. Founded in Barcelona in 2015, Perk serves thousands of global teams and is backed by
-  General Catalyst, SoftBank Vision Fund, Speedinvest and others. Its developer platform exposes
-  a Travel & Spend REST API, a SCIM 2.0 user-provisioning API, webhooks, a sandbox, a public
-  Postman collection, and an official hosted Model Context Protocol (MCP) server for AI clients.
+
+description: Perk (formerly TravelPerk) is the intelligent platform for corporate travel and spend management, combining travel booking with expense,
+  invoice, and card controls for finance teams. Founded in Barcelona in 2015, Perk serves thousands of global teams and is backed by General Catalyst,
+  SoftBank Vision Fund, Speedinvest and others. Its developer platform exposes a Travel & Spend REST API, a SCIM 2.0 user-provisioning API, webhooks,
+  a sandbox, a public Postman collection, and an official hosted Model Context Protocol (MCP) server for AI clients.
+
 url: https://raw.githubusercontent.com/api-evangelist/perk/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - general-catalyst
 - softbank-vision-fund
 - speedinvest
+
 x-tier: stub
+
 x-tier-reason: portfolio-lead
+
 x-enrichment:
   date: '2026-07-20'
   status: enriched
   artifacts_added: 20
   pass: local-v1
+
 deliveryModel:
   model: saas
   open_source: false
@@ -32,6 +39,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -44,10 +52,15 @@ accessModel:
   - authentication
   generated: '2026-07-22'
   method: derived
+
 image: https://d2balr5nj4353r.cloudfront.net/favicon-192x192.png
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-10-06'
+
 tags:
 - Company
 - Corporate Travel
@@ -57,6 +70,7 @@ tags:
 - Invoices
 - Fintech
 - Software-as-a-Service
+
 tags_raw:
 - Company
 - Corporate Travel
@@ -66,46 +80,32 @@ tags_raw:
 - Invoices
 - Fintech
 - SaaS
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
-apis:
-- name: Perk Travel & Spend API
-  description: >-
-    REST API for Perk travel, expense, invoice, trip, cost-center, event, and card data.
-    Authenticate with an account API key (customers) or OAuth 2.0 (partners); send Api-Version: 1.
-  humanURL: https://developers.perk.com
-  baseURL: https://api.perk.com
-  tags:
-  - Travel
-  - Expenses
-  - Invoices
-  - Trips
-  properties:
-  - type: Documentation
-    url: https://developers.perk.com/docs
-  - type: APIReference
-    url: https://developers.perk.com/reference
-  - type: GettingStarted
-    url: https://developers.perk.com/docs/quickstart
-- name: Perk SCIM API
-  description: >-
-    SCIM 2.0 user-provisioning API for creating, updating, and deactivating Perk users from
-    identity providers (Okta, Microsoft Entra ID), including an expense extension schema.
-  humanURL: https://developers.perk.com/reference/using-the-scim-api-1
-  baseURL: https://app.perk.com/api/v2/scim
-  tags:
-  - SCIM
-  - Identity
-  - Provisioning
+
 common:
+- type: AgenticAccess
+  url: agentic-access/perk-agentic-access.yml
+- type: Spectral
+  url: rules/perk-rules.yml
+- type: Vocabulary
+  url: vocabulary/perk-vocabulary.yml
+- type: Hosts
+  url: hosts/perk-hosts.yml
+- type: Vendors
+  url: vendors/perk-vendors.yml
+- type: PrivacyPolicy
+  url: https://www.perk.com/legal/privacy-policy/
+- type: Newsroom
+  url: https://www.perk.com/news/
 - url: https://www.perk.com/blog/
   type: Blog
 - type: Website
   url: https://www.perk.com/
-# --- Identity / link properties ---
 - type: DeveloperPortal
   url: https://developers.perk.com
 - type: Documentation
@@ -126,7 +126,6 @@ common:
   url: https://app.getpostman.com/run-collection/26205026-08341f0b-356a-460b-b386-54f8c30b9bad
 - type: StatusPage
   url: https://status.perk.com
-# --- Artifact pointers (canonical scored types) ---
 - type: MCPServer
   url: mcp/perk-mcp.yml
 - type: LLMsTxt
@@ -165,3 +164,90 @@ common:
   url: security/perk-vulnerability-disclosure.yml
 - type: Security
   url: security/perk-vulnerability-disclosure.yml
+
+apis:
+- name: Perk Travel & Spend API
+  description: 'REST API for Perk travel, expense, invoice, trip, cost-center, event, and card data. Authenticate with an account API key (customers)
+    or OAuth 2.0 (partners); send Api-Version: 1.'
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Travel
+  - Expenses
+  - Invoices
+  - Trips
+  properties:
+  - type: Documentation
+    url: https://developers.perk.com/docs
+  - type: APIReference
+    url: https://developers.perk.com/reference
+  - type: GettingStarted
+    url: https://developers.perk.com/docs/quickstart
+  aid: perk:perk-travel-spend-api
+- name: Perk SCIM API
+  description: SCIM 2.0 user-provisioning API for creating, updating, and deactivating Perk users from identity providers (Okta, Microsoft Entra
+    ID), including an expense extension schema.
+  humanURL: https://developers.perk.com/reference/using-the-scim-api-1
+  baseURL: https://app.perk.com/api/v2/scim
+  tags:
+  - SCIM
+  - Identity
+  - Provisioning
+  aid: perk:perk-scim-api
+- aid: perk:perk-cost-centers-api
+  name: Perk Cost centers API
+  description: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see [Cost objects
+    in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Cost centers
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-cost-centers-api-openapi.yml
+- aid: perk:perk-custom-fields-api
+  name: Perk Custom fields API
+  description: Retrieve select options for custom fields in your Perk account.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Custom fields
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-custom-fields-api-openapi.yml
+- aid: perk:perk-custom-fields
+  name: Perk Custom fields API
+  description: Retrieve select options for custom fields in your Perk account.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Custom fields
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-custom-fields-openapi.yml
+- aid: perk:perk-scim-server
+  name: Perk Scim Server Openapi.Yml API
+  description: The Scim Server Openapi.Yml API from Perk — 9 operation(s) for scim server openapi.yml.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Scim Server Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-scim-server-openapi.yml
+- aid: perk:perk-travelperk-api-v1
+  name: Perk Travelperk Api V1 Openapi.Yml API
+  description: The Travelperk Api V1 Openapi.Yml API from Perk — 16 operation(s) for travelperk api v1 openapi.yml.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Travelperk Api V1 Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-travelperk-api-v1-openapi.yml
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 42
+  tool: harvest-readme-openapi.py
+  portal: https://developers.perk.com
