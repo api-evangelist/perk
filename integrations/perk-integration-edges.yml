@@ -1,5 +1,5 @@
 generated: '2026-10-14'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/perk/integrations
 - https://n8n.io/integrations/perk/
@@ -10,7 +10,33 @@ checked:
 - https://monid.ai/tools/perk
 - https://n8n.io/integrations/perk/
 - https://zapier.com/apps/perk/integrations
+- okta/integrations/okta-integration-edges.yml
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.okta.com/integrations/travelperk/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - Perk
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Directory and HR Sync
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - CREATE
+  - DEACTIVATE
+  - SAML
+  - SWA
+  - UPDATE
 templates: []
