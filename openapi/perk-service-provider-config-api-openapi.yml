@@ -1,0 +1,192 @@
+openapi: 3.2.0
+info:
+  title: scim-server Service Provider Config API
+  version: '1.5'
+  description: Use this API to provision and manage users in Perk via System for Cross-domain Identity Management (SCIM 2.0).
+servers:
+- url: https://app.perk.com/api/v2/scim
+security:
+- sec0: []
+tags:
+- name: Service Provider Config
+paths:
+  /ServiceProviderConfig:
+    get:
+      summary: Get service provider configuration
+      description: Returns Perk's configuration details for the System for Cross-domain Identity Management (SCIM) API, including which operations are supported.
+      operationId: service-provider-configuration
+      responses:
+        '200':
+          description: Returns `200 OK` and the service provider configuration.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    schemas:
+                    - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+                    patch:
+                      supported: true
+                    bulk:
+                      supported: false
+                      maxOperations: 0
+                      maxPayloadSize: 0
+                    filter:
+                      supported: true
+                      maxResults: 50
+                    changePassword:
+                      supported: false
+                    sort:
+                      supported: false
+                    etag:
+                      supported: false
+                    authenticationSchemes:
+                    - type: oauthbearertoken
+                      name: OAuth 2
+                      description: Oauth 2 implemented with bearer token
+                    Schemas:
+                    - id: User
+                      name: User
+                      description: User Account
+                    meta:
+                      location: https://app.perk.com/api/v2/scim/ServiceProviderConfig
+                      resourceType: ServiceProviderConfig
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+                  patch:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: true
+                        default: true
+                  bulk:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: false
+                        default: true
+                      maxOperations:
+                        type: integer
+                        example: 0
+                        default: 0
+                      maxPayloadSize:
+                        type: integer
+                        example: 0
+                        default: 0
+                  filter:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: true
+                        default: true
+                      maxResults:
+                        type: integer
+                        example: 50
+                        default: 0
+                  changePassword:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: false
+                        default: true
+                  sort:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: false
+                        default: true
+                  etag:
+                    type: object
+                    properties:
+                      supported:
+                        type: boolean
+                        example: false
+                        default: true
+                  authenticationSchemes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: oauthbearertoken
+                        name:
+                          type: string
+                          example: OAuth 2
+                        description:
+                          type: string
+                          example: Oauth 2 implemented with bearer token
+                  Schemas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: User
+                        name:
+                          type: string
+                          example: User
+                        description:
+                          type: string
+                          example: User Account
+                  meta:
+                    type: object
+                    properties:
+                      location:
+                        type: string
+                        example: https://app.travelperk.com/api/v2/scim/ServiceProviderConfig
+                      resourceType:
+                        type: string
+                        example: ServiceProviderConfig
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/ServiceProviderConfig\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        samples-languages:
+        - curl
+      tags:
+      - Service Provider Config
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/create-a-new-user.md
+  - https://developers.perk.com/reference/custom-user-schema-details.md
+  - https://developers.perk.com/reference/deactivate-a-user.md
+  - https://developers.perk.com/reference/get-the-perkcustomfields-user-schema.md
+  - https://developers.perk.com/reference/get-user-schema.md
+  - https://developers.perk.com/reference/list-all-schemas.md
+  - https://developers.perk.com/reference/list-all-users.md
+  - https://developers.perk.com/reference/list-resource-types.md
+  - https://developers.perk.com/reference/replace-a-user.md
+  - https://developers.perk.com/reference/retrieve-a-user-1.md
+  - https://developers.perk.com/reference/retrieve-an-enterprise-user.md
+  - https://developers.perk.com/reference/service-provider-configuration.md
+  - https://developers.perk.com/reference/update-a-user.md
+  merge:
+    pages: 13
+    deduped: 12
+    conflicts_kept_first: 0

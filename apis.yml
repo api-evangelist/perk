@@ -167,8 +167,9 @@ common:
 
 apis:
 - name: Perk Travel & Spend API
-  description: 'REST API for Perk travel, expense, invoice, trip, cost-center, event, and card data. Authenticate with an account API key (customers)
-    or OAuth 2.0 (partners); send Api-Version: 1.'
+  description: >-
+    REST API for Perk travel, expense, invoice, trip, cost-center, event, and card data. Authenticate
+    with an account API key (customers) or OAuth 2.0 (partners); send Api-Version: 1.
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
@@ -185,8 +186,9 @@ apis:
     url: https://developers.perk.com/docs/quickstart
   aid: perk:perk-travel-spend-api
 - name: Perk SCIM API
-  description: SCIM 2.0 user-provisioning API for creating, updating, and deactivating Perk users from identity providers (Okta, Microsoft Entra
-    ID), including an expense extension schema.
+  description: >-
+    SCIM 2.0 user-provisioning API for creating, updating, and deactivating Perk users from identity providers
+    (Okta, Microsoft Entra ID), including an expense extension schema.
   humanURL: https://developers.perk.com/reference/using-the-scim-api-1
   baseURL: https://app.perk.com/api/v2/scim
   tags:
@@ -196,8 +198,9 @@ apis:
   aid: perk:perk-scim-api
 - aid: perk:perk-cost-centers-api
   name: Perk Cost centers API
-  description: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see [Cost objects
-    in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
+  description: >-
+    Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more
+    information, see [Cost objects in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
@@ -215,37 +218,116 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/perk-custom-fields-api-openapi.yml
-- aid: perk:perk-custom-fields
-  name: Perk Custom fields API
-  description: Retrieve select options for custom fields in your Perk account.
+- aid: perk:perk-bookings-api
+  name: Perk Bookings API
+  description: The Bookings API from Perk — 1 operation(s) for bookings.
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
-  - Custom fields
+  - Bookings
   properties:
   - type: OpenAPI
-    url: openapi/perk-custom-fields-openapi.yml
-- aid: perk:perk-scim-server
-  name: Perk Scim Server Openapi.Yml API
-  description: The Scim Server Openapi.Yml API from Perk — 9 operation(s) for scim server openapi.yml.
+    url: openapi/perk-bookings-api-openapi.yml
+- aid: perk:perk-companies-api
+  name: Perk Companies API
+  description: The Companies API from Perk — 1 operation(s) for companies.
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
-  - Scim Server Openapi.Yml
+  - Companies
   properties:
   - type: OpenAPI
-    url: openapi/perk-scim-server-openapi.yml
-- aid: perk:perk-travelperk-api-v1
-  name: Perk Travelperk Api V1 Openapi.Yml API
-  description: The Travelperk Api V1 Openapi.Yml API from Perk — 16 operation(s) for travelperk api v1 openapi.yml.
+    url: openapi/perk-companies-api-openapi.yml
+- aid: perk:perk-invoices-api
+  name: Perk Invoices API
+  description: The Invoices API from Perk — 4 operation(s) for invoices.
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
-  - Travelperk Api V1 Openapi.Yml
+  - Invoices
   properties:
   - type: OpenAPI
-    url: openapi/perk-travelperk-api-v1-openapi.yml
-
+    url: openapi/perk-invoices-api-openapi.yml
+- aid: perk:perk-profiles-api
+  name: Perk Profiles API
+  description: The Profiles API from Perk — 1 operation(s) for profiles.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-profiles-api-openapi.yml
+- aid: perk:perk-schemas-api
+  name: Perk Schemas API
+  description: The Schemas API from Perk — 5 operation(s) for schemas.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Schemas
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-schemas-api-openapi.yml
+- aid: perk:perk-suppliers-api
+  name: Perk Suppliers API
+  description: The Suppliers API from Perk — 1 operation(s) for suppliers.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Suppliers
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-suppliers-api-openapi.yml
+- aid: perk:perk-trips-api
+  name: Perk Trips API
+  description: The Trips API from Perk — 3 operation(s) for trips.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Trips
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-trips-api-openapi.yml
+- aid: perk:perk-users-api
+  name: Perk Users API
+  description: The Users API from Perk — 3 operation(s) for users.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-users-api-openapi.yml
+- aid: perk:perk-webhooks-api
+  name: Perk Webhooks API
+  description: The Webhooks API from Perk — 4 operation(s) for webhooks.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-webhooks-api-openapi.yml
+- aid: perk:perk-resource-types-api
+  name: Perk Resource Types API
+  description: The Resource Types API from Perk — 1 operation(s) for resource types.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Resource Types
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-resource-types-api-openapi.yml
+- aid: perk:perk-service-provider-config-api
+  name: Perk Service Provider Config API
+  description: The Service Provider Config API from Perk — 1 operation(s) for service provider config.
+  humanURL: https://developers.perk.com
+  baseURL: https://api.perk.com
+  tags:
+  - Service Provider Config
+  properties:
+  - type: OpenAPI
+    url: openapi/perk-service-provider-config-api-openapi.yml
 x-readme-harvest:
   date: '2026-10-14'
   ops: 42

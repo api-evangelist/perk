@@ -1,0 +1,183 @@
+openapi: 3.2.0
+info:
+  title: travelperk-api-v1 Profiles API
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Profiles
+paths:
+  /profiles:
+    get:
+      summary: List all Invoice Profiles
+      description: List all invoice profiles associated to this account
+      operationId: list-invoice-profiles
+      parameters:
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based (page number)
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: Maximum number of elements to return per page. Defaults to 10. Allowed values are in the range [1, 50]. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: exclude_personal
+        in: query
+        description: '[optional] Exclude personal invoice profiles from response'
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    offset: 0
+                    limit: 10
+                    total: 2
+                    profiles:
+                    - id: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                      company_id: 1346
+                      name: My Company Ltd
+                      payment_method_type: automatic
+                      billing_period: instant
+                      currency: GBP
+                      billing_information:
+                        legal_name: My Company Ltd
+                        vat_number: GB123456789
+                        address_line_1: 199 Bishopsgate
+                        address_line_2: Spitalfields
+                        city: London
+                        postal_code: EC2M 3TY
+                        country_name: United Kingdom
+                    - id: 8fa66535-5a9a-4a6f-90d8-2986621a706a
+                      company_id: 2421
+                      name: My Spanish Company SL
+                      payment_method_type: manual
+                      billing_period: monthly
+                      currency: EUR
+                      billing_information:
+                        legal_name: My Spanish Company SL
+                        vat_number: ES123456789
+                        address_line_1: Passeig de Gracia 345
+                        address_line_2: Planta 14
+                        city: Barcelona
+                        postal_code: 080123
+                        country_name: Spain
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+                  profiles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                        company_id:
+                          type: integer
+                        name:
+                          type: string
+                          example: My Company Ltd
+                        payment_method_type:
+                          type: string
+                          example: automatic
+                        billing_period:
+                          type: string
+                          example: instant
+                        currency:
+                          type: string
+                          example: GBP
+                        billing_information:
+                          type: object
+                          properties:
+                            legal_name:
+                              type: string
+                              example: My Company Ltd
+                            vat_number:
+                              type: string
+                              example: GB123456789
+                            address_line_1:
+                              type: string
+                              example: 199 Bishopsgate
+                            address_line_2:
+                              type: string
+                              example: Spitalfields
+                            city:
+                              type: string
+                              example: London
+                            postal_code:
+                              type: string
+                              example: EC2M 3TY
+                            country_name:
+                              type: string
+                              example: United Kingdom
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/profiles"
+        samples-languages:
+        - curl
+      tags:
+      - Profiles
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

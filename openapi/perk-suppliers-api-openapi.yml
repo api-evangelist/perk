@@ -1,0 +1,151 @@
+openapi: 3.2.0
+info:
+  title: travelperk-api-v1 Suppliers API
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Suppliers
+paths:
+  /suppliers:
+    get:
+      summary: List all suppliers
+      description: Suppliers listed in ascending order by id
+      operationId: list-all-suppliers
+      parameters:
+      - name: booking_id
+        in: query
+        description: Find Suppliers related to the given booking_id's
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"suppliers\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Supplier A\",\n      \"bookings\": [\n        \"123\", \"456\"\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Supplier B\",\n      \"bookings\": [\n        \"789\", \"101\"\n      ]\n    }\n  ],\n  \"limit\": 10,\n  \"offset\": 0,\n  \"total\": 2\n}"
+              schema:
+                type: object
+                properties:
+                  suppliers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '1'
+                        name:
+                          type: string
+                          example: Supplier A
+                        bookings:
+                          type: array
+                          items:
+                            type: string
+                            example: '123'
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"booking_id needs to be a single id or a comma (',') separated list of ids\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: booking_id needs to be a single id or a comma (',') separated list of ids
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/suppliers"
+          name: cURL
+        samples-languages:
+        - curl
+      tags:
+      - Suppliers
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

@@ -1,18 +1,181 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Custom Fields API
+  title: Perk Custom fields API
   version: '1.0'
-  description: Use this API to retrieve select options for a custom field in your Perk account.
+  description: 'Operations tagged Custom fields across 2 of this provider''s published API definitions: perk-custom-fields-openapi.yml, perk-custom-fields-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.perk.com
+tags:
+- name: Custom Fields
+  description: Retrieve select options for custom fields in your Perk account.
 paths:
   /custom-fields/{custom_field_id}/select-options:
+    post:
+      summary: Create select options
+      description: ''
+      operationId: create-custom-field-select-options
+      tags:
+      - Custom Fields
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: The unique ID of the custom field. Must be a select or multi-select field with target 'BOOKING'.
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        description: Your Perk API key, using the format 'ApiKey <your_api_key>'
+        schema:
+          type: string
+      - name: Api-Version
+        in: header
+        required: true
+        description: The API version for this request. Must be '1'.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - select_options
+              properties:
+                select_options:
+                  type: array
+                  minItems: 1
+                  description: The options to create as an array, in the order they should be returned in the response.
+                  items:
+                    type: object
+                    required:
+                    - value
+                    properties:
+                      value:
+                        type: string
+                        description: The option's display value. Must not be empty or whitespace-only, and must not exceed 160 characters.
+                      erp_code:
+                        type:
+                        - string
+                        - 'null'
+                        description: The option's ERP code. Optional when the custom field does not have cost allocation enabled. Required when cost allocation is enabled. An empty or whitespace-only value counts as missing.
+            example:
+              select_options:
+              - value: Engineering
+                erp_code: ENG-01
+              - value: Sales
+      responses:
+        '200':
+          description: Returns 200 OK and the list of options created (or revived from archived), in the same order as the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  select_options:
+                    type: array
+                    description: The options that were created or revived from an archived option, in submitted order
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique ID of the select option. When a submitted value matched an archived option, this is that option's existing ID.
+                        value:
+                          type: string
+                          description: The option's display value
+                        is_archived:
+                          type: boolean
+                          description: Always false in this response
+                        erp_code:
+                          type:
+                          - string
+                          - 'null'
+                          description: The option's ERP code, or null if none was provided
+              example:
+                select_options:
+                - id: 26711955-d42e-4bf0-941e-99972881fa80
+                  value: Engineering
+                  is_archived: false
+                  erp_code: ENG-01
+                - id: 89024c2f-df49-40f9-9225-e2124b045fd1
+                  value: Sales
+                  is_archived: false
+                  erp_code: null
+        '400':
+          description: Returns '400 Bad Request' when custom_field_id is missing or not a valid ID, the custom field isn't a select/multi-select BOOKING field, a value is empty/whitespace-only or exceeds 160 characters, erp_code is missing on a cost-allocation-enabled field, or any value already exists as an active option (including duplicates within the same request) — in which case the offending values are listed in conflicting_values.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+                  conflicting_values:
+                    type: array
+                    description: Present only when the request failed due to duplicate/existing values. Lists the specific values that already exist as active options or were repeated in the request.
+                    items:
+                      type: string
+              example:
+                status_code: 400
+                errors:
+                - Option values already exist or are duplicated in the request
+                conflicting_values:
+                - Sales
+        '401':
+          description: Returns '401 Unauthorized' when the Authorization header is missing or the API key is invalid. This response has no body.
+        '404':
+          description: Returns '404 Not Found' when custom_field_id doesn't exist, or doesn't belong to the account associated with your API key.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 404
+                errors:
+                - Custom field does not exist.
+        '405':
+          description: Returns '405 Method Not Allowed' when the request uses any HTTP method other than GET or POST.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 405
+                errors:
+                - 'Unsupported HTTP method: PUT'
     get:
       summary: List all select options
       description: ''
       operationId: list-custom-field-select-options
       tags:
-      - Custom fields
+      - Custom Fields
       parameters:
       - name: custom_field_id
         in: path
@@ -155,9 +318,143 @@ paths:
                 status_code: 405
                 errors:
                 - 'Unsupported HTTP method: POST'
-tags:
-- name: Custom fields
-  description: Retrieve select options for custom fields in your Perk account.
+    servers:
+    - url: https://api.perk.com
+  /custom-fields/{custom_field_id}/select-options/{option_id}/{archive_action}:
+    post:
+      summary: Archive or unarchive a select option
+      description: ''
+      operationId: archive-custom-field-select-option
+      tags:
+      - Custom Fields
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: The unique ID of the custom field the option belongs to.
+        schema:
+          type: string
+      - name: option_id
+        in: path
+        required: true
+        description: The unique ID of the select option to archive or unarchive.
+        schema:
+          type: string
+      - name: archive_action
+        in: path
+        required: true
+        description: The action to perform. Must be 'archive' or 'unarchive'.
+        schema:
+          type: string
+          enum:
+          - archive
+          - unarchive
+      - name: Authorization
+        in: header
+        required: true
+        description: Your Perk API key, using the format 'ApiKey <your_api_key>'
+        schema:
+          type: string
+      - name: Api-Version
+        in: header
+        required: true
+        description: The API version for this request. Must be '1'.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns 200 OK and the option's resulting state.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the select option
+                  value:
+                    type: string
+                    description: The option's display value
+                  is_archived:
+                    type: boolean
+                    description: Whether the option is archived after this request
+              example:
+                id: 26711955-d42e-4bf0-941e-99972881fa80
+                value: Engineering
+                is_archived: true
+        '400':
+          description: Returns '400 Bad Request' when custom_field_id or option_id is missing or not a valid ID, or archive_action is not 'archive' or 'unarchive'.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 400
+                errors:
+                - 'archive_action: Input should be ''archive'' or ''unarchive'''
+        '401':
+          description: Returns '401 Unauthorized' when the Authorization header is missing or the API key is invalid. This response has no body.
+        '404':
+          description: Returns '404 Not Found' when custom_field_id doesn't exist or doesn't belong to the account associated with your API key, or when option_id doesn't exist on that custom field.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              examples:
+                custom_field_not_found:
+                  summary: Custom field not found
+                  value:
+                    status_code: 404
+                    errors:
+                    - Custom field does not exist.
+                option_not_found:
+                  summary: Select option not found
+                  value:
+                    status_code: 404
+                    errors:
+                    - Custom field option does not exist.
+        '409':
+          description: Returns '409 Conflict' when unarchiving an option whose value (case-insensitive) matches an already-active option on the same custom field.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                    description: The HTTP status code
+                  errors:
+                    type: array
+                    description: A list of human-readable error messages
+                    items:
+                      type: string
+              example:
+                status_code: 409
+                errors:
+                - An active option with this value already exists.
+    servers:
+    - url: https://api.perk.com
+x-refined-from:
+- perk-custom-fields-openapi.yml
+- perk-custom-fields-api-openapi.yml
 x-provenance:
   method: searched
   source: https://developers.perk.com/reference
@@ -165,8 +462,9 @@ x-provenance:
   tool: harvest-readme-openapi.py
   note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
   assembled_from:
-  - https://developers.perk.com/reference/list-custom-field-select-options.md
+  - https://developers.perk.com/reference/archive-custom-field-select-option.md
+  - https://developers.perk.com/reference/create-custom-field-select-options.md
   merge:
-    pages: 1
+    pages: 2
     deduped: 0
     conflicts_kept_first: 0

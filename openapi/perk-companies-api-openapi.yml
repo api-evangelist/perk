@@ -1,0 +1,171 @@
+openapi: 3.2.0
+info:
+  title: travelperk-api-v1 Companies API
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Companies
+paths:
+  /companies:
+    get:
+      summary: List all Companies
+      description: List all companies associated to this account
+      operationId: list-invoice-profiles-1
+      parameters:
+      - name: offset
+        in: query
+        description: '[optional] Pagination offset index, 0 based (page number). Defaults to 0.'
+        schema:
+          type: integer
+          format: int32
+          default: ''
+      - name: limit
+        in: query
+        description: '[optional]  Maximum number of elements to return per page. Allowed values are in the range [1, 50]. See more info in [Pagination](reference#pagination-1). Defaults to 10. '
+        schema:
+          type: integer
+          format: int32
+          default: ''
+      - name: include_disabled
+        in: query
+        description: '[optional] Controls whether to include disabled companies in the results. The account''s default company is always included regardless of this setting. Defaults to false.'
+        schema:
+          type: boolean
+          default: ''
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    offset: 0
+                    limit: 10
+                    total: 2
+                    companies:
+                    - id: 4821
+                      name: Acme US Inc.
+                      address:
+                        address1: 400 E Van Buren St
+                        address2: null
+                        city: Phoenix
+                        postal_code: '85004'
+                        country_code: US
+                        region: AZ
+                      tax_id: 12-3456789
+                      enabled: true
+                      is_default: true
+                    - id: 4822
+                      name: Acme UK Ltd
+                      address:
+                        address1: 10 Downing Street
+                        address2: null
+                        city: London
+                        postal_code: SW1A 2AA
+                        country_code: GB
+                        region: null
+                      tax_id: GB123456789
+                      enabled: true
+                      is_default: false
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+                  companies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: f2dd1aa3-5601-4725-a520-bd59885bbb16
+                        name:
+                          type: string
+                          example: My Company Ltd
+                        address:
+                          type: object
+                          example: automatic
+                          properties:
+                            address1:
+                              type: string
+                            address2:
+                              type: string
+                            city:
+                              type: string
+                            postal_code:
+                              type: string
+                            country_code:
+                              type: string
+                            region:
+                              type: string
+                        tax_id:
+                          type: string
+                          example: instant
+                        enabled:
+                          type: boolean
+                          example: GBP
+                        is_default:
+                          type: boolean
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/companies"
+        samples-languages:
+        - curl
+      x-internal: false
+      tags:
+      - Companies
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

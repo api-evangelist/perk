@@ -1,0 +1,834 @@
+openapi: 3.2.0
+info:
+  title: Perk Users API
+  version: '1.5'
+  description: 'Operations tagged Users across 2 of this provider''s published API definitions: perk-scim-server-openapi.yml, perk-travelperk-api-v1-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://app.perk.com/api/v2/scim
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Users
+paths:
+  /Users:
+    post:
+      summary: Create a new user
+      description: Creates a new user in Perk.
+      operationId: create-a-new-user
+      responses:
+        '201':
+          description: Returns `201 Created` and the newly created user resource.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n            \"value\": \"1234\",\n            \"$ref\": \"http://app.perk.com/api/v2/scim/Users/1234\",\n            \"displayName\": \"John Johnson\"\n        },\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"gender\": \"M\",\n  \t\"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request POST \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>'\\\n  -d '\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n\t\t\"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlaen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 6412345\",\n      \"type\": \"work\"\n    }\n  ],\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n        \"value\":{\n            \"value\": \"1234\"\n        }\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"lineManagerEmail\": \"john.manager@mycompany.com\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n\t\t\"uniqueId\": \"A unique ID,\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  },\n\t\"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}\n'"
+          name: cURL
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    get:
+      summary: List users (with filtering)
+      description: Lists all users associated with this account.
+      operationId: list-all-users
+      parameters:
+      - name: count
+        in: query
+        description: Specifies the desired maximum number of query results per page. 100 is the maximum number of resources per page. The default value is 10.
+        schema:
+          type: integer
+          format: int32
+      - name: startIndex
+        in: query
+        description: The 1-based index of the first query result. A value less than 1 is interpreted as 1.
+        schema:
+          type: integer
+          format: int32
+      - name: filter
+        in: query
+        description: Filter expression to get a subset of users. When specified, only the users matching the filter expression are returned.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns `200 OK` and a paginated list of users.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:api:messages:2.0:ListResponse\"\n  ],\n  \"totalResults\": 2,\n  \"itemsPerPage\": 2,\n  \"startIndex\": 1,\n  \"Resources\": [\n    {\n      \"schemas\": [\n        \"urn:ietf:params:scim:schemas:core:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n      ],\n      \"name\": {\n        \"givenName\": \"Dan\",\n        \"familyName\": \"Morrison\",\n        \"middleName\": \"\",\n        \"honorificPrefix\": \"MR\"\n      },\n      \"locale\": \"en-gb\",\n      \"preferredLanguage\": \"en\",\n      \"title\": \"Boss\",\n      \"externalId\": \"12\",\n      \"id\": \"7\",\n      \"groups\": [],\n      \"active\": true,\n      \"userName\": \"dan.morrison@mycompany.com\",\n      \"phoneNumbers\": [\n        {\n          \"value\": \"+34 234567654\",\n          \"type\": \"work\"\n        }\n      ],\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"costCenter\": \"Marketing\"\n      },\n      \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n        \"gender\": \"M\",\n        \"dateOfBirth\": \"1991-04-23\",\n        \"travelPolicy\": \"Marketing policy #1\",\n        \"invoiceProfiles\": [\n          {\n            \"value\": \"MyCompany Ltd\"\n          }\n        ],\n        \"company\": \"MyCompany USA, Ltd\",\n        \"emergencyContact\": {\n          \"name\": \"Jess Michigan\",\n          \"phone\": \"+34 9874637\"\n        },\n        \"approvers\": [\n          {\n      \t\t  \"value\": \"123\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/123\",\n            \"displayName\": \"Jack Jackson\",\n            \"condition\": \"in_policy\"\n    \t\t  }\n        ]\n      }\n    },\n    {\n      \"schemas\": [\n        \"urn:ietf:params:scim:schemas:core:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n        \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n      ],\n      \"name\": {\n        \"givenName\": \"Mathew\",\n        \"familyName\": \"Roberts\",\n        \"middleName\": \"\",\n        \"honorificPrefix\": \"MRS\"\n      },\n      \"locale\": \"en-gb\",\n      \"preferredLanguage\": \"en\",\n      \"title\": \"Office Manager\",\n      \"externalId\": \"11\",\n      \"id\": \"8\",\n      \"groups\": [],\n      \"active\": true,\n      \"userName\": \"mathew.robersr@mycompany.com\",\n      \"phoneNumbers\": {\n        \"value\": \"+34 8453234\",\n         \"type\": \"work\"\n      },\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"costCenter\": null\n      },\n      \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n        \"gender\": \"M\",\n        \"dateOfBirth\": \"1991-04-23\",\n        \"travelPolicy\": \"Office Management Policy #2\",\n        \"invoiceProfiles\": [\n          {\n            \"value\": \"MyCompany Ltd\"\n          }\n        ],\n        \"company\": \"MyCompany USA, Ltd\",\n        \"emergencyContact\": {\n          \"name\": \"Jim Parker\",\n          \"phone\": \"+34 5434567\"\n        },\n        \"approvers\": [\n          {\n      \t\t  \"value\": \"456\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/456\",\n            \"displayName\": \"John Johnson\",\n            \"condition\": \"always\"\n    \t\t  }\n        ],\n        \"countryOfResidence\": \"ES\",\n        \"travelDocuments\": [\n          {\n            \"documentType\": \"passport,\n            \"documentNumber\": \"abcedf12345\",\n            \"givenName\": \"Josh\",\n            \"middleName\": \"\",\n            \"familyName\": \"Smith\",\n            \"gender\": \"M\",\n            \"issuingCountry\": \"ES\",\n            \"issuingDate\": \"1999-12-05\",\n            \"expirationDate\": \"2042-09-08\",\n            \"citizenship\": \"ES\",\n          }\n        ]\n      }\n    }\n  ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --get \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --data-urlencode \"filter=userName eq \\\"some-user@testcompany.com\\\"\" \\\n  --header \"Authorization: ApiKey <YOUR API KEY>\""
+          name: Filter by userName
+        - language: curl
+          code: "curl --get \\\n  --url https://app.perk.com/api/v2/scim/Users \\\n  --data-urlencode \"filter=externalId eq \\\"6fa62893-1797-4b45-9297-63f562d49b9a\\\"\" \\\n  --header \"Authorization: ApiKey <YOUR API KEY>\""
+          name: Filter by externalId
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    servers:
+    - url: https://app.perk.com/api/v2/scim
+  /Users/{id}:
+    patch:
+      summary: Update a user
+      description: Updates attributes for an existing user in Perk, overwriting values for specified attributes. Attributes that are not provided in the request remain unchanged.
+      operationId: update-a-user
+      parameters:
+      - name: id
+        in: path
+        description: Unique user identifier. The value is generated by Perk and returned during user creation.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: Returns `200 OK` and the updated user resource.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Engineer\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlaen.col@mycompany.com\",\n  \"phoneNumbers\": [],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Cost Center\",\n    \"manager\": {\n            \"value\": \"456\",\n            \"$ref\": \"https://app.perk.com/api/v2/scim/Users/456\",\n            \"displayName\": \"John Manager\"\n        },\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Travel Policy\",\n    \"invoiceProfiles\": [\n        {\n          \"value\": \"Invoice Profile\"\n        }\n      ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"uniqueId\": \"A unique ID\",\n    \"company\": \"MyCompany US, LTD.\",\n    \"approvers\": [],\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }\n}"
+        '400':
+          description: Returns `400 Bad request` and a SCIM error describing the invalid attribute.
+          content:
+            application/json:
+              examples:
+                ReadOnly Field:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"SCIM data 'id' cannot be updated\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+                Result:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n\t\"detail\": \"Attribute 'name' is mandatory, can not be None.\",\n\t\"status\": 400,\n  \"scimType\": \"invalidValue\"\n}            \n"
+              schema:
+                oneOf:
+                - title: ReadOnly field
+                  type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: SCIM data 'id' cannot be updated
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+                - type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: Value {value} is not valid for attribute 'gender'
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+                - type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: Attribute 'name' is mandatory, cannot be None.
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+        '404':
+          description: Returns `404 Not found` and a SCIM error when no user matches the ID.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: string
+                    example: urn:ietf:params:scim:api:messages:2.0:Error
+                  detail:
+                    type: string
+                    example: User '1234' not found
+                    description: Human-readable description of the error.
+                  status:
+                    type: integer
+                    example: 404
+                    default: 0
+                    description: HTTP error status code (4xx range).
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager\",\n  \"value\": {\n  \t\"value\": \"456\"\n    }\n}\n]}\n'"
+          name: Add a manager
+        - language: curl
+          code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"replace\",\n  \"path\": \"active\",\n  \"value\": false\n}]}\n'"
+          name: Deactivate a user
+        - language: curl
+          code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"remove\",\n  \"path\": \"phoneNumbers\",\n}]}\n'"
+          name: Delete a phoneNumber
+        - language: curl
+          code: "  curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:emergencyContact\",\n  \"value\": {\n    \"name\": \"Jane Goodie\",\n    \"phone\": \"+34 9874637\"\n  }\n}]}"
+          name: Update a complex attribute
+        - language: curl
+          code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'Authorization: apikey <YOUR API KEY>' \n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [\n{\n  \"op\": \"add\",\n  \"path\": \"title\",\n  \"value\": \"Engineer\"\n}\n]}\n'"
+          name: Add a title
+        - language: curl
+          code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json'\\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n\"Operations\": [{\n  \"op\": \"replace\",\n  \"path\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:lineManagerEmail\",\n  \"value\": \"new_manager@mycompany.com\"\n}\n]}\n'"
+          name: Add manager using lineManagerEmail
+        - code: "curl --request PATCH \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'content-type: application/json' \\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:PatchOp\",\n  \"Operations\": [{\n    \"op\": \"replace\",\n    \"path\": \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User:cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\",\n    \"value\": \"100\"\n  }]\n}'"
+          language: shell
+          name: Update custom field
+        samples-languages:
+        - curl
+        - shell
+      tags:
+      - Users
+    put:
+      summary: Replace a user
+      description: Replaces all of a user's attributes.
+      operationId: replace-a-user
+      parameters:
+      - name: id
+        in: path
+        description: Unique user identifier. The value is generated by Perk and returned during user creation.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '201':
+          description: Returns `201 Created` and the user resource.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "\": [\n        {\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n      \"value\": \"1234\",\n      \"$ref\": \"https://app.perk.com/api/v2/scim/Users/1234\",\n      \"displayName\": \"John Johnson\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"type\": \"work\"\n      }\n    ],\n    \"meta\": {\n      \"resourceType\": \"User\",\n      \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n      \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n      \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n    },\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n      \"costCenter\": \"Marketing\",\n      \"manager\": {\n        \"value\": \"1234\",\n        \"$ref\": \"https://app.perk.com/api/v2/scim/Users/1234\",\n        \"displayName\": \"John Johnson\"\n      }\n    }\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\neManagerEmail\": \"john.johnson@mycompany.com\"\n    }\n  }\n\n{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"username\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"issuingCountry\": \"ES\",\n        \"issuingDate\": \"1999-12-05\",\n        \"expirationDate\": \"2042-09-08\",\n        \"citizenship\": \"ES\"\n      }\n    ],\n    \"lineManagerEmail\": \"john.johnson@mycompany.com\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}"
+        '400':
+          description: Returns `400 Bad request` and a SCIM error describing the invalid attribute.
+          content:
+            application/json:
+              examples:
+                Invalid Value:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"Value {value} is not valid for attribute 'gender'\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+                Mandatory field:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n\t\"detail\": \"Attribute 'name' is mandatory, can not be None.\",\n\t\"status\": 400,\n  \"scimType\": \"invalidValue\"\n}            \n"
+                ReadOnly Field:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"SCIM data 'id' cannot be updated\",\n  \"status\": 400,\n  \"scimType\": \"invalidValue\"\n}"
+              schema:
+                oneOf:
+                - title: Invalid value
+                  type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: Value {value} is not valid for attribute 'gender'
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+                - title: Mandatory field
+                  type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: Attribute 'name' is mandatory, cannot be None.
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+                - title: Read-only field
+                  type: object
+                  properties:
+                    schemas:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:Error
+                    detail:
+                      type: string
+                      example: SCIM data 'id' cannot be updated
+                    status:
+                      type: integer
+                      example: 400
+                      default: 0
+                    scimType:
+                      type: string
+                      example: invalidValue
+        '404':
+          description: Returns `404 Not found` and a SCIM error when no user matches the ID.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: string
+                    example: urn:ietf:params:scim:api:messages:2.0:Error
+                  detail:
+                    type: string
+                    example: User '1234' not found
+                    description: Human-readable description of the error.
+                  status:
+                    type: integer
+                    example: 404
+                    default: 0
+                    description: HTTP error status code (4xx range).
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request PUT \\\n  --url \"https://app.perk.com/api/v2/scim/Users/1234\" \\\n  --header 'content-type: application/json' \\\n  --header 'Authorization: apikey <YOUR API KEY>' \\\n  -d '{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\",\n    \"manager\": {\n      \"value\": \"1234\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"lineManagerEmail\": \"john.johnson@mycompany.com\",\n    \"uniqueId\": \"A Unique ID\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n        \"documentType\": \"passport\",\n        \"documentNumber\": \"abcedf12345\",\n        \"givenName\": \"Josh\",\n        \"middleName\": \"\",\n        \"familyName\": \"Smith\",\n        \"gender\": \"M\",\n        \"issuingCountry\": \"ES\",\n        \"issuingDate\": \"1999-12-05\",\n        \"expirationDate\": \"2042-09-08\",\n        \"citizenship\": \"ES\"\n      }\n    ]\n  },\n  \"urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User\": {\n    \"cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7\": \"100\",\n    \"cf_market_fc93b012-a592-4580-b551-39d78294d35f\": \"400\"\n  }\n}'"
+          name: cURL
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    get:
+      summary: Get a user
+      description: Retrieves a user from Perk.
+      operationId: retrieve-a-user-1
+      parameters:
+      - name: id
+        in: path
+        description: Unique user identifier. The value is generated by Perk and returned during user creation.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: Returns `200 OK` and the user resource.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": [\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\n    \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n  ],\n  \"name\": {\n    \"givenName\": \"Marlen\",\n    \"familyName\": \"Col\",\n    \"middleName\": \"\",\n    \"honorificPrefix\": \"\"\n  },\n  \"locale\": \"en\",\n  \"preferredLanguage\": \"en\",\n  \"title\": \"Manager\",\n  \"externalId\": \"123455667\",\n  \"id\": \"29\",\n  \"groups\": [],\n  \"active\": true,\n  \"userName\": \"marlen.col@mycompany.com\",\n  \"phoneNumbers\": [\n    {\n      \"value\": \"+34 1234567\",\n      \"type\": \"work\"\n    }\n  ],\n  \"meta\": {\n    \"resourceType\": \"User\",\n    \"created\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"lastModified\": \"2020-04-01T22:24:44.137082+00:00\",\n    \"location\": \"http://app.perk.com/api/v2/scim/Users/29\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"costCenter\": \"Marketing\"\n  },\n  \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\": {\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1980-02-02\",\n    \"travelPolicy\": \"Marketing travel policy\",\n    \"invoiceProfiles\": [\n      {\n        \"value\": \"My Company Ltd\"\n      }\n    ],\n    \"company\": \"MyCompany USA, Ltd\",\n    \"emergencyContact\": {\n      \"name\": \"Jane Goodie\",\n      \"phone\": \"+34 9874637\"\n    },\n    \"approvers\": [\n      {\n        \"value\": \"123\",\n        \"$ref\": \"https://app.perk.com/api/v2/scim/Users/123/\",\n        \"displayName\": \"Jack Jackson\",\n        \"condition\": \"always\"\n      }\n    ],\n    \"countryOfResidence\": \"ES\",\n    \"travelDocuments\": [\n      {\n      \t\"documentType\": \"passport\",\n      \t\"documentNumber\": \"abcedf12345\",\n      \t\"givenName\": \"Josh\",\n      \t\"middleName\": \"\",\n        \"familyName\": \"Smith\",\n      \t\"gender\": \"M\",\n      \t\"issuingCountry\": \"ES\",\n      \t\"issuingDate\": \"1999-12-05\",\n      \t\"expirationDate\": \"2042-09-08\",\n      \t\"citizenship\": \"ES\"\n    \t}\n    ]\n  }    \n}"
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:schemas:core:2.0:User
+                  name:
+                    type: object
+                    properties:
+                      givenName:
+                        type: string
+                        example: Marlen
+                        description: Given name (first name)
+                      familyName:
+                        type: string
+                        example: Col
+                        description: Family name (last name)
+                      middleName:
+                        type: string
+                        example: ''
+                        description: Middle name(s)
+                      honorificPrefix:
+                        type: string
+                        example: ''
+                        description: Honorific prefix (e.g. Mr, Mrs, Ms)
+                    description: The components of the user's real name
+                  locale:
+                    type: string
+                    example: en
+                    description: User's locale for currency, date/time, and numerical formats. Defaults to `en` for British English. Use `en-us` for American English
+                  preferredLanguage:
+                    type: string
+                    example: en
+                    description: User's preferred written or spoken language
+                  title:
+                    type: string
+                    example: Manager
+                    description: The user's job title
+                  externalId:
+                    type: string
+                    example: '123455667'
+                    description: Unique identifier for the user in the client system
+                  id:
+                    type: string
+                    example: '29'
+                    description: Perk-generated identification number. Read-only
+                  groups:
+                    type: array
+                    description: Groups — currently not supported by Perk. Always returns an empty array
+                  active:
+                    type: boolean
+                    example: true
+                    default: true
+                    description: Whether the user is administratively active
+                  userName:
+                    type: string
+                    example: marlen.col@mycompany.com
+                    description: User's email address. Must be a valid, non-empty email address and unique across all users in Perk
+                  phoneNumbers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          example: +34 1234567
+                          description: Phone number of the user
+                        type:
+                          type: string
+                          example: work
+                          description: 'Label indicating the type of phone number. Accepted values: `work`, `home`, `mobile`, `fax`, `pager`, `other`'
+                  meta:
+                    type: object
+                    properties:
+                      resourceType:
+                        type: string
+                        example: User
+                        description: The name of the resource type
+                      created:
+                        type: string
+                        example: '2020-04-01T22:24:44.137082+00:00'
+                        description: Date-time the resource was added to the service provider
+                      lastModified:
+                        type: string
+                        example: '2020-04-01T22:24:44.137082+00:00'
+                        description: Date-time when the resource was last updated
+                      location:
+                        type: string
+                        example: http://app.perk.com/api/v2/scim/Users/29
+                        description: URI of the resource.
+                    description: Server-generated metadata. Read-only
+                  urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+                    type: object
+                    properties:
+                      costCenter:
+                        type: string
+                        example: Marketing
+                        description: Name of the cost object. It must already exist in Perk
+                    description: 'Enterprise User schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:enterprise:2.0:User`'
+                  urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:
+                    type: object
+                    properties:
+                      gender:
+                        type: string
+                        example: M
+                        description: 'User''s gender as used in travel documents. Accepted values: `M` (male), `F` (female)'
+                      dateOfBirth:
+                        type: string
+                        example: '1980-02-02'
+                        description: Date of birth in `YYYY-MM-DD` format. Any other format is rejected
+                      travelPolicy:
+                        type: string
+                        example: Marketing travel policy
+                        description: Name of the travel policy. It must already exist in Perk
+                      invoiceProfiles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: My Company Ltd
+                              description: Payment profile name. It must already exist in Perk
+                        description: Invoice profiles to assign to the user (typically one). Each must already exist in Perk. For `add` PATCH operations, new values are appended to the existing list
+                      company:
+                        type: string
+                        example: MyCompany USA, Ltd
+                        description: Company that the user belongs to (legal entity). If not provided, Perk assigns the user to the default company
+                      emergencyContact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: Jane Goodie
+                            description: Full name of the emergency contact
+                          phone:
+                            type: string
+                            example: +34 9874637
+                            description: Phone number of the emergency contact
+                        description: The user's emergency contact
+                      approvers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: '123'
+                              description: The approver's Perk user ID
+                            $ref:
+                              type: string
+                              example: https://app.perk.com/api/v2/scim/Users/123/
+                              description: URI that refers to the approver within Perk. Maps to the SCIM `$ref` attribute in API responses
+                            displayName:
+                              type: string
+                              example: Jack Jackson
+                              description: Human-readable name of the approver
+                            condition:
+                              type: string
+                              example: always
+                              description: 'Approval process condition. Accepted values: `always`, `out_of_policy`, `out_of_policy_and_notify_in_policy`, `in_policy`'
+                        description: Deprecated. Use `manager` or `lineManagerEmail` instead. For `add` PATCH operations, new values are appended to the existing list
+                      countryOfResidence:
+                        type: string
+                        example: ES
+                        description: Country of residence (ISO 3166-1 alpha-2 code)
+                      travelDocuments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            documentType:
+                              type: string
+                              example: passport
+                              description: 'Type of document: `passport` or `id`'
+                            documentNumber:
+                              type: string
+                              example: abcedf12345
+                              description: The number of the document
+                            givenName:
+                              type: string
+                              example: Josh
+                              description: First name as it appears on the document
+                            middleName:
+                              type: string
+                              example: ''
+                              description: Middle name as it appears on the document
+                            familyName:
+                              type: string
+                              example: Smith
+                              description: Last name as it appears on the document
+                            gender:
+                              type: string
+                              example: M
+                              description: Gender as it appears on the document
+                            issuingCountry:
+                              type: string
+                              example: ES
+                              description: Country where the document was issued (ISO 3166-1 alpha-2 code)
+                            issuingDate:
+                              type: string
+                              example: '1999-12-05'
+                              description: Date the document was issued (YYYY-MM-DD)
+                            expirationDate:
+                              type: string
+                              example: '2042-09-08'
+                              description: Expiration date of the document (YYYY-MM-DD)
+                            citizenship:
+                              type: string
+                              example: ES
+                              description: Citizenship as stated in the document (ISO 3166-1 alpha-2 code)
+                        description: Travel documents for the user
+                    description: 'Perk custom user schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:travelperk:2.0:User`'
+                  urn:ietf:params:scim:schemas:extension:expense:2.0:User:
+                    type: object
+                    description: 'Expense User schema extension. Schema URN: `urn:ietf:params:scim:schemas:extension:expense:2.0:User`'
+                    properties:
+                      policyId:
+                        type: string
+                        description: ID of the expense policy assigned to the user
+                        example: pol_123
+                      creditor:
+                        type: string
+                        description: Name of the creditor (company) used for expense reimbursements
+                        example: ACME Corp
+                      legalEntityId:
+                        type: string
+                        description: ID of the company the user belongs to for expense purposes
+                        example: le_456
+                      approvalThreshold:
+                        type: number
+                        format: double
+                        description: Maximum expense amount (in the account currency) the user can approve without a secondary approver
+                        example: 1000
+                      ignoreManagerInRequests:
+                        type: boolean
+                        description: If `true`, the user's manager is excluded from expense approval requests
+                        example: false
+        '404':
+          description: Returns `404 Not found` and a SCIM error when no user matches the ID.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: string
+                    example: urn:ietf:params:scim:api:messages:2.0:Error
+                  detail:
+                    type: string
+                    example: User '1234' not found
+                    description: Human-readable description of the error.
+                  status:
+                    type: integer
+                    example: 404
+                    default: 0
+                    description: HTTP error status code (4xx range).
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n  --url https://app.perk.com/api/v2/scim/Users/1234 \\\n  --header 'Authorization: apikey <YOUR API KEY>' "
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    delete:
+      summary: Delete a user
+      description: Deletes a user from Perk.
+      operationId: deactivate-a-user
+      parameters:
+      - name: id
+        in: path
+        description: Unique user identifier. The value is generated by Perk and returned during user creation.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '204':
+          description: Returns `204 No content`.
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+        '404':
+          description: Returns `404 Not found` and a SCIM error when no user matches the ID.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"schemas\": \"urn:ietf:params:scim:api:messages:2.0:Error\",\n  \"detail\": \"User '1234' not found\",\n  \"status\": 404\n}"
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: string
+                    example: urn:ietf:params:scim:api:messages:2.0:Error
+                  detail:
+                    type: string
+                    example: User '1234' not found
+                    description: Human-readable description of the error.
+                  status:
+                    type: integer
+                    example: 404
+                    default: 0
+                    description: HTTP error status code (4xx range).
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request DELETE \\\n  --url \"https://app.perk.com/api/v2/scim/Users/1234\" \\\n  --header 'Authorization: apikey <YOUR API KEY>' "
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    servers:
+    - url: https://app.perk.com/api/v2/scim
+  /users:
+    get:
+      summary: List all users
+      description: Users listed in descending order of `id`.
+      operationId: list-all-users-1
+      parameters:
+      - name: trip_id
+        in: query
+        description: Find Users travelling on a Trip with this id. A comma separated list of multiple ids is accepted.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: user_id
+        in: query
+        description: Find a single user with this id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"users\":[\n    {\n      \"id\":\"8\",\n      \"user_name\":\"boss@test.com\",\n      \"name\":{\n        \"last_name\":\"Morrison\",\n        \"first_name\":\"Boss\",\n        \"middle_name\":\"\",\n        \"title\":\"MR\"\n      },\n      \"preferred_language\":\"en\",\n      \"locale\":\"en-gb\",\n      \"active\":true,\n      \"job_title\":\"Boss\",\n      \"phone_numbers\":[\n        \"+34 123456789\"\n      ],\n      \"emergency_contact\":{\n        \"name\":\"Mrs. Morrison\",\n        \"phone\":\"+34 987654321\"\n      },\n      \"email\":\"boss@test.com\"\n    },\n    {\n      \"id\":\"7\",\n      \"user_name\":\"manager@test.com\",\n      \"name\":{\n        \"last_name\":\"Roberts\",\n        \"first_name\":\"Manager\",\n        \"middle_name\":\"\",\n        \"title\":\"MRS\"\n      },\n      \"preferred_language\":\"en\",\n      \"locale\":\"en-gb\",\n      \"active\":true,\n      \"job_title\":\"Office Manager\",\n      \"phone_numbers\":[\n        \n      ],\n      \"emergency_contact\":null,\n      \"email\":\"manager@test.com\"\n    }\n  ],\n  \"limit\":10,\n  \"offset\":0,\n  \"total\":2\n}"
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '8'
+                        user_name:
+                          type: string
+                          example: boss@test.com
+                        name:
+                          type: object
+                          properties:
+                            last_name:
+                              type: string
+                              example: Morrison
+                            first_name:
+                              type: string
+                              example: Boss
+                            middle_name:
+                              type: string
+                              example: ''
+                            title:
+                              type: string
+                              example: MR
+                        preferred_language:
+                          type: string
+                          example: en
+                        locale:
+                          type: string
+                          example: en-gb
+                        active:
+                          type: boolean
+                          example: true
+                          default: true
+                        job_title:
+                          type: string
+                          example: Boss
+                        phone_numbers:
+                          type: array
+                          items:
+                            type: string
+                            example: +34 123456789
+                        emergency_contact:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: Mrs. Morrison
+                            phone:
+                              type: string
+                              example: +34 987654321
+                        email:
+                          type: string
+                          example: boss@test.com
+                  limit:
+                    type: integer
+                    example: 10
+                    default: 0
+                  offset:
+                    type: integer
+                    example: 0
+                    default: 0
+                  total:
+                    type: integer
+                    example: 2
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"error\":{\n    \"type\":\"bad_request\",\n    \"errors\":[\n      {\n        \"reason\":\"trip_id needs to be a single id or a comma (',') separated list of ids\"\n      }\n    ]\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: bad_request
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason:
+                              type: string
+                              example: trip_id needs to be a single id or a comma (',') separated list of ids
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/users"
+          name: cURL
+        samples-languages:
+        - curl
+      tags:
+      - Users
+    servers:
+    - url: https://api.travelperk.com/
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+x-refined-from:
+- perk-scim-server-openapi.yml
+- perk-travelperk-api-v1-openapi.yml
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/archive-custom-field-select-option.md
+  - https://developers.perk.com/reference/create-custom-field-select-options.md
+  merge:
+    pages: 2
+    deduped: 0
+    conflicts_kept_first: 0

@@ -1,10 +1,13 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cost Centers API
+  title: Cost centers API
   version: '1.8'
   description: Use this API to manage cost objects (cost centers) in your Perk organization.
 servers:
 - url: https://api.perk.com
+tags:
+- name: Cost centers
+  description: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see Cost objects in Perk.
 paths:
   /cost_centers:
     get:
@@ -51,8 +54,9 @@ paths:
                           description: The name of the cost center
                           example: Marketing
                         type:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                           example: Department
                         count_users:
@@ -94,8 +98,9 @@ paths:
                   description: The name of the cost center
                   example: Marketing
                 type:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 256
                   description: Available only when cost object types are enabled for your organization on request, is ignored when the feature is not enabled. Cost object type name to assign on create. Non-empty string (max 256 characters). Omit or null leaves the type unset. If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Cannot be set on Yokoy-sourced cost centers.
                   example: Department
@@ -161,8 +166,9 @@ paths:
                     description: The name of the cost center
                     example: Marketing
                   type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                     example: Department
                   archived:
@@ -378,8 +384,9 @@ paths:
                   - 2
                   - 3
                 type:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 256
                   description: Cost object type name to set on all cost centers in `id_list`. Available only when cost object types are enabled for your organization on request. Non-empty string (max 256 characters). If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Omit or null leaves types unchanged. When the feature is enabled, provide at least one of `archive` or a non-null `type`. If any listed cost center is Yokoy-sourced and `type` is set, the request fails with 400 (all-or-nothing).
                   example: Department
@@ -450,8 +457,9 @@ paths:
                     description: The name of the cost center
                     example: Marketing
                   type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                     example: Department
                   archived:
@@ -669,8 +677,9 @@ paths:
                   description: The new name for the cost center
                   example: Finance
                 type:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 256
                   description: Cost object type name to assign. Available only when cost object types are enabled for your organization on request. Non-empty string (max 256 characters). If a type with that name already exists (case-insensitive), it is assigned; otherwise it is created. Omit or null leaves the type unchanged (does not clear). If cost object types are not enabled, `type` is not a recognized field (a type-only body returns 400). Cannot be set on Yokoy-sourced cost centers (returns 400).
                   example: Department
@@ -740,8 +749,9 @@ paths:
                     description: The name of the cost center
                     example: Finance
                   type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                     example: Department
                   archived:
@@ -1082,8 +1092,9 @@ paths:
                     example: Marketing
                     type: string
                   type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                     example: Department
                   users:
@@ -1216,8 +1227,9 @@ paths:
                     description: The name of the cost center
                     example: Marketing
                   type:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     description: Cost object type name, or null if unset. Available only when cost object types are enabled for your organization on request. Omitted from the response when the feature is not enabled.
                     example: Department
                   archived:
@@ -1361,9 +1373,6 @@ paths:
                   type: bad_request
                   errors:
                   - reason: Users not found
-tags:
-- name: Cost centers
-  description: Create, retrieve, modify, and archive cost objects (cost centers) in your Perk organization. For more information, see [Cost objects in Perk](https://support.perk.com/hc/en-us/articles/21926030522908-Cost-objects-on-Perk).
 x-provenance:
   method: searched
   source: https://developers.perk.com/reference

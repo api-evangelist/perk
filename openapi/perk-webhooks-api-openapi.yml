@@ -1,0 +1,506 @@
+openapi: 3.2.0
+info:
+  title: travelperk-api-v1 Webhooks API
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Webhooks
+paths:
+  /webhooks:
+    post:
+      summary: Create a webhook endpoint
+      description: Subscribes to one or more events, the target url of the webhook must be unique for the account.
+      operationId: subscribe-to-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: A name that identifies this subscription. This name will be sent on the notification JSON payload.
+                url:
+                  type: string
+                  description: Target URL where notification JSON payloads will be POSTed.
+                secret:
+                  type: string
+                  description: A secret only know by the user and TravelPerk. This secret will be used to sign the payload and send it in the `Tk-Signature` header.
+                events:
+                  type: array
+                  description: A list of event names to which the user is subscribing to.
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tkwebhooks\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\"\n    ],\n    \"successfully_sent\": 0,\n    \"failed_sent\": 0,\n    \"error_rate\": 0.0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tkwebhooks
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+                  successfully_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  failed_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  error_rate:
+                    type: integer
+                    example: 0
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"url\": [\n        \"Enter a valid URL.\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: array
+                    items:
+                      type: string
+                      example: Enter a valid URL.
+        '409':
+          description: '409'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"This subscription already exists. Use patch to amend it\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: This subscription already exists. Use patch to amend it
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -d '{\"name\": \"invoice webhook\", \"url\": \"https://mycompany.com/tkwebhooks\", \"secret\":\"some secret\",\"events\": [\"invoice.issued\"]}' \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Api-Version: 1' \\\n  -X POST https://api.sandbox-travelperk.com/webhooks\n\n\n"
+        samples-languages:
+        - curl
+      tags:
+      - Webhooks
+    get:
+      summary: List all webhook endpoints
+      description: List all webhook subscriptions
+      operationId: list-webhooks
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"webhooks\": [\n        {\n            \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n            \"name\": \"invoice webhook\",\n            \"url\": \"https://mycompany/tkwebhook\",\n            \"secret\": \"some secret\",\n            \"status\": \"enabled\",\n            \"events\": [\n                \"invoice.issued\",\n                \"invoiceline.created\"\n            ],\n            \"successfully_sent\": 2,\n            \"failed_sent\": 0,\n            \"error_rate\": 0.0\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: b42820bb-24c9-48da-bded-487681e9c851
+                        name:
+                          type: string
+                          example: invoice webhook
+                        url:
+                          type: string
+                          example: https://mycompany/tkwebhook
+                        secret:
+                          type: string
+                          example: some secret
+                        status:
+                          type: string
+                          example: enabled
+                        events:
+                          type: array
+                          items:
+                            type: string
+                            example: invoice.issued
+                        successfully_sent:
+                          type: integer
+                          example: 2
+                          default: 0
+                        failed_sent:
+                          type: integer
+                          example: 0
+                          default: 0
+                        error_rate:
+                          type: integer
+                          example: 0
+                          default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks"
+        samples-languages:
+        - curl
+      tags:
+      - Webhooks
+  /webhooks/events:
+    get:
+      summary: List all events
+      description: List all events you can subscribe to
+      operationId: list-events
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n        \"name\": \"invoice.issued\",\n        \"topic\": \"invoices\"\n    },\n    {\n        \"name\": \"invoiceline.created\",\n        \"topic\": \"invoices\"\n    }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: invoice.issued
+                    topic:
+                      type: string
+                      example: invoices
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks/events"
+        samples-languages:
+        - curl
+      tags:
+      - Webhooks
+  /webhooks/{id}:
+    patch:
+      summary: Update a webhook endpoint
+      description: Updates the webhook endpoint. You may edit the url, the list of events, status, secret or name. The target url of the webhook must be unique for the account, if the target url is not unique a client error HTTP 409 will be returned.
+      operationId: update-subscription
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tk_webhook\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\",\n        \"invoiceline.created\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tk_webhook
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"url\": [\n        \"Enter a valid URL.\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: array
+                    items:
+                      type: string
+                      example: Enter a valid URL.
+        '409':
+          description: '409'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -d '{\"enabled\":\"false\"}' \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -H 'Content-Type: application/json' \\\n  -X PATCH https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - curl
+      tags:
+      - Webhooks
+    get:
+      summary: Retrieve a webhook endpoint
+      description: Get details for a specific webhook endpoint
+      operationId: get-subscription-details
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"b42820bb-24c9-48da-bded-487681e9c851\",\n    \"name\": \"invoice webhook\",\n    \"url\": \"https://mycompany.com/tk_webhook\",\n    \"secret\": \"some secret\",\n    \"status\": \"enabled\",\n    \"events\": [\n        \"invoice.issued\",\n        \"invoiceline.created\"\n    ],\n    \"successfully_sent\": 2,\n    \"failed_sent\": 0,\n    \"error_rate\": 0.0\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b42820bb-24c9-48da-bded-487681e9c851
+                  name:
+                    type: string
+                    example: invoice webhook
+                  url:
+                    type: string
+                    example: https://mycompany.com/tk_webhook
+                  secret:
+                    type: string
+                    example: some secret
+                  status:
+                    type: string
+                    example: enabled
+                  events:
+                    type: array
+                    items:
+                      type: string
+                      example: invoice.issued
+                  successfully_sent:
+                    type: integer
+                    example: 2
+                    default: 0
+                  failed_sent:
+                    type: integer
+                    example: 0
+                    default: 0
+                  error_rate:
+                    type: integer
+                    example: 0
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"wrong uuid: b97f08e1-735-4f68-a937-542566780c52\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'wrong uuid: b97f08e1-735-4f68-a937-542566780c52'
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"Not found\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Not found
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - curl
+      tags:
+      - Webhooks
+    delete:
+      summary: Delete a webhook endpoint
+      description: Deletes a webhook endpoint
+      operationId: delete-webhook-subscription
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"error\": \"Not found\"\n}"
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Not found
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: text
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X DELETE https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851"
+        samples-languages:
+        - text
+      tags:
+      - Webhooks
+  /webhooks/{id}/test:
+    post:
+      summary: Test a webhook endpoint
+      description: Sends a sample payload to the webhook target URL.
+      operationId: test-webhook
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier for the webhook.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: text
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X POST https://api.travelperk.com/webhooks/b42820bb-24c9-48da-bded-487681e9c851/test"
+        samples-languages:
+        - text
+      tags:
+      - Webhooks
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

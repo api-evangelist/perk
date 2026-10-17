@@ -1,0 +1,154 @@
+openapi: 3.2.0
+info:
+  title: scim-server Resource Types API
+  version: '1.5'
+  description: Use this API to provision and manage users in Perk via System for Cross-domain Identity Management (SCIM 2.0).
+servers:
+- url: https://app.perk.com/api/v2/scim
+security:
+- sec0: []
+tags:
+- name: Resource Types
+paths:
+  /ResourceTypes:
+    get:
+      summary: List all resource types
+      description: Lists all available resource types for the Perk System for Cross-domain Identity Management (SCIM) API.
+      operationId: list-resource-types
+      responses:
+        '200':
+          description: Returns `200 OK` and a list of supported resource types.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    totalResults: 1
+                    itemsPerPage: 50
+                    startIndex: 1
+                    schemas:
+                    - urn:ietf:params:scim:api:messages:2.0:ListResponse
+                    Resources:
+                    - schemas:
+                      - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+                      id: User
+                      name: User
+                      endpoint: /Users
+                      description: User Account
+                      schema: urn:ietf:params:scim:schemas:core:2.0:User
+                      schemaExtensions:
+                      - schema: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                        required: false
+                      - schema: urn:ietf:params:scim:schemas:extension:travelperk:2.0:User
+                        required: false
+                      - schema: urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User
+                        required: false
+                      meta:
+                        location: https://app.perk.com/api/v2/scim/Users
+                        resourceType: ResourceType
+              schema:
+                type: object
+                properties:
+                  totalResults:
+                    type: integer
+                    example: 1
+                    default: 0
+                  itemsPerPage:
+                    type: integer
+                    example: 50
+                    default: 0
+                  startIndex:
+                    type: integer
+                    example: 1
+                    default: 0
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+                  Resources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        schemas:
+                          type: array
+                          items:
+                            type: string
+                            example: urn:ietf:params:scim:schemas:core:2.0:ResourceType
+                        id:
+                          type: string
+                          example: User
+                        name:
+                          type: string
+                          example: User
+                        endpoint:
+                          type: string
+                          example: /Users
+                        description:
+                          type: string
+                          example: User Account
+                        schema:
+                          type: string
+                          example: urn:ietf:params:scim:schemas:core:2.0:User
+                        schemaExtensions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              schema:
+                                type: string
+                                example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                              required:
+                                type: boolean
+                                example: false
+                                default: true
+                        meta:
+                          type: object
+                          properties:
+                            location:
+                              type: string
+                              example: https://app.travelperk.com/api/v2/scim/Users
+                            resourceType:
+                              type: string
+                              example: ResourceType
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/ResourceTypes\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        samples-languages:
+        - curl
+      tags:
+      - Resource Types
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/create-a-new-user.md
+  - https://developers.perk.com/reference/custom-user-schema-details.md
+  - https://developers.perk.com/reference/deactivate-a-user.md
+  - https://developers.perk.com/reference/get-the-perkcustomfields-user-schema.md
+  - https://developers.perk.com/reference/get-user-schema.md
+  - https://developers.perk.com/reference/list-all-schemas.md
+  - https://developers.perk.com/reference/list-all-users.md
+  - https://developers.perk.com/reference/list-resource-types.md
+  - https://developers.perk.com/reference/replace-a-user.md
+  - https://developers.perk.com/reference/retrieve-a-user-1.md
+  - https://developers.perk.com/reference/retrieve-an-enterprise-user.md
+  - https://developers.perk.com/reference/service-provider-configuration.md
+  - https://developers.perk.com/reference/update-a-user.md
+  merge:
+    pages: 13
+    deduped: 12
+    conflicts_kept_first: 0

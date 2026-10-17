@@ -1,0 +1,316 @@
+openapi: 3.2.0
+info:
+  title: travelperk-api-v1 Invoices API
+  version: '1.5'
+servers:
+- url: https://api.travelperk.com/
+security:
+- sec0: []
+tags:
+- name: Invoices
+paths:
+  /invoices:
+    get:
+      summary: List all Invoices
+      description: Get list of invoices, filters may be added as query parameters. Only invoices issued on or after January 1st 2019 will be returned
+      operationId: list-invoice
+      parameters:
+      - name: profile_id
+        in: query
+        description: Filter, only fetch invoices that match any of the provided invoice profile ids
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number
+        in: query
+        description: Filter, only fetch invoices that exactly match one of the provided invoice serial numbers
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number_contains
+        in: query
+        description: Filter, only fetch invoices that partially match a serial_number
+        schema:
+          type: string
+      - name: billing_period
+        in: query
+        description: Filter, only fetch invoices that match a billing_period (instant, weekly, biweekly, monthly)
+        schema:
+          type: string
+      - name: travelperk_bank_account_number
+        in: query
+        description: Filter, only fetch invoices that match the number of the tk_bank_account in the invoice
+        schema:
+          type: string
+      - name: customer_country_name
+        in: query
+        description: Filter, only fetch invoices that match the country name of the customer's billing address in the invoice
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Filter, only fetch invoices that match invoice''s status.  Available values : paid, unpaid'
+        schema:
+          type: string
+      - name: issuing_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is greater than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+          default: '2023-11-10'
+      - name: issuing_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is less than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+          default: '2023-11-10'
+      - name: due_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is greater than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+      - name: due_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is less than or equal to this date. Dates should be in format YYYY-MM-DD.
+        schema:
+          type: string
+          format: date
+      - name: limit
+        in: query
+        description: Maximum number of elements to return per page. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: 'Sorting criteria on fields in Invoice. Available values : issuing_date, -issuing_date'
+        schema:
+          type: string
+          default: -issuing_date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"serial_number\": \"INV-01-987654\",\n   \"profile_id\": \"edb6322b-8e11-48e9-8d6f-6402e445e50d\",\n   \"company_id\": 1346,\n   \"profile_name\": \"My Company Ltd\",\n   \"billing_information\": {\n      \"legal_name\": \"My Company Ltd\",\n      \"vat_number\": \"GB123456789\",\n      \"address_line_1\": \"199 Bishopsgate\",\n      \"address_line_2\": \"Spitalfields\",\n      \"city\": \"London\",\n      \"postal_code\": \"EC2M 3TY\",\n      \"country_name\": \"United Kingdom\"\n   },\n   \"mode\": \"reseller\",\n   \"status\": \"paid\",\n   \"issuing_date\": \"2020-03-31\",\n   \"billing_period\": \"monthly\",\n   \"from_date\":  \"2020-03-01\",\n   \"to_date\": \"2020-03-31\",\n   \"due_date\": \"2020-04-15\",\n   \"currency\": \"EUR\",\n   \"total\": \"13579.24\",\n   \"taxes_summary\": [\n      {\n         \"tax_regime\": \"STAR\",\n         \"subtotal\": \"6543.21\",\n         \"tax_percentage\": \"0.00\",\n         \"tax_amount\": \"0.00\",\n         \"total\": \"6543.21\",\n      },\n      {\n         \"tax_regime\": \"G-VAT-R\",\n         \"subtotal\": \"5912.63\",\n         \"tax_percentage\": \"19.00\",\n         \"tax_amount\": \"1123.40\",\n         \"total\": \"7036.03\",\n      }\n   ],\n   \"reference\": \"My Company Ltd - SEPA - Monthly 2020-03\",\n   \"travelperk_bank_account\": {\n      \"bank_name\": \"La Caixa\",\n      \"account_number\": \"ES01 2345 6789 1098 7654 3210\",\n      \"bic\": \"CAIX ES BB XXX\",\n      \"reference\": \"INV-01-987654\"\n   },\n   \"pdf\": \"https://api.travelperk.com/invoices/INV-01-987654/pdf\"\n}"
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices"
+        samples-languages:
+        - curl
+      tags:
+      - Invoices
+  /invoices/lines:
+    get:
+      summary: List all Invoice lines
+      description: Get list of invoices lines, filters may be added as query parameters. Returns InvoiceLineExtended models.
+      operationId: list-invoice-lines-1
+      parameters:
+      - name: profile_id
+        in: query
+        description: Filter, only fetch invoices that match any of the provided profile ids
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number
+        in: query
+        description: Filter, only fetch invoices that exactly match one of the provided serial numbers
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial_number_contains
+        in: query
+        description: Filter, only fetch lines on invoices that partially match invoice.serial_number
+        schema:
+          type: string
+      - name: billing_period
+        in: query
+        description: Filter, only fetch invoices that match a billing_period (instant, weekly, biweekly, monthly)
+        schema:
+          type: string
+      - name: travelperk_bank_account_number
+        in: query
+        description: Filters the invoices that need to be paid against a specific TravelPerk’s bank account, using its account number. See the tk_bank_account attribute of the Invoice model for more detail
+        schema:
+          type: string
+      - name: customer_country_name
+        in: query
+        description: Filter, only fetch invoices that match the country name of the customer's billing address in the invoice
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Filter, only fetch invoices that match invoice''s status.  Available values : paid, unpaid'
+        schema:
+          type: string
+      - name: issuing_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is greater than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: issuing_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.issuing_date is less than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: due_date_gte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is greater than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: due_date_lte
+        in: query
+        description: Filter, only fetch invoices where invoice.due_date is less than or equal to this date
+        schema:
+          type: string
+          format: date
+      - name: limit
+        in: query
+        description: Pagination maximum number of elements to return. See more info in [Pagination](reference#pagination-1)
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: Pagination offset index, 0 based.
+        schema:
+          type: integer
+          format: int32
+      - name: network_transaction_id
+        in: query
+        description: Filter, only fetch InvoiceLines that match the specified network transaction ID of the card transaction used to cover them. This ID is provided by card vendors such as expense card providers to help match card transactions with invoice lines in TravelPerk. This filter cannot be combined with other filters and is only available for invoices with dates after March 31, 2025.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"total\": 1,\n    \"offset\": 0,\n    \"limit\": 10,\n    \"invoice_lines\": [\n        {\n            \"id\": \"6dc6d45e-55f5-48cc-9e23-cad798b364ef\",\n            \"expense_date\": \"2020-02-13\",\n            \"description\": \"FLIGHT for Trip ID 1687664\",\n            \"quantity\": 1,\n            \"unit_price\": \"20.00000000\",\n            \"non_taxable_unit_price\": \"0E-8\",\n            \"tax_percentage\": \"0E-8\",\n            \"tax_amount\": \"0E-8\",\n            \"tax_regime\": \"STAR\",\n            \"total_amount\": \"20.00000000\",\n            \"metadata\": {\n              \"trip_id\": 1687664,\n              \"trip_name\": \"Meeting with German company GmbH\",\n              \"service\": \"flight\",\n              \"travelers\": [\n                { \"name\": \"John Doe\", \"email\": \"john.doe@mycompany.com\", \"external_id\": \"ASD123\" \n                }\n              ],\n            \t\"start_date\": \"2020-03-27\",\n              \"end_date\": \"2020-04-05\",\n              \"cost_center\": \"DACH Accounts\",\n              \"labels\": [ \"Sales trips\", \"Special\",],\n              \"vendor\": {\"code\": \"LH\", \"name\": \"Lufthansa\"},\n              \"out_of_policy\": false,\n              \"approvers\": [\n                { \"name\": \"Jake Bolt\", \"email\": \"jake.bolt@mycompany.com\", \"external_id\": \"ASD124\" \n                }\n              ],\n              \"booker\": { \"name\": \"Marien Lint\", \"email\": \"marien.lint@mycompany.com\", \"external_id\": \"ASD124\" \n        }\n            },\n          \"invoice_serial_number\": \"INV-01-190111\",\n          \"profile_id\": \"09d649d1-35fa-4d9f-b688-046d5790afd2\",\n          \"profile_name\": \"My Company Ltd\",\n          \"invoice_mode\": \"reseller\",\n          \"invoice_status\": \"paid\",\n          \"issuing_date\": \"2020-02-13\",\n          \"due_date\": \"2020-02-13\",\n          \"currency\": \"EUR\"\n        }\n    ]\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/lines"
+        samples-languages:
+        - curl
+      tags:
+      - Invoices
+  /invoices/{serial_number}:
+    get:
+      summary: Retrieve an Invoice
+      description: Get invoice detail
+      operationId: get-invoice
+      parameters:
+      - name: serial_number
+        in: path
+        description: invoice serial number
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"serial_number\": \"INV-01-987654\",\n   \"profile_id\": \"edb6322b-8e11-48e9-8d6f-6402e445e50d\",\n   \"profile_name\": \"My Company Ltd\",\n   \"billing_information\": {\n      \"legal_name\": \"My Company Ltd\",\n      \"vat_number\": \"GB123456789\",\n      \"address_line_1\": \"199 Bishopsgate\",\n      \"address_line_2\": \"Spitalfields\",\n      \"city\": \"London\",\n      \"postal_code\": \"EC2M 3TY\",\n      \"country_name\": \"United Kingdom\"\n   },\n   \"mode\": \"reseller\",\n   \"status\": \"paid\",\n   \"issuing_date\": \"2020-03-31\",\n   \"billing_period\": \"monthly\",\n   \"from_date\":  \"2020-03-01\",\n   \"to_date\": \"2020-03-31\",\n   \"due_date\": \"2020-04-15\",\n   \"currency\": \"EUR\",\n   \"total\": \"13579.24\",\n   \"lines\": {\n     \"total\": 15,\n     \"data\": [\n      (objects of type InvoiceLine)\n     ],\n     \"next\": \"/invoices/lines?serial_number=INV-01-987654&offset=10\"\n   },\n   \"taxes_summary\": [\n      {\n         \"tax_regime\": \"STAR\",\n         \"subtotal\": \"6543.21\",\n         \"tax_percentage\": \"0.00\",\n         \"tax_amount\": \"0.00\",\n         \"total\": \"6543.21\",\n      },\n      {\n         \"tax_regime\": \"G-VAT-R\",\n         \"subtotal\": \"5912.63\",\n         \"tax_percentage\": \"19.00\",\n         \"tax_amount\": \"1123.40\",\n         \"total\": \"7036.03\",\n      }\n   ],\n   \"reference\": \"My Company Ltd - SEPA - Monthly 2020-03\",\n   \"travelperk_bank_account\": {\n      \"bank_name\": \"La Caixa\",\n      \"account_number\": \"ES01 2345 6789 1098 7654 3210\",\n      \"bic\": \"CAIX ES BB XXX\",\n      \"reference\": \"INV-01-987654\"\n   },\n   \"pdf\": \"https://api.travelperk.com/invoices/INV-01-987654/pdf\"\n}"
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/INV-01-987654"
+        samples-languages:
+        - curl
+      tags:
+      - Invoices
+  /invoices/{serial_number}/pdf:
+    get:
+      summary: Retrieve Invoice PDF
+      description: Download invoice in PDF format
+      operationId: download-pdf
+      parameters:
+      - name: serial_number
+        in: path
+        description: invoice serial number
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: '***binary***'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -i \\\n  -H 'Authorization: ApiKey 123456.abcdefghijklmnopqrstuvwxyz123456' \\\n  -H 'Api-Version: 1' \\\n  -X GET https://api.travelperk.com/invoices/INV-01-987654/pdf"
+        samples-languages:
+        - curl
+      tags:
+      - Invoices
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      x-default: ''
+      name: Authorization
+      x-bearer-format: token
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/companies-1.md
+  - https://developers.perk.com/reference/delete-webhook-subscription.md
+  - https://developers.perk.com/reference/download-pdf.md
+  - https://developers.perk.com/reference/get-invoice.md
+  - https://developers.perk.com/reference/get-subscription-details.md
+  - https://developers.perk.com/reference/list-all-bookings.md
+  - https://developers.perk.com/reference/list-all-suppliers.md
+  - https://developers.perk.com/reference/list-all-trips.md
+  - https://developers.perk.com/reference/list-all-users-1.md
+  - https://developers.perk.com/reference/list-events.md
+  - https://developers.perk.com/reference/list-invoice-lines-1.md
+  - https://developers.perk.com/reference/list-invoice-profiles.md
+  - https://developers.perk.com/reference/list-invoice.md
+  - https://developers.perk.com/reference/list-webhooks.md
+  - https://developers.perk.com/reference/retrieve-a-trip-by-id.md
+  - https://developers.perk.com/reference/retrieve-custom-fields.md
+  - https://developers.perk.com/reference/subscribe-to-event.md
+  - https://developers.perk.com/reference/test-webhook.md
+  - https://developers.perk.com/reference/update-subscription.md
+  merge:
+    pages: 19
+    deduped: 18
+    conflicts_kept_first: 0

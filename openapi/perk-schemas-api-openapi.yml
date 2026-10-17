@@ -1,0 +1,1294 @@
+openapi: 3.2.0
+info:
+  title: scim-server Schemas API
+  version: '1.5'
+  description: Use this API to provision and manage users in Perk via System for Cross-domain Identity Management (SCIM 2.0).
+servers:
+- url: https://app.perk.com/api/v2/scim
+security:
+- sec0: []
+tags:
+- name: Schemas
+paths:
+  /Schemas:
+    get:
+      summary: List all schemas
+      description: Lists all schemas and their attributes.
+      operationId: list-all-schemas
+      responses:
+        '200':
+          description: Returns `200 OK` and a list of all schema definitions.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    schemas:
+                    - urn:ietf:params:scim:api:messages:2.0:ListResponse
+                    totalResults: 4
+                    itemsPerPage: 10
+                    startIndex: 1
+                    Resources:
+                    - id: urn:ietf:params:scim:schemas:core:2.0:User
+                      name: User
+                      description: User Account Schema
+                      attributes:
+                      - name: name
+                        type: complex
+                        multiValued: false
+                        description: The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.
+                        required: true
+                        subAttributes:
+                        - name: familyName
+                          type: string
+                          multiValued: false
+                          description: The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').
+                          required: true
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: givenName
+                          type: string
+                          multiValued: false
+                          description: The given name of the User, or first name in most Western languages (e.g., 'Barbara' given the full name 'Ms. Barbara J Jensen, III').
+                          required: true
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: middleName
+                          type: string
+                          multiValued: false
+                          description: The middle name(s) of the User (e.g., 'Jane' given the full name 'Ms. Barbara J Jensen, III').
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: honorificPrefix
+                          type: string
+                          multiValued: false
+                          description: The honorific prefix(es) of the User, or title in most Western languages (e.g., 'Ms.' given the full name 'Ms. Barbara J Jensen, III').
+                          required: false
+                          caseExact: true
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: externalId
+                        type: string
+                        multiValued: false
+                        description: ''
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: server
+                      - name: title
+                        type: string
+                        multiValued: false
+                        description: The user's title, such as "Vice President."
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: preferredLanguage
+                        type: string
+                        multiValued: false
+                        description: Indicates the User's preferred written or spoken language. Generally used for selecting a localized user interface; e.g., 'en_US' specifies the language English and country US.
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                        canonicalValues:
+                        - en
+                        - es
+                        - fr
+                        - de
+                      - name: locale
+                        type: string
+                        multiValued: false
+                        description: Used to indicate the User's default location for purposes of localizing items such as currency, date time format, or numerical representations.
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: active
+                        type: boolean
+                        multiValued: false
+                        description: A Boolean value indicating the User's administrative status.
+                        required: true
+                        mutability: readWrite
+                        returned: default
+                      - name: phoneNumbers
+                        type: complex
+                        multiValued: true
+                        description: Phone numbers for the User. The value SHOULD be canonicalized by the service provider according to the format specified in RFC 3966, e.g., 'tel:+1-201-555-0123'. Canonical type values of 'work', 'home', 'mobile', 'fax', 'pager', and 'other'.
+                        required: false
+                        subAttributes:
+                        - name: value
+                          type: string
+                          multiValued: false
+                          description: Phone number of the User.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: type
+                          type: string
+                          multiValued: false
+                          description: A label indicating the attribute's function, e.g., 'work', 'home', 'mobile'.
+                          required: false
+                          caseExact: false
+                          canonicalValues:
+                          - work
+                          - home
+                          - mobile
+                          - fax
+                          - pager
+                          - other
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                      - name: id
+                        type: string
+                        multiValued: false
+                        description: Identification number in Perk
+                        required: false
+                        mutability: readOnly
+                        returned: default
+                      - name: groups
+                        type: list
+                        multiValued: true
+                        description: Groups - Currently not supported by Perk
+                        required: false
+                        mutability: readOnly
+                        returned: default
+                      - name: meta
+                        type: complex
+                        multiValued: false
+                        description: Server-generated metadata
+                        required: false
+                        mutability: readOnly
+                        subAttributes:
+                        - name: resourceType
+                          type: string
+                          multiValued: false
+                          description: The name of the resource type of the resource
+                          required: false
+                          mutability: readOnly
+                          returned: default
+                          caseExact: 'true'
+                        - name: created
+                          type: string
+                          multiValued: false
+                          description: The DateTime that the resource was added to the service provider.
+                          required: false
+                          mutability: readWrite
+                          returned: default
+                        - name: lastModified
+                          type: string
+                          multiValued: false
+                          description: The most recent DateTime that the details of this resource were updated at the service provider
+                          required: false
+                          mutability: readWrite
+                          returned: default
+                        - name: location
+                          type: string
+                          multiValued: false
+                          description: The URI of the resource being returned.
+                          required: false
+                          mutability: readWrite
+                          returned: default
+                        - name: version
+                          type: string
+                          multiValued: false
+                          description: ' The version of the resource being returned.'
+                          required: false
+                          mutability: readWrite
+                          returned: default
+                        returned: default
+                      - name: userName
+                        type: string
+                        multiValued: false
+                        description: Unique identifier for the User, typically used by the user to directly authenticate to the service provider. The userName value and it MUST be a non-empty and valid email address of the user, as well as be unique across the service provider's entire set of Users.
+                        required: true
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: server
+                      meta:
+                        resourceType: Schema
+                        location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User
+                      schemaExtensions:
+                      - schema: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                        required: false
+                      - schema: urn:ietf:params:scim:schemas:extension:travelperk:2.0:User
+                        required: false
+                    - id: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                      name: Enterprise User
+                      description: Enterprise User Schema
+                      attributes:
+                      - name: costCenter
+                        type: string
+                        multiValued: false
+                        description: Identifies the name of a cost center. The cost center should exist in Perk
+                        required: false
+                        caseExact: true
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: manager
+                        type: complex
+                        multiValued: false
+                        description: An object that represents the user's manager. Used to create approval processes in Perk, setting the manager as approver for the user.
+                        required: false
+                        subAttributes:
+                        - name: value
+                          type: string
+                          multiValued: false
+                          description: The manager's Perk ID.
+                          required: false
+                          caseExact: true
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: displayName
+                          type: string
+                          multiValued: false
+                          description: Human readable name of the manager.
+                          required: false
+                          caseExact: true
+                          mutability: readOnly
+                          returned: default
+                          uniqueness: none
+                        - name: $ref
+                          type: string
+                          multiValued: false
+                          description: The URI that refers to the manager within Perk.
+                          required: false
+                          caseExact: true
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      meta:
+                        resourceType: Schema
+                        location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                    - id: urn:ietf:params:scim:schemas:extension:travelperk:2.0:User
+                      name: Custom User
+                      description: Custom User Schema
+                      attributes:
+                      - name: gender
+                        type: string
+                        multiValued: false
+                        description: ''
+                        required: false
+                        caseExact: false
+                        canonicalValues:
+                        - M
+                        - F
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: dateOfBirth
+                        type: string
+                        multiValued: false
+                        description: Date of birth of the user. Should be a string with the format 'YYYY-MM-DD', otherwise the value will be rejected
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: travelPolicy
+                        type: string
+                        multiValued: false
+                        description: Identifies the name of a travel policy. The travel policy should exist in Perk
+                        required: false
+                        caseExact: true
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: invoiceProfiles
+                        type: complex
+                        multiValued: true
+                        description: Invoice profiles for a user. Typically one value only. It should exist in Perk.
+                        required: false
+                        subAttributes:
+                        - name: value
+                          type: string
+                          multiValued: false
+                          description: Invoice profiles for a user.
+                          required: false
+                          caseExact: true
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: emergencyContact
+                        type: complex
+                        multiValued: false
+                        description: The user's emergency contact. Contains their name and phone number.
+                        required: false
+                        subAttributes:
+                        - name: name
+                          type: string
+                          multiValued: false
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                          description: The full name of the user's emergency contact
+                        - name: phone
+                          type: string
+                          multiValued: false
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                          description: The phone number of the user's emergency contact
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: approvers
+                        type: complex
+                        multiValued: true
+                        description: Approvers for the User. They need to exist in Perk.
+                        required: false
+                        subAttributes:
+                        - name: value
+                          type: string
+                          multiValued: false
+                          description: The approver's Perk ID.
+                          required: false
+                          caseExact: true
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: displayName
+                          type: string
+                          multiValued: false
+                          description: Human readable name of the approver.
+                          required: false
+                          caseExact: true
+                          mutability: readOnly
+                          returned: default
+                          uniqueness: none
+                        - name: $ref
+                          type: string
+                          multiValued: false
+                          description: The URI that refers to the approver within Perk.
+                          required: false
+                          caseExact: true
+                          mutability: readOnly
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: countryOfResidence
+                        type: string
+                        multiValued: false
+                        description: Identifies the country of residence of the user.
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: travelDocuments
+                        type: complex
+                        multiValued: true
+                        description: Travel documents of the user.
+                        required: false
+                        subAttributes:
+                        - name: documentType
+                          type: string
+                          multiValued: false
+                          description: The type of the document. It can be either passport or id.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: givenName
+                          type: string
+                          multiValued: false
+                          description: The first name of the user as it appears on the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: familyName
+                          type: string
+                          multiValued: false
+                          description: The last name of the user as it appears on the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: middleName
+                          type: string
+                          multiValued: false
+                          description: The middle name of the user as it appears on the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: gender
+                          type: string
+                          multiValued: false
+                          description: The gender of the the user as it appears on the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: issuingCountry
+                          type: string
+                          multiValued: false
+                          description: The country where the document was issued.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: issuingDate
+                          type: string
+                          multiValued: false
+                          description: The date when the document was issued.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: expirationDate
+                          type: string
+                          multiValued: false
+                          description: The expiration date of the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: citizenship
+                          type: string
+                          multiValued: false
+                          description: The citizenship of the user as steated in the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        - name: documentNumber
+                          type: string
+                          multiValued: false
+                          description: The number of the document.
+                          required: false
+                          caseExact: false
+                          mutability: readWrite
+                          returned: default
+                          uniqueness: none
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      meta:
+                        resourceType: Schema
+                        location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User
+                    - id: urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User
+                      name: Perk Custom Fields
+                      description: Custom fields provisionable via SCIM
+                      attributes:
+                      - name: cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7
+                        type: string
+                        multiValued: false
+                        description: 'Custom field: Brand'
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: cf_market_fc93b012-a592-4580-b551-39d78294d35f
+                        type: string
+                        multiValued: false
+                        description: 'Custom field: Market'
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      meta:
+                        resourceType: Schema
+                        location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                      example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+                  totalResults:
+                    type: integer
+                    example: 3
+                    default: 0
+                  itemsPerPage:
+                    type: integer
+                    example: 10
+                    default: 0
+                  startIndex:
+                    type: integer
+                    example: 1
+                    default: 0
+                  Resources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: urn:ietf:params:scim:schemas:core:2.0:User
+                        name:
+                          type: string
+                          example: User
+                        description:
+                          type: string
+                          example: User Account Schema
+                        attributes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: name
+                              type:
+                                type: string
+                                example: complex
+                              multiValued:
+                                type: boolean
+                                example: false
+                                default: true
+                              description:
+                                type: string
+                                example: The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.
+                              required:
+                                type: boolean
+                                example: true
+                                default: true
+                              subAttributes:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                      example: familyName
+                                    type:
+                                      type: string
+                                      example: string
+                                    multiValued:
+                                      type: boolean
+                                      example: false
+                                      default: true
+                                    description:
+                                      type: string
+                                      example: The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').
+                                    required:
+                                      type: boolean
+                                      example: true
+                                      default: true
+                                    caseExact:
+                                      type: boolean
+                                      example: false
+                                      default: true
+                                    mutability:
+                                      type: string
+                                      example: readWrite
+                                    returned:
+                                      type: string
+                                      example: default
+                                    uniqueness:
+                                      type: string
+                                      example: none
+                              mutability:
+                                type: string
+                                example: readWrite
+                              returned:
+                                type: string
+                                example: default
+                              uniqueness:
+                                type: string
+                                example: none
+                        meta:
+                          type: object
+                          properties:
+                            resourceType:
+                              type: string
+                              example: Schema
+                            location:
+                              type: string
+                              example: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User
+                        schemaExtensions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              schema:
+                                type: string
+                                example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                              required:
+                                type: boolean
+                                example: false
+                                default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: " curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas \\\n  --header 'Authorization: apikey <your_api_key>' "
+        samples-languages:
+        - curl
+      tags:
+      - Schemas
+  /Schemas/urn:ietf:params:scim:schemas:core:2.0:User:
+    get:
+      summary: Get the user schema
+      description: Lists all attributes of the user schema.
+      operationId: get-user-schema
+      responses:
+        '200':
+          description: Returns `200 OK` and the user schema definition.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: urn:ietf:params:scim:schemas:core:2.0:User
+                    name: User
+                    description: User Account Schema
+                    attributes:
+                    - name: name
+                      type: complex
+                      multiValued: false
+                      description: The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.
+                      required: true
+                      subAttributes:
+                      - name: familyName
+                        type: string
+                        multiValued: false
+                        description: The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').
+                        required: true
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: givenName
+                        type: string
+                        multiValued: false
+                        description: The given name of the User, or first name in most Western languages (e.g., 'Barbara' given the full name 'Ms. Barbara J Jensen, III').
+                        required: true
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: middleName
+                        type: string
+                        multiValued: false
+                        description: The middle name(s) of the User (e.g., 'Jane' given the full name 'Ms. Barbara J Jensen, III').
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: honorificPrefix
+                        type: string
+                        multiValued: false
+                        description: The honorific prefix(es) of the User, or title in most Western languages (e.g., 'Ms.' given the full name 'Ms. Barbara J Jensen, III').
+                        required: false
+                        caseExact: true
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: externalId
+                      type: string
+                      multiValued: false
+                      description: Unique identifier of the user in the client system.
+                      required: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: server
+                    - name: title
+                      type: string
+                      multiValued: false
+                      description: The user's title, such as "Vice President."
+                      required: false
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: preferredLanguage
+                      type: string
+                      multiValued: false
+                      description: Indicates the User's preferred written or spoken language. Generally used for selecting a localized user interface; e.g., 'en_US' specifies the language English and country US.
+                      required: false
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                      canonicalValues:
+                      - en
+                      - es
+                      - fr
+                      - de
+                    - name: locale
+                      type: string
+                      multiValued: false
+                      description: A valid language tag as defined in RFC 5646. Used to deduce the currency, date time format, and language on user creation in case that those values are not otherwise specified (e.g. language by preferredLanguage).
+                      required: false
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: active
+                      type: boolean
+                      multiValued: false
+                      description: A Boolean value indicating the User's administrative status.
+                      required: true
+                      mutability: readWrite
+                      returned: default
+                    - name: phoneNumbers
+                      type: complex
+                      multiValued: true
+                      description: Phone numbers for the User. The value SHOULD be canonicalized by the service provider according to the format specified in RFC 3966, e.g., 'tel:+1-201-555-0123'. Canonical type values of 'work', 'home', 'mobile', 'fax', 'pager', and 'other'.
+                      required: false
+                      subAttributes:
+                      - name: value
+                        type: string
+                        multiValued: false
+                        description: Phone number of the User.
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: type
+                        type: string
+                        multiValued: false
+                        description: A label indicating the attribute's function, e.g., 'work', 'home', 'mobile'.
+                        required: false
+                        caseExact: false
+                        canonicalValues:
+                        - work
+                        - home
+                        - mobile
+                        - fax
+                        - pager
+                        - other
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      mutability: readWrite
+                      returned: default
+                    - name: emails
+                      type: complex
+                      multiValued: true
+                      description: Email addresses for the User.
+                      required: false
+                      subAttributes:
+                      - name: value
+                        type: string
+                        multiValued: false
+                        description: Email address of the User.
+                        required: false
+                        caseExact: false
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: type
+                        type: string
+                        multiValued: false
+                        description: A label indicating the attribute's function, e.g., 'work', 'home', 'other'.
+                        required: false
+                        caseExact: false
+                        canonicalValues:
+                        - work
+                        - home
+                        - other
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: primary
+                        type: boolean
+                        multiValued: false
+                        description: A Boolean value indicating, when true, that this email address is the primary address.
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                      mutability: readWrite
+                      returned: default
+                    - name: id
+                      type: string
+                      multiValued: false
+                      description: Identification number in Perk
+                      required: false
+                      mutability: readOnly
+                      returned: default
+                    - name: groups
+                      type: list
+                      multiValued: true
+                      description: Groups - Currently not supported by Perk
+                      required: false
+                      mutability: readOnly
+                      returned: default
+                    - name: meta
+                      type: complex
+                      multiValued: false
+                      description: Server-generated metadata
+                      required: false
+                      mutability: readOnly
+                      subAttributes:
+                      - name: resourceType
+                        type: string
+                        multiValued: false
+                        description: The name of the resource type of the resource
+                        required: false
+                        mutability: readOnly
+                        returned: default
+                        caseExact: true
+                      - name: created
+                        type: string
+                        multiValued: false
+                        description: The DateTime that the resource was added to the service provider.
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                      - name: lastModified
+                        type: string
+                        multiValued: false
+                        description: The most recent DateTime that the details of this resource were updated at the service provider
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                      - name: location
+                        type: string
+                        multiValued: false
+                        description: The URI of the resource being returned.
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                      - name: version
+                        type: string
+                        multiValued: false
+                        description: ' The version of the resource being returned.'
+                        required: false
+                        mutability: readWrite
+                        returned: default
+                      returned: default
+                    - name: userName
+                      type: string
+                      multiValued: false
+                      description: Unique identifier for the User, typically used by the user to directly authenticate to the service provider. The userName value MUST be a non-empty and valid email address of the user, and MUST be unique across the service provider's entire set of Users.
+                      required: true
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: server
+                    meta:
+                      resourceType: Schema
+                      location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User
+                    schemaExtensions:
+                    - schema: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                      required: false
+                    - schema: urn:ietf:params:scim:schemas:extension:travelperk:2.0:User
+                      required: false
+                    - schema: urn:ietf:params:scim:schemas:extension:expense:2.0:User
+                      required: false
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: urn:ietf:params:scim:schemas:core:2.0:User
+                  name:
+                    type: string
+                    example: User
+                  description:
+                    type: string
+                    example: User Account Schema
+                  attributes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: name
+                        type:
+                          type: string
+                          example: complex
+                        multiValued:
+                          type: boolean
+                          example: false
+                          default: true
+                        description:
+                          type: string
+                          example: The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.
+                        required:
+                          type: boolean
+                          example: true
+                          default: true
+                        subAttributes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: familyName
+                              type:
+                                type: string
+                                example: string
+                              multiValued:
+                                type: boolean
+                                example: false
+                                default: true
+                              description:
+                                type: string
+                                example: The family name of the User, or last name in most Western languages (e.g., 'Jensen' given the full name 'Ms. Barbara J Jensen, III').
+                              required:
+                                type: boolean
+                                example: true
+                                default: true
+                              caseExact:
+                                type: boolean
+                                example: false
+                                default: true
+                              mutability:
+                                type: string
+                                example: readWrite
+                              returned:
+                                type: string
+                                example: default
+                              uniqueness:
+                                type: string
+                                example: none
+                        mutability:
+                          type: string
+                          example: readWrite
+                        returned:
+                          type: string
+                          example: default
+                        uniqueness:
+                          type: string
+                          example: none
+                  meta:
+                    type: object
+                    properties:
+                      resourceType:
+                        type: string
+                        example: Schema
+                      location:
+                        type: string
+                        example: https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User
+                  schemaExtensions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        schema:
+                          type: string
+                          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                        required:
+                          type: boolean
+                          example: false
+                          default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:core:2.0:User\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        samples-languages:
+        - curl
+      tags:
+      - Schemas
+  /Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+    get:
+      summary: Get the enterprise user schema
+      description: Lists all attributes of the enterprise user schema.
+      operationId: retrieve-an-enterprise-user
+      responses:
+        '200':
+          description: Returns `200 OK` and the enterprise user schema definition.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                    name: Enterprise User
+                    description: Enterprise User Schema
+                    attributes:
+                    - name: costCenter
+                      type: string
+                      multiValued: false
+                      description: Identifies the name of a cost center. The cost center should exist in Perk.
+                      required: false
+                      caseExact: true
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: employeeNumber
+                      type: string
+                      multiValued: false
+                      description: The HR-assigned employee number for the user.
+                      required: false
+                      caseExact: true
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: manager
+                      type: complex
+                      multiValued: false
+                      description: An object that represents the user's manager. Used to create approval processes in Perk, setting the manager as approver for the user.
+                      required: false
+                      subAttributes:
+                      - name: value
+                        type: string
+                        multiValued: false
+                        description: The manager's Perk ID.
+                        required: false
+                        caseExact: true
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      - name: displayName
+                        type: string
+                        multiValued: false
+                        description: Human readable name of the manager.
+                        required: false
+                        caseExact: true
+                        mutability: readOnly
+                        returned: default
+                        uniqueness: none
+                      - name: $ref
+                        type: string
+                        multiValued: false
+                        description: The URI that refers to the manager within Perk.
+                        required: false
+                        caseExact: true
+                        mutability: readWrite
+                        returned: default
+                        uniqueness: none
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    meta:
+                      resourceType: Schema
+                      location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+                  name:
+                    type: string
+                    example: Enterprise User
+                  description:
+                    type: string
+                    example: Enterprise User Schema
+                  attributes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: costCenter
+                        type:
+                          type: string
+                          example: string
+                        multiValued:
+                          type: boolean
+                          example: false
+                          default: true
+                        description:
+                          type: string
+                          example: Identifies the name of a cost center. The cost center should exist in Perk.
+                        required:
+                          type: boolean
+                          example: false
+                          default: true
+                        caseExact:
+                          type: boolean
+                          example: true
+                          default: true
+                        mutability:
+                          type: string
+                          example: readWrite
+                        returned:
+                          type: string
+                          example: default
+                        uniqueness:
+                          type: string
+                          example: none
+                  meta:
+                    type: object
+                    properties:
+                      resourceType:
+                        type: string
+                        example: Schema
+                      location:
+                        type: string
+                        example: https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl \\\n  --url \"https://app.travelperk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\" \\\n  --header \"Authorization: apikey <your_api_key>\""
+        samples-languages:
+        - curl
+      tags:
+      - Schemas
+  /Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User:
+    get:
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                OK:
+                  summary: OK
+                  value:
+                    id: urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User
+                    name: Perk Custom Fields
+                    description: Custom fields provisionable via SCIM
+                    attributes:
+                    - name: cf_brand_138bcf1e-ce81-4eb6-b5f2-d62f8c817ac7
+                      type: string
+                      multiValued: false
+                      description: Brand (TEAM_MEMBER · text)
+                      required: false
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    - name: cf_market_fc93b012-a592-4580-b551-39d78294d35f
+                      type: string
+                      multiValued: false
+                      description: Market (TEAM_MEMBER · text)
+                      required: false
+                      caseExact: false
+                      mutability: readWrite
+                      returned: default
+                      uniqueness: none
+                    meta:
+                      resourceType: Schema
+                      location: https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Bad Request:
+                  summary: Bad Request
+                  value: '{}'
+          description: Bad Request
+      parameters: []
+      summary: Get the perkCustomFields user schema
+      operationId: get_schemas-urn-ietf-params-scim-schemas-extension-perkcustomfields-2-0-user
+      description: Lists all attributes of the perkCustomFields user schema.
+      x-readme:
+        code-samples:
+        - code: "curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:perkcustomfields:2.0:User \\\n  --header 'Authorization: apikey <YOUR API KEY>'"
+          language: shell
+          name: cURL
+        samples-languages:
+        - shell
+      tags:
+      - Schemas
+  /Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User:
+    get:
+      summary: Get the custom user schema
+      description: Lists all attributes of the custom user schema.
+      operationId: custom-user-schema-details
+      responses:
+        '200':
+          description: Returns `200 OK` and the custom user schema definition.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\",\n    \"name\": \"Custom User\",\n    \"description\": \"Custom User Schema\",\n    \"attributes\": [\n        {\n            \"name\": \"company\",\n            \"type\": \"string\",\n            \"multiValued\": False,\n            \"description\": \"This is the company who belongs the user. We understand company as a legal entity. If company is not provided user is assigned to the default company.\",\n            \"required\": False,\n          \t\"caseExact\": True,\n         \t  \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\",\n        },\n        {\n            \"name\": \"gender\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"canonicalValues\": [\n                \"M\",\n                \"F\"\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"dateOfBirth\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Date of birth of the user. Should be a string with the format 'YYYY-MM-DD', otherwise the value will be rejected\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"travelPolicy\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Identifies the name of a travel policy. The travel policy should exist in Perk\",\n            \"required\": false,\n            \"caseExact\": true,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"invoiceProfiles\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Invoice profiles for a user. Typically one value only. It should exist in Perk.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"value\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"Invoice profiles for a user.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"emergencyContact\",\n            \"type\": \"complex\",\n            \"multiValued\": false,\n            \"description\": \"The user's emergency contact. Contains their name and phone number.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"name\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\",\n                    \"description\": \"The full name of the user's emergency contact\"\n                },\n                {\n                    \"name\": \"phone\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\",\n                    \"description\": \"The phone number of the user's emergency contact\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"approvers\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Approvers for the User. They need to exist in Perk.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"value\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The approver's Perk ID.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"displayName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"Human readable name of the approver.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readOnly\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"$ref\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The URI that refers to the approver within Perk.\",\n                    \"required\": false,\n                    \"caseExact\": true,\n                    \"mutability\": \"readOnly\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"countryOfResidence\",\n            \"type\": \"string\",\n            \"multiValued\": false,\n            \"description\": \"Identifies the country of residence of the user.\",\n            \"required\": false,\n            \"caseExact\": false,\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        },\n        {\n            \"name\": \"travelDocuments\",\n            \"type\": \"complex\",\n            \"multiValued\": true,\n            \"description\": \"Travel documents of the user.\",\n            \"required\": false,\n            \"subAttributes\": [\n                {\n                    \"name\": \"documentType\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The type of the document. It can be either passport or id.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"givenName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The first name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"familyName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The last name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"middleName\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The middle name of the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"gender\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The gender of the the user as it appears on the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"issuingCountry\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The country where the document was issued.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"issuingDate\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The date when the document was issued.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"expirationDate\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The expiration date of the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"citizenship\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The citizenship of the user as steated in the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                },\n                {\n                    \"name\": \"documentNumber\",\n                    \"type\": \"string\",\n                    \"multiValued\": false,\n                    \"description\": \"The number of the document.\",\n                    \"required\": false,\n                    \"caseExact\": false,\n                    \"mutability\": \"readWrite\",\n                    \"returned\": \"default\",\n                    \"uniqueness\": \"none\"\n                }\n            ],\n            \"mutability\": \"readWrite\",\n            \"returned\": \"default\",\n            \"uniqueness\": \"none\"\n        }\n    ],\n    \"meta\": {\n        \"resourceType\": \"Schema\",\n        \"location\": \"https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\"\n    }\n}"
+        '400':
+          description: Returns `400 Bad Request` and a SCIM error.
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl \\\n  --url https://app.perk.com/api/v2/scim/Schemas/urn:ietf:params:scim:schemas:extension:travelperk:2.0:User\\\n  --header 'Authorization: apikey <your_api_key>' "
+        samples-languages:
+        - curl
+      tags:
+      - Schemas
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://developers.perk.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developers.perk.com/reference/create-a-new-user.md
+  - https://developers.perk.com/reference/custom-user-schema-details.md
+  - https://developers.perk.com/reference/deactivate-a-user.md
+  - https://developers.perk.com/reference/get-the-perkcustomfields-user-schema.md
+  - https://developers.perk.com/reference/get-user-schema.md
+  - https://developers.perk.com/reference/list-all-schemas.md
+  - https://developers.perk.com/reference/list-all-users.md
+  - https://developers.perk.com/reference/list-resource-types.md
+  - https://developers.perk.com/reference/replace-a-user.md
+  - https://developers.perk.com/reference/retrieve-a-user-1.md
+  - https://developers.perk.com/reference/retrieve-an-enterprise-user.md
+  - https://developers.perk.com/reference/service-provider-configuration.md
+  - https://developers.perk.com/reference/update-a-user.md
+  merge:
+    pages: 13
+    deduped: 12
+    conflicts_kept_first: 0
