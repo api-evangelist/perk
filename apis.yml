@@ -204,6 +204,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - Cost Centers
+  tags_raw:
   - Cost centers
   properties:
   - type: OpenAPI
@@ -214,6 +216,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - Custom Fields
+  tags_raw:
   - Custom fields
   properties:
   - type: OpenAPI
@@ -224,6 +228,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - Booking
+  tags_raw:
   - Bookings
   properties:
   - type: OpenAPI
@@ -264,6 +270,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - Schema
+  tags_raw:
   - Schemas
   properties:
   - type: OpenAPI
@@ -294,6 +302,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -304,6 +314,8 @@ apis:
   humanURL: https://developers.perk.com
   baseURL: https://api.perk.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
